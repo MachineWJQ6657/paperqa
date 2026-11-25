@@ -45,6 +45,9 @@ uv run pytest                                                # 单元测试
    - 检索指标不花钱，一律用全量 dev（`--retrieval-only --n 0`）比较。100 题样本噪声太大：hybrid 在
      seed=42 的 100 题上比 dense 高 11 个点，全量上只高 1.6 个点而且不显著。
    - 要调 LLM 的指标用 `--split dev --n 100 --seed 42`。
+   - **现阶段端到端评测一律走订阅额度**，命令里固定加
+     `--backend claude-code --model claude-sonnet-5-5 --judge-model claude-sonnet-5-5`。
+     正式 baseline 是 `baseline_dense_cc_sonnet`。不加这些参数会用 API key 调 Opus 5.5，花 API 额度。
    - 说"B 比 A 好"之前，先跑 `eval/paired_diff.py A.json B.json`，置信区间不含 0 才算数。
    - 互相比较的结果必须用同一个 `--backend` 和同一个模型。`claude-code` 后端的答案更啰嗦，Answer F1、
      延迟、token 都和 `api` 后端不可比。
