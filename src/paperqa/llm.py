@@ -1,12 +1,14 @@
 """Single place where the project calls an LLM. Records tokens and latency for every call.
 
-Credentials come from the environment (ANTHROPIC_API_KEY, or an `ant auth login` profile).
+Credentials: PAPERQA_ANTHROPIC_API_KEY if set, otherwise the SDK defaults
+(ANTHROPIC_API_KEY, or an `ant auth login` profile).
 To try another provider later, add a class with the same `complete()` signature here.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import time
 from dataclasses import asdict, dataclass
 
@@ -44,7 +46,9 @@ class LLM:
         self.model = model
         self.effort = effort  # low | medium | high | xhigh | max; None = model default
         self.max_tokens = max_tokens
-        self.client = client or anthropic.Anthropic()
+        # A project-specific variable keeps this key separate from other tools that
+        # read ANTHROPIC_API_KEY (for example Claude Code itself in a cloud session).
+        self.client = client or anthropic.Anthropic(api_key=os.getenv("PAPERQA_ANTHROPIC_API_KEY"))
 
     def complete(self, system: str, user: str, schema: dict | None = None) -> LLMResult:
         """One user turn. With `schema`, the reply is constrained to JSON matching it."""

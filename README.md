@@ -26,11 +26,20 @@ QASPER（约 11MB），把 dev 集的 281 篇论文切块、向量化，存进 `
 uv run python eval/run_eval.py --name dense_retrieval --retrieval-only
 ```
 
-完整评测（检索 + Writer + LLM-as-judge）需要 Anthropic API key：
+完整评测（检索 + Writer + LLM-as-judge）需要 Anthropic API key，在 [Claude Console](https://platform.claude.com/)
+里创建。代码先读 `PAPERQA_ANTHROPIC_API_KEY`，没有再读 `ANTHROPIC_API_KEY`：
 
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-...
+export PAPERQA_ANTHROPIC_API_KEY=sk-ant-...
 ```
+
+先用便宜的 Haiku 5.5 跑 10 题，确认流程能通：
+
+```bash
+uv run python eval/run_eval.py --name smoke_haiku --model claude-haiku-5-5 --judge-model claude-haiku-5-5 --n 10
+```
+
+再跑 100 题（默认模型是 `claude-opus-5-5`，用 `--model` 和 `--judge-model` 换）：
 
 ```bash
 uv run python eval/run_eval.py --name baseline_dense
