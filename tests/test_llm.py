@@ -101,3 +101,63 @@ def test_missing_cli_is_not_retried(monkeypatch):
     with pytest.raises(ClaudeCodeError, match="not found"):
         ClaudeCodeLLM("m", retries=3, backoff_s=0).complete("SYS", "USER")
     assert len(calls) == 1
+
+
+# --------------------------------------------------------------------------- cache
+
+
+class CountingLLM:
+    """A backend that returns a fresh numbered reply for every call."""
+
+    backend = "fake"
+
+    def __init__(self, model="m", effort="low", valid=True):
+        self.model, self.effort, self.valid, self.calls = model, effort, valid, 0
+
+    def complete(self, system, user, schema=None):
+        self.calls += 1
+        data = {"n": self.calls} if schema and self.valid else None
+        return llm_module.LLMResult(f"reply {self.calls}", data, self.model, "end_turn", 10, 5, 1.5)
+
+
+def test_cache_reuses_identical_requests(tmp_path):
+    cache = llm_module.LLMCache(tmp_path / "c.jsonl")
+    inner = CountingLLM()
+    llm = llm_module.CachedLLM(inner, cache)
+    first = llm.complete("SYS", "USER", schema=SCHEMA)
+    again = llm.complete("SYS", "USER", schema=SCHEMA)
+    assert inner.calls == 1 and again == first  # same reply, tokens and latency as the real call
+    assert (cache.hits, cache.misses) == (1, 1)
+
+
+def test_cache_key_covers_everything_that_changes_the_reply(tmp_path):
+    cache = llm_module.LLMCache(tmp_path / "c.jsonl")
+    base = llm_module.CachedLLM(CountingLLM(), cache)
+    base.complete("SYS", "USER", schema=SCHEMA)
+    variants = [
+        (llm_module.CachedLLM(CountingLLM(model="other"), cache), ("SYS", "USER", SCHEMA)),
+        (llm_module.CachedLLM(CountingLLM(effort="high"), cache), ("SYS", "USER", SCHEMA)),
+        (base, ("SYS 2", "USER", SCHEMA)),
+        (base, ("SYS", "USER 2", SCHEMA)),
+        (base, ("SYS", "USER", None)),
+    ]
+    for llm, (system, user, schema) in variants:
+        llm.complete(system, user, schema=schema)
+    assert cache.hits == 0 and cache.misses == 6
+
+
+def test_cache_persists_across_runs(tmp_path):
+    path = tmp_path / "sub" / "c.jsonl"
+    llm_module.CachedLLM(CountingLLM(), llm_module.LLMCache(path)).complete("SYS", "USER", schema=SCHEMA)
+    inner = CountingLLM()
+    res = llm_module.CachedLLM(inner, llm_module.LLMCache(path)).complete("SYS", "USER", schema=SCHEMA)
+    assert inner.calls == 0 and res.data == {"n": 1}
+
+
+def test_cache_does_not_store_replies_without_output(tmp_path):
+    cache = llm_module.LLMCache(tmp_path / "c.jsonl")
+    inner = CountingLLM(valid=False)
+    llm = llm_module.CachedLLM(inner, cache)
+    llm.complete("SYS", "USER", schema=SCHEMA)
+    llm.complete("SYS", "USER", schema=SCHEMA)
+    assert inner.calls == 2  # a failed reply is retried next time, not replayed

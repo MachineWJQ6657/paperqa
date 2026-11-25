@@ -12,12 +12,15 @@ To try another provider later, add a class with the same `complete()` signature 
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import subprocess
 import tempfile
+import threading
 import time
 from dataclasses import asdict, dataclass
+from pathlib import Path
 
 import anthropic
 
@@ -43,6 +46,8 @@ class LLMResult:
 
 
 class LLM:
+    backend = "api"
+
     def __init__(
         self,
         model: str = LLM_MODEL,
@@ -206,8 +211,74 @@ class ClaudeCodeLLM:
         )
 
 
+class LLMCache:
+    """Replies keyed by the full request, kept in an append-only JSONL file.
+
+    One instance is shared by every CachedLLM of a run. Safe to use from several threads.
+    """
+
+    def __init__(self, path: Path | str):
+        self.path = Path(path)
+        self.lock = threading.Lock()
+        self.entries: dict[str, dict] = {}
+        self.hits = self.misses = 0
+        if self.path.exists():
+            for line in self.path.read_text().splitlines():
+                if line.strip():
+                    entry = json.loads(line)
+                    self.entries[entry["key"]] = entry["result"]
+
+    @staticmethod
+    def key(backend: str, model: str, effort: str | None, system: str, user: str, schema: dict | None) -> str:
+        request = [backend, model, effort, system, user, schema]
+        return hashlib.sha256(json.dumps(request, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+
+    def get(self, key: str) -> LLMResult | None:
+        with self.lock:
+            result = self.entries.get(key)
+            if result is None:
+                self.misses += 1
+                return None
+            self.hits += 1
+            return LLMResult(**result)
+
+    def put(self, key: str, result: LLMResult) -> None:
+        with self.lock:
+            if key in self.entries:
+                return
+            self.entries[key] = result.to_dict()
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            with self.path.open("a") as f:
+                f.write(json.dumps({"key": key, "result": self.entries[key]}, ensure_ascii=False) + "\n")
+
+
+class CachedLLM:
+    """Wraps a backend: a request seen before is answered from the cache instead of the model.
+
+    A cached reply keeps the tokens and latency of the original call, so efficiency numbers
+    stay those of a real request. Replies without usable output are not stored.
+    """
+
+    def __init__(self, inner: LLM | ClaudeCodeLLM, cache: LLMCache):
+        self.inner = inner
+        self.cache = cache
+
+    def complete(self, system: str, user: str, schema: dict | None = None) -> LLMResult:
+        key = self.cache.key(self.inner.backend, self.inner.model, self.inner.effort, system, user, schema)
+        cached = self.cache.get(key)
+        if cached is not None:
+            return cached
+        result = self.inner.complete(system, user, schema)
+        if schema is None or result.data is not None:
+            self.cache.put(key, result)
+        return result
+
+
 BACKENDS = {"api": LLM, "claude-code": ClaudeCodeLLM}
 
 
-def make_llm(backend: str, model: str, effort: str | None) -> LLM | ClaudeCodeLLM:
-    return BACKENDS[backend](model, effort=effort)
+def make_llm(
+    backend: str, model: str, effort: str | None, cache: LLMCache | None = None
+) -> LLM | ClaudeCodeLLM | CachedLLM:
+    llm = BACKENDS[backend](model, effort=effort)
+    return CachedLLM(llm, cache) if cache is not None else llm

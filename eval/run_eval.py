@@ -10,6 +10,11 @@ LLM calls go through `claude -p` (Claude subscription) unless --backend api is g
 The run refuses to start with uncommitted code changes, so every result records the
 exact commit it came from; --allow-dirty skips that check for debugging.
 
+LLM replies are cached in eval/cache/llm.jsonl (commit it with the results). A request
+that is identical to an earlier one - same backend, model, effort and prompt - reuses
+the saved reply, so only prompts that a change actually affects are sent again.
+--no-cache sends everything.
+
 The question sample depends only on --split/--n/--seed, so runs with the same values
 are evaluated on exactly the same questions and can be compared row by row.
 """
@@ -32,8 +37,8 @@ import anthropic
 from tqdm import tqdm
 
 from paperqa.agents import Grader, Writer, gather_passages
-from paperqa.config import CHUNKING_VERSION, JUDGE_MODEL, LLM_BACKEND, LLM_MODEL, RESULTS_DIR
-from paperqa.llm import BACKENDS, ClaudeCodeError, make_llm
+from paperqa.config import CHUNKING_VERSION, JUDGE_MODEL, LLM_BACKEND, LLM_CACHE_PATH, LLM_MODEL, RESULTS_DIR
+from paperqa.llm import BACKENDS, CachedLLM, ClaudeCodeError, LLMCache, make_llm
 from paperqa.metrics import (
     LLMJudge,
     evidence_hit,
@@ -245,11 +250,12 @@ def summarize(records: list[dict], retrieval_only: bool, judged: bool) -> dict:
 
 
 def git_state() -> tuple[str | None, list[str]]:
-    """(short commit, changed files). Result files do not count as changes: runs create them."""
+    """(short commit, changed files). Result and cache files do not count as changes: runs write them."""
     try:
         sha = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True, stderr=subprocess.DEVNULL)
         status = subprocess.check_output(
-            ["git", "status", "--porcelain", "--", ".", ":(exclude,top)eval/results"], text=True
+            ["git", "status", "--porcelain", "--", ".", ":(exclude,top)eval/results", ":(exclude,top)eval/cache"],
+            text=True,
         )
         return sha.strip(), [line[3:] for line in status.splitlines()]
     except Exception:  # not a git checkout, or git is not installed
@@ -287,6 +293,8 @@ def print_summary(name: str, s: dict) -> None:
             f"p95={fmt(e['latency_s_p95'], 2)}s | Writer tokens in={fmt(e['writer_input_tokens_mean'], 0)} "
             f"out={fmt(e['writer_output_tokens_mean'], 0)}"
         )
+        if "llm_cache" in e:
+            print(f"LLM cache: {e['llm_cache']['hits']} replies reused, {e['llm_cache']['misses']} new requests")
     else:
         print(f"Retrieval latency mean={fmt(e['retrieval_latency_s_mean'] * 1000, 1)}ms")
 
@@ -318,6 +326,7 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=4, help="parallel LLM requests")
     ap.add_argument("--out-dir", type=Path, default=RESULTS_DIR)
     ap.add_argument("--allow-dirty", action="store_true", help="run even with uncommitted code changes")
+    ap.add_argument("--no-cache", action="store_true", help="do not read or write the LLM reply cache")
     args = ap.parse_args()
 
     # Read the commit before the run: files edited while it runs must not change what is recorded.
@@ -350,18 +359,21 @@ def main() -> None:
     if args.retrieval_only:
         records = [rec for _, _, rec in retrieved]
     else:
-        writer = Writer(make_llm(args.backend, args.model, effort))
-        judge = LLMJudge(make_llm(args.backend, args.judge_model, judge_effort)) if judged else None
+        cache = None if args.no_cache else LLMCache(LLM_CACHE_PATH)
+        writer = Writer(make_llm(args.backend, args.model, effort, cache))
+        judge = LLMJudge(make_llm(args.backend, args.judge_model, judge_effort, cache)) if judged else None
         if args.backend == "claude-code":
             # Fail fast if the CLI is missing, not logged in, or the model name is wrong.
+            # Always a real call (never cached): a cached reply would prove nothing.
+            backend_llm = writer.llm.inner if isinstance(writer.llm, CachedLLM) else writer.llm
             try:
-                writer.llm.complete("Reply with the single word OK.", "ping")
+                backend_llm.complete("Reply with the single word OK.", "ping")
             except ClaudeCodeError as e:
                 sys.exit(f"claude -p failed: {e}")
 
         requery = None
         if use_grader:
-            grader = Grader(make_llm(args.backend, grader_model, grader_effort))
+            grader = Grader(make_llm(args.backend, grader_model, grader_effort, cache))
             search_lock = threading.Lock()  # the embedder and Chroma are shared by the worker threads
 
             def search(query: str, paper_id: str, n: int) -> list[Hit]:
@@ -384,6 +396,8 @@ def main() -> None:
         records = [first, *rest]
 
     summary = summarize(records, args.retrieval_only, judged)
+    if not args.retrieval_only and cache is not None:
+        summary["efficiency"]["llm_cache"] = {"hits": cache.hits, "misses": cache.misses}
     result = {
         "name": args.name,
         "created_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -405,6 +419,7 @@ def main() -> None:
             "grader_model": grader_model if use_grader else None,
             "grader_effort": grader_effort if use_grader else None,
             "max_requeries": args.max_requeries if use_grader else None,
+            "llm_cache": not (args.retrieval_only or args.no_cache),
             "workers": args.workers,
         }
         | pool,

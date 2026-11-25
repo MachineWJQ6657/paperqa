@@ -9,6 +9,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = Path(os.getenv("PAPERQA_DATA_DIR", PROJECT_ROOT / "data"))
 CHROMA_DIR = Path(os.getenv("PAPERQA_CHROMA_DIR", DATA_DIR / "chroma"))
 RESULTS_DIR = PROJECT_ROOT / "eval" / "results"
+# LLM replies saved by the evaluation, so an identical request is not sent (and paid for) twice.
+LLM_CACHE_PATH = Path(os.getenv("PAPERQA_LLM_CACHE", PROJECT_ROOT / "eval" / "cache" / "llm.jsonl"))
 
 # Embedding model (sentence-transformers). bge-small is ~130MB and runs fine on CPU.
 EMBED_MODEL = os.getenv("PAPERQA_EMBED_MODEL", "BAAI/bge-small-en-v1.5")
