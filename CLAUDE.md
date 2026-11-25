@@ -13,13 +13,14 @@ src/paperqa/
   qasper.py      下载/加载 QASPER、切块、从标注里提取 gold 答案和证据
   embedding.py   sentence-transformers 封装（建索引和检索共用）
   ingest.py      切块 -> 向量化 -> 存进 Chroma
-  retrieve.py    检索（目前只有 DenseRetriever）
+  retrieve.py    检索：dense（向量）、bm25、hybrid（RRF 融合）
   agents.py      Writer（后面加 Router / Grader）
   llm.py         所有 LLM 调用都走这里，记录 token 和耗时
   metrics.py     官方 Answer F1 / Evidence F1、Recall@k、LLM-as-judge
 eval/
   run_eval.py    一条命令跑评测，结果存到 eval/results/<配置名>.json
   compare.py     把所有结果打印成消融表
+  paired_diff.py 两个结果文件的配对 bootstrap，判断差距是否显著
   results/       每次评测的结果（要提交到 git）
 tests/           单元测试（不联网、不调 LLM）
 data/            QASPER 原始数据和 Chroma 索引（不提交）
@@ -30,7 +31,7 @@ data/            QASPER 原始数据和 Chroma 索引（不提交）
 ```bash
 uv sync                                                      # 安装依赖
 uv run python -m paperqa.ingest                              # 下载 QASPER dev 并建索引
-uv run python eval/run_eval.py --name <配置名> --retrieval-only  # 只评检索，免费
+uv run python eval/run_eval.py --name <配置名> --retriever hybrid --retrieval-only --n 0  # 只评检索，全量，免费
 uv run python eval/run_eval.py --name <配置名>                  # 完整评测（调用 LLM，花钱）
 uv run python eval/compare.py                                # 打印消融表
 uv run pytest                                                # 单元测试
@@ -38,8 +39,12 @@ uv run pytest                                                # 单元测试
 
 ## 规则
 
-1. **每加一个功能都要跑一次评测。** 用同样的 `--split dev --n 100 --seed 42`，结果用新的配置名存到
-   `eval/results/`，并在 README 的消融表里加一行。没有评测数字的功能不算完成。
+1. **每加一个功能都要跑一次评测。** 结果用新的配置名存到 `eval/results/`，并在 README 的消融表里加一行。
+   没有评测数字的功能不算完成。
+   - 检索指标不花钱，一律用全量 dev（`--retrieval-only --n 0`）比较。100 题样本噪声太大：hybrid 在
+     seed=42 的 100 题上比 dense 高 11 个点，全量上只高 1.6 个点而且不显著。
+   - 要调 LLM 的指标用 `--split dev --n 100 --seed 42`。
+   - 说"B 比 A 好"之前，先跑 `eval/paired_diff.py A.json B.json`，置信区间不含 0 才算数。
 2. **一次只做一项功能**，按下面 Roadmap 的顺序来，不要一次把整个系统写完。
 3. **不要悄悄改评测。** 问题抽样（`eval/run_eval.py`）、指标（`src/paperqa/metrics.py`）、gold 证据匹配
    （`src/paperqa/qasper.py`）一旦改动，旧结果就不能再比了。真要改，先改或加测试，提交说明里写清楚，
@@ -64,7 +69,7 @@ uv run pytest                                                # 单元测试
 ## Roadmap
 
 1. [x] Baseline：向量检索 top-5，Writer 回答并标注引用
-2. [ ] 混合检索（BM25 + 向量，RRF 融合）
+2. [x] 混合检索（BM25 + 向量，RRF 融合）：全量 dev 上相比 dense 没有显著提升，默认检索器仍是 dense
 3. [ ] Grader 和重查循环
 4. [ ] Router 和子问题拆解（加上自己造的跨论文问题）
 5. [ ] FastAPI + SSE 和 Streamlit 界面

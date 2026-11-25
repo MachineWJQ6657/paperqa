@@ -35,7 +35,7 @@ from paperqa.metrics import (
     mean,
 )
 from paperqa.qasper import Question, load_split, normalize_text, paper_chunks, paper_questions
-from paperqa.retrieve import DenseRetriever, Hit
+from paperqa.retrieve import RETRIEVERS, Hit, make_retriever
 
 RECALL_KS = (1, 3, 5, 10)
 # Config errors: fail the whole run instead of recording 100 identical per-question errors.
@@ -215,7 +215,7 @@ def main() -> None:
     ap.add_argument("--n", type=int, default=100, help="number of answerable questions (0 = all)")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--k", type=int, default=5, help="passages given to the Writer")
-    ap.add_argument("--retriever", default="dense", choices=["dense"])
+    ap.add_argument("--retriever", default="dense", choices=sorted(RETRIEVERS))
     ap.add_argument("--model", default=LLM_MODEL)
     ap.add_argument("--effort", default="medium", help="Writer effort: low|medium|high|xhigh|max|none")
     ap.add_argument("--judge-model", default=JUDGE_MODEL)
@@ -232,7 +232,7 @@ def main() -> None:
     questions, chunk_text, pool = sample_questions(args.split, args.n, args.seed)
     print(f"{len(questions)} questions sampled ({pool['split_unanswerable_skipped']} unanswerable skipped in split)")
 
-    retriever = DenseRetriever(args.split)
+    retriever = make_retriever(args.retriever, args.split)
     n_retrieve = max(args.k, *RECALL_KS)
     retrieved: list[tuple[Question, list[Hit], dict]] = []
     for q in tqdm(questions, desc="retrieve"):
@@ -269,8 +269,7 @@ def main() -> None:
             "n": args.n,
             "seed": args.seed,
             "k": args.k,
-            "retriever": args.retriever,
-            "embed_model": retriever.embedder.model_name,
+            **retriever.describe(),
             "chunking": CHUNKING_VERSION,
             "retrieval_only": args.retrieval_only,
             "writer_model": None if args.retrieval_only else args.model,

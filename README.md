@@ -56,7 +56,11 @@ uv run python eval/compare.py
   图表标题也各算一个 chunk，因为 QASPER 有一部分证据就是表格（dev 里有 253 条）。元数据里有
   `paper_id`、`section_name`、`paragraph_idx`。
 - **向量**：`BAAI/bge-small-en-v1.5`（sentence-transformers），存在 Chroma 里，用余弦相似度。
-- **检索**：QASPER 的每个问题只针对一篇论文，所以检索时按 `paper_id` 过滤。
+- **检索**：QASPER 的每个问题只针对一篇论文，所以检索时按 `paper_id` 过滤。有三种检索器，用
+  `--retriever` 选：
+  - `dense`（默认）：向量检索。
+  - `bm25`：关键词检索。每篇论文单独建一个 BM25 索引，自己实现，没有额外依赖。
+  - `hybrid`：两路各取前 20 名，用 RRF 融合（分数 = Σ 1/(60 + 名次)）。
 - **Writer**：`claude-opus-5-5`，effort 设为 `medium`，用 structured outputs 返回
   `{"answer": ..., "citations": [...]}`。按 QASPER 的风格要求答案尽量短；资料里找不到答案就回答
   `Unanswerable`。开启了 server-side fallback：模型因安全策略拒答时，API 会自动换一个模型重试。
@@ -78,7 +82,7 @@ uv run python eval/compare.py
 每次运行会存到 `eval/results/<name>.json`，里面有配置、汇总指标，以及每个问题检索到的 chunk、答案、
 得分和 judge 的理由，方便逐题排查。
 
-常用参数：`--n 20`（先拿少量题试跑）、`--no-judge`（只算官方 F1，省掉 judge 的调用）、`--effort low`、
+常用参数：`--retriever dense|bm25|hybrid`、`--n 20`（先拿少量题试跑）、`--n 0`（全量）、`--no-judge`（只算官方 F1，省掉 judge 的调用）、`--effort low`、
 `--model`、`--judge-model`、`--workers`（并发请求数，默认 4）。
 
 完整跑一次 100 题是 200 次 LLM 调用（Writer 和 judge 各 100 次）。Writer 的 prompt 平均约 850 token。
@@ -96,19 +100,46 @@ uv run python eval/compare.py
   chunk 互换了位置）。
 - 官方 F1、Recall@k、证据匹配都有单元测试（`tests/`）。
 
-**样本噪声**：同样是 dense 检索，100 题样本的 Recall@5 是 0.521，dev 全部 945 道可回答题是 0.553。
-所以用 100 题对比配置时，差距在 5 个点以内很可能只是噪声。方法稳定后用 `--n 0` 跑全量。
+**样本噪声**：100 题的样本噪声很大，见下面检索对比里的例子。检索评测不花钱，所以**比较检索方法一律用
+全量 dev**（`--n 0`，945 题）。100 题样本只用来算要调 LLM 的指标。
+
+判断两个配置的差距是不是真的，用配对 bootstrap：
+
+```bash
+uv run python eval/paired_diff.py eval/results/A.json eval/results/B.json
+```
 
 ## 消融表
 
-全部基于 dev、n=100、seed=42。
+### 检索（全量 dev，945 道可回答题，不调 LLM）
+
+| 检索器 | Recall@1 | Recall@5 | Recall@10 | Hit@5 | 延迟 (ms) |
+|---|---|---|---|---|---|
+| dense | 0.205 | 0.553 | 0.722 | 0.657 | 26 |
+| bm25 | 0.158 | 0.481 | 0.639 | 0.577 | 3 |
+| hybrid（RRF） | 0.223 | 0.569 | 0.734 | 0.673 | 31 |
+
+复现（每条约 30 秒）：`uv run python eval/run_eval.py --name dense_all --retriever dense --retrieval-only --n 0`，
+把 `dense` 换成 `bm25` 或 `hybrid` 即可。全量结果文件每个约 2MB，没有提交到 git。
+
+结论：
+
+- **hybrid 比 dense 的 Recall@5 高 1.6 个点，但这个差距不显著**（95% 置信区间 −0.9 到 +4.2 个点）。
+  RRF 的参数用的是常见默认值（各取 20 名，k=60），没有在 dev 上调过。
+- **bm25 单独用明显比 dense 差**（Recall@5 低 7.1 个点，区间 −10.4 到 −3.9）。
+- **两路是互补的**：dense 和 bm25 至少有一路在 top-5 里命中证据的题目占 77.7%，而 hybrid 的 Hit@5 只有
+  67.3%。也就是说候选里有证据，只是等权重的 RRF 没把它排进前 5。Recall@10（0.73）远高于 Recall@5（0.57）
+  也说明同一件事。所以下一步更值得做的是对候选做重排序，而不是继续调融合。
+- **100 题样本会误导**：在 seed=42 的 100 题上，hybrid 的 Recall@5 是 0.634，dense 是 0.521，看起来提升
+  11 个点，而且在这 100 题内部做 bootstrap 也显示"显著"。全量数据说明这只是这批题碰巧对 hybrid 有利。
+
+### 端到端（dev，n=100，seed=42）
 
 | 配置 | Recall@5 | Hit@5 | Answer F1 | Evidence F1 | Judge acc | 延迟 (s) | Writer token 输入 / 输出 |
 |---|---|---|---|---|---|---|---|
-| dense_retrieval（只评检索） | 0.521 | 0.592 | – | – | – | 0.025 | – |
-| baseline_dense（dense top-5 + Writer） | 待跑 | | | | | | |
+| baseline_dense（dense top-5 + Writer） | 0.521 | 0.592 | 待跑 | | | | |
 
-同一次检索的 Recall@k 曲线：R@1 = 0.209，R@3 = 0.407，R@5 = 0.521，R@10 = 0.780。
+这张表里的 Recall@5 只是这 100 题上的值，比较检索方法请看上面的全量表。
 
 ## 目录结构
 
@@ -124,7 +155,7 @@ data/          QASPER 原始数据和 Chroma 索引（不提交到 git）
 ## Roadmap
 
 1. [x] Baseline：向量检索 + Writer
-2. [ ] 混合检索（BM25 + 向量，RRF 融合）
+2. [x] 混合检索（BM25 + 向量，RRF 融合）：已实现，全量 dev 上相比 dense 没有显著提升
 3. [ ] Grader 和重查循环
 4. [ ] Router 和子问题拆解（加上自己造的跨论文问题）
 5. [ ] FastAPI + SSE 和 Streamlit 界面

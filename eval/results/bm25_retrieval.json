@@ -1,0 +1,7785 @@
+{
+  "name": "bm25_retrieval",
+  "created_at": "2026-11-25T02:48:45+00:00",
+  "git_commit": "aa3fcda-dirty",
+  "config": {
+    "split": "dev",
+    "n": 100,
+    "seed": 42,
+    "k": 5,
+    "retriever": "bm25",
+    "embed_model": null,
+    "chunking": "v1-paragraph+caption+abstract",
+    "retrieval_only": true,
+    "writer_model": null,
+    "writer_effort": null,
+    "judge_model": null,
+    "judge_effort": null,
+    "workers": 4,
+    "split_questions": 1005,
+    "split_unanswerable_skipped": 60,
+    "split_answerable": 945
+  },
+  "summary": {
+    "n_questions": 100,
+    "retrieval": {
+      "n_with_gold_evidence": 98,
+      "recall@1": 0.13095238095238096,
+      "recall@3": 0.35128765792031097,
+      "recall@5": 0.4944849368318756,
+      "recall@10": 0.680539358600583,
+      "hit@1": 0.16326530612244897,
+      "hit@3": 0.4489795918367347,
+      "hit@5": 0.6122448979591837,
+      "hit@10": 0.7755102040816326
+    },
+    "efficiency": {
+      "retrieval_latency_s_mean": 0.007038370619989109
+    }
+  },
+  "per_question": [
+    {
+      "question_id": "b634ff1607ce5756655e61b9a6f18bc736f84c83",
+      "paper_id": "1812.10479",
+      "question": "Which stock market sector achieved the best performance?",
+      "references": [
+        {
+          "answer": "Energy with accuracy of 0.538",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Energy",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1812.10479#s19p1",
+          "score": 7.9865,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#cap14",
+          "score": 7.952,
+          "gold": true
+        },
+        {
+          "chunk_id": "1812.10479#abs",
+          "score": 7.4093,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#s5p6",
+          "score": 7.1722,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#cap13",
+          "score": 7.1095,
+          "gold": true
+        },
+        {
+          "chunk_id": "1812.10479#s19p0",
+          "score": 6.6713,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#s18p9",
+          "score": 6.5376,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#cap8",
+          "score": 6.4904,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#s19p4",
+          "score": 6.4545,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#cap7",
+          "score": 5.9704,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.05977879900001426
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "1ed49a8c07ef0ac15cfa6b7decbde6604decbd5b",
+      "paper_id": "1906.07701",
+      "question": "What dataset does this approach achieve state of the art results on?",
+      "references": [
+        {
+          "answer": "the English-German dataset",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1906.07701#s5p1",
+          "score": 9.6842,
+          "gold": true
+        },
+        {
+          "chunk_id": "1906.07701#abs",
+          "score": 7.2566,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s7p0",
+          "score": 7.1446,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#cap3",
+          "score": 5.4719,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s4p0",
+          "score": 4.0885,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s1p2",
+          "score": 3.3285,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s5p4",
+          "score": 2.9038,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s1p3",
+          "score": 2.1698,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s0p0",
+          "score": 2.0519,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#cap4",
+          "score": 2.0175,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006502766000039628
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.5,
+      "hit@1": 1.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "06cc8fcafc0880cf69a2514bb7341642b9833041",
+      "paper_id": "1809.06537",
+      "question": "what is the size of the real-world civil case dataset?",
+      "references": [
+        {
+          "answer": "100 000 documents",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": " INLINEFORM1 cases",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1809.06537#s0p10",
+          "score": 10.2682,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s0p6",
+          "score": 8.1084,
+          "gold": true
+        },
+        {
+          "chunk_id": "1809.06537#s15p6",
+          "score": 7.2716,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#abs",
+          "score": 7.0357,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s11p4",
+          "score": 6.5391,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s15p5",
+          "score": 4.9472,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s12p0",
+          "score": 4.7195,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s14p4",
+          "score": 4.2416,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s0p2",
+          "score": 3.9799,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s11p2",
+          "score": 3.6753,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00916440900005
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "d004ca2e999940ac5c1576046e30efa3059832fa",
+      "paper_id": "1909.13104",
+      "question": "What are the different variations of the attention-based approach which are examined?",
+      "references": [
+        {
+          "answer": "classic RNN model, avgRNN model, attentionRNN model and multiattention RNN model with and without a projected layer",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": " four attention mechanisms instead of one, a projection layer for the word embeddings",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.13104#s9p0",
+          "score": 10.5865,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#abs",
+          "score": 8.947,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s0p2",
+          "score": 8.1697,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s5p0",
+          "score": 4.1918,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s1p1",
+          "score": 3.8418,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s5p7",
+          "score": 3.3211,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.13104#s7p2",
+          "score": 2.299,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s7p0",
+          "score": 1.7752,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s8p1",
+          "score": 1.6995,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.13104#s9p1",
+          "score": 1.6082,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00548883500005104
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "4e1a67f8dc68b55a5ce18e6cd385ae9ab90d891f",
+      "paper_id": "1703.04001",
+      "question": "Does the experiments focus on a specific domain?",
+      "references": [
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        },
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1703.04001#s0p0",
+          "score": 2.3523,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#abs",
+          "score": 2.0058,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s2p2",
+          "score": 1.0885,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.004345833999877868
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "455d4ef8611f62b1361be4f6387b222858bb5e56",
+      "paper_id": "1603.09631",
+      "question": "How was this data collected?",
+      "references": [
+        {
+          "answer": "CrowdFlower",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "The crowdsourcing platform CrowdFlower was used to obtain natural dialog data that prompted the user to paraphrase, explain, and/or answer a question from a Simple questions BIBREF7 dataset. The CrowdFlower users were restricted to English-speaking countries to avoid dialogs  with poor English.",
+          "type": "abstractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1603.09631#s12p0",
+          "score": 3.0301,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s0p0",
+          "score": 2.7494,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s3p0",
+          "score": 2.5835,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s14p0",
+          "score": 2.4793,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s10p1",
+          "score": 2.2865,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s10p3",
+          "score": 2.1557,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s4p1",
+          "score": 2.147,
+          "gold": true
+        },
+        {
+          "chunk_id": "1603.09631#s1p3",
+          "score": 1.8946,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s4p0",
+          "score": 1.8627,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#abs",
+          "score": 1.8238,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006234456999891336
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "3d7d865e905295d11f1e85af5fa89b210e3e9fdf",
+      "paper_id": "1911.06964",
+      "question": "How many participants were trying this communication game?",
+      "references": [
+        {
+          "answer": "100 ",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "100 crowdworkers ",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1911.06964#cap0",
+          "score": 4.4514,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s1p0",
+          "score": 3.1955,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#abs",
+          "score": 3.1008,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s8p0",
+          "score": 1.288,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s0p1",
+          "score": 1.2854,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s1p1",
+          "score": 1.2546,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s2p0",
+          "score": 1.2055,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s3p0",
+          "score": 1.1108,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s0p3",
+          "score": 1.0982,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s1p2",
+          "score": 1.0859,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005355746000077488
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "26126068d72408555bcb52977cd669faf660bdf7",
+      "paper_id": "1911.06118",
+      "question": "What are the qualitative experiments performed on benchmark datasets?",
+      "references": [
+        {
+          "answer": "Spearman correlation values of GM_KL model evaluated on the benchmark word similarity datasets.\nEvaluation results of GM_KL model on the entailment datasets such as entailment pairs dataset created from WordNet, crowdsourced dataset of 79 semantic relations labelled as entailed or not and annotated distributionally similar nouns dataset.",
+          "type": "abstractive",
+          "n_evidence": 2
+        },
+        {
+          "answer": "Given a query word and component id, the set of nearest neighbours along with their respective component ids are listed",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1911.06118#s5p0",
+          "score": 7.0778,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#abs",
+          "score": 6.2535,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#cap1",
+          "score": 4.0551,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#s4p8",
+          "score": 3.6132,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.06118#cap3",
+          "score": 2.7036,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#s0p4",
+          "score": 2.6413,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#cap2",
+          "score": 2.572,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#s4p1",
+          "score": 2.1858,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.06118#s4p9",
+          "score": 1.395,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.06118#s4p0",
+          "score": 1.1457,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005637162999846623
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "cee8cfaf26e49d98e7d34fa1b414f8f31d6502ad",
+      "paper_id": "2002.01320",
+      "question": "What is the architecture of their model?",
+      "references": [
+        {
+          "answer": "follow the architecture in berard2018end, but have 3 decoder layers like that in pino2019harnessing",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2002.01320#s7p0",
+          "score": 4.8489,
+          "gold": true
+        },
+        {
+          "chunk_id": "2002.01320#s9p0",
+          "score": 4.4417,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s10p0",
+          "score": 1.6182,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s13p0",
+          "score": 1.4161,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s12p0",
+          "score": 1.3623,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s12p3",
+          "score": 0.9766,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s11p0",
+          "score": 0.824,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s3p0",
+          "score": 0.8055,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s1p3",
+          "score": 0.7676,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005676749000031123
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "1cfed6b0c9b5a079a51166209649a987e7553e4e",
+      "paper_id": "1801.07887",
+      "question": "What is active learning?",
+      "references": [
+        {
+          "answer": "A process of training a model when selected unlabeled samples are annotated on each iteration.",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Active learning is a process that selectively determines which unlabeled samples for a machine learning model should be annotated.",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1801.07887#s0p2",
+          "score": 2.5693,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s0p1",
+          "score": 2.2521,
+          "gold": true
+        },
+        {
+          "chunk_id": "1801.07887#s0p0",
+          "score": 1.8672,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#abs",
+          "score": 1.8227,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s0p4",
+          "score": 1.7496,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s5p0",
+          "score": 1.623,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s0p3",
+          "score": 1.5706,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s3p0",
+          "score": 1.3837,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s4p0",
+          "score": 1.2816,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s2p1",
+          "score": 0.5365,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.0036491509999905247
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "bdf93053b1b9b0a21f77ed370cf4d5a10df70e3e",
+      "paper_id": "1706.01875",
+      "question": "What was their system's performance?",
+      "references": [
+        {
+          "answer": "accuracy and F1-score of 89.6% and 89.2%, respectively",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "accuracy and F1-score of 89.6% and 89.2%, respectively",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1706.01875#s4p4",
+          "score": 3.3546,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.01875#s4p2",
+          "score": 3.1546,
+          "gold": true
+        },
+        {
+          "chunk_id": "1706.01875#s1p2",
+          "score": 3.1468,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.01875#cap3",
+          "score": 2.7485,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.01875#s4p0",
+          "score": 2.5978,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.01875#cap2",
+          "score": 2.5151,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.01875#s4p5",
+          "score": 2.2308,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.01875#s0p2",
+          "score": 2.1813,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.01875#s0p0",
+          "score": 2.0107,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.01875#s4p3",
+          "score": 1.5464,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006681041999854642
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "cfcdd73e712caf552ba44d0aa264d8dace65a589",
+      "paper_id": "1909.02027",
+      "question": "Where does the data come from?",
+      "references": [
+        {
+          "answer": "crowsourcing platform",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "For ins scope data collection:crowd workers which provide questions and commands related to topic domains and additional data the rephrase and scenario crowdsourcing tasks proposed by BIBREF2 is used. \nFor out of scope data collection:  from workers mistakes-queries written for one of the 150 intents that did not actually match any of the intents and using scoping and scenario tasks with prompts based on topic areas found on Quora, Wikipedia, and elsewhere.",
+          "type": "abstractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.02027#s14p0",
+          "score": 1.1819,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.02027#s3p0",
+          "score": 1.1819,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.02027#s4p1",
+          "score": 1.1819,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.02027#s2p0",
+          "score": 1.1147,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.02027#s7p4",
+          "score": 1.0812,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.02027#s3p1",
+          "score": 1.0515,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.02027#s0p5",
+          "score": 1.0462,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.02027#cap2",
+          "score": 1.0289,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.02027#s4p0",
+          "score": 1.0289,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.02027#s1p0",
+          "score": 0.8891,
+          "gold": true
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005108470000095622
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "f8da63df16c4c42093e5778c01a8e7e9b270142e",
+      "paper_id": "2002.04095",
+      "question": "How is segmentation quality evaluated?",
+      "references": [
+        {
+          "answer": "Segmentation quality is evaluated by calculating the precision, recall, and F-score of the automatic segmentations in comparison to the segmentations made by expert annotators from the ANNODIS subcorpus.",
+          "type": "abstractive",
+          "n_evidence": 3
+        },
+        {
+          "answer": "we compare the Annodis segmentation with the automatically produced segmentation",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2002.04095#abs",
+          "score": 4.1879,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04095#s8p0",
+          "score": 4.0741,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04095#s6p11",
+          "score": 2.2736,
+          "gold": true
+        },
+        {
+          "chunk_id": "2002.04095#s5p2",
+          "score": 1.6632,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04095#s5p6",
+          "score": 1.6632,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04095#s5p7",
+          "score": 1.6494,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04095#s5p8",
+          "score": 1.6494,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04095#s5p3",
+          "score": 1.6226,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04095#s5p5",
+          "score": 1.6226,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04095#s5p4",
+          "score": 1.5471,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006935699999985445
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.3333333333333333,
+      "hit@3": 1.0,
+      "recall@5": 0.3333333333333333,
+      "hit@5": 1.0,
+      "recall@10": 0.3333333333333333,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "9a8b9ea3176d30da2453cac6e9347737c729a538",
+      "paper_id": "1912.06262",
+      "question": "what were their performance results?",
+      "references": [
+        {
+          "answer": " the hybrid NER model achieved a F1 score of $0.995$ on synthesized queries and $0.948$ on clinical notes while the i2b2 NER model achieved a F1 score of $0.441$ on synthesized queries and $0.927$ on clinical notes",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "hybrid NER model achieved a F1 score of $0.995$ on synthesized queries and $0.948$ on clinical notes",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1912.06262#s7p5",
+          "score": 4.3833,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s8p6",
+          "score": 3.6842,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s11p0",
+          "score": 3.5499,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s6p0",
+          "score": 2.3502,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s1p0",
+          "score": 1.9599,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s8p1",
+          "score": 1.9002,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s8p2",
+          "score": 1.9002,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s8p3",
+          "score": 1.8783,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s8p4",
+          "score": 1.8783,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.06262#s8p0",
+          "score": 1.8358,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005830439999954251
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "18c5d366b1da8447b5404eab71f4cc658ba12e6f",
+      "paper_id": "1810.08699",
+      "question": "what ner models were evaluated?",
+      "references": [
+        {
+          "answer": "Stanford NER, spaCy 2.0 , recurrent model with a CRF top layer",
+          "type": "extractive",
+          "n_evidence": 4
+        },
+        {
+          "answer": "Stanford NER, spaCy 2.0, recurrent model with a CRF top layer",
+          "type": "extractive",
+          "n_evidence": 3
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1810.08699#s7p0",
+          "score": 5.1845,
+          "gold": true
+        },
+        {
+          "chunk_id": "1810.08699#s10p0",
+          "score": 4.1734,
+          "gold": false
+        },
+        {
+          "chunk_id": "1810.08699#s8p0",
+          "score": 3.9819,
+          "gold": true
+        },
+        {
+          "chunk_id": "1810.08699#s11p0",
+          "score": 3.7928,
+          "gold": false
+        },
+        {
+          "chunk_id": "1810.08699#cap8",
+          "score": 3.6682,
+          "gold": false
+        },
+        {
+          "chunk_id": "1810.08699#s0p5",
+          "score": 1.7238,
+          "gold": false
+        },
+        {
+          "chunk_id": "1810.08699#s10p1",
+          "score": 1.6324,
+          "gold": false
+        },
+        {
+          "chunk_id": "1810.08699#s9p1",
+          "score": 1.3566,
+          "gold": false
+        },
+        {
+          "chunk_id": "1810.08699#s10p3",
+          "score": 1.3303,
+          "gold": false
+        },
+        {
+          "chunk_id": "1810.08699#s0p0",
+          "score": 1.2983,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00624422699979732
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.25,
+      "hit@1": 1.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "a712718e6596ba946f29a99838d82f95b9ebb1ce",
+      "paper_id": "1910.14076",
+      "question": "How big are improvements of small-scale unbalanced datasets when sentence representation is enhanced with topic information?",
+      "references": [
+        {
+          "answer": "7.36% on accuracy and 9.69% on F1 score",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "it has 0.024 improvement in accuracy comparing to ELMO Only and  0.006 improvement in F1 score  comparing to ELMO Only too",
+          "type": "abstractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1910.14076#abs",
+          "score": 12.0167,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s3p3",
+          "score": 9.2014,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s4p3",
+          "score": 8.8859,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s3p2",
+          "score": 7.6313,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s8p0",
+          "score": 6.3781,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s7p0",
+          "score": 5.299,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s0p1",
+          "score": 3.4054,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s3p1",
+          "score": 3.1566,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s1p2",
+          "score": 3.0811,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s4p2",
+          "score": 2.4365,
+          "gold": true
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005291869000075167
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "7438b6b146e41c08cf8f4c5e1d130c3b4cfc6d93",
+      "paper_id": "1912.00903",
+      "question": "Did they experiment with this new dataset?",
+      "references": [
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": false,
+      "retrieved": [
+        {
+          "chunk_id": "1912.00903#abs",
+          "score": 5.9498,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.00903#s0p3",
+          "score": 5.8609,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.00903#s18p0",
+          "score": 4.9697,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.00903#s2p0",
+          "score": 3.905,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.00903#s10p0",
+          "score": 3.0108,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.00903#s5p3",
+          "score": 1.9338,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.00903#s5p0",
+          "score": 1.7766,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.00903#s6p0",
+          "score": 1.6319,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.00903#s0p4",
+          "score": 1.4283,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006429209000089031
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": null,
+      "hit@1": null,
+      "recall@3": null,
+      "hit@3": null,
+      "recall@5": null,
+      "hit@5": null,
+      "recall@10": null,
+      "hit@10": null
+    },
+    {
+      "question_id": "08b57deb237f15061e4029b6718f1393fa26acce",
+      "paper_id": "2002.04181",
+      "question": "Who are the crowdworkers?",
+      "references": [
+        {
+          "answer": "people in the US that use Amazon Mechanical Turk",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "located in the US, hired on the BIBREF22 platform",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2002.04181#s2p1",
+          "score": 1.3212,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04181#s3p1",
+          "score": 1.084,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04181#s2p0",
+          "score": 1.0783,
+          "gold": true
+        },
+        {
+          "chunk_id": "2002.04181#abs",
+          "score": 1.0268,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04181#cap1",
+          "score": 1.0265,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04181#s3p2",
+          "score": 0.9436,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04181#s0p0",
+          "score": 0.8564,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04181#s4p0",
+          "score": 0.6782,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.04181#s3p0",
+          "score": 0.6243,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00438705999999911
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "07d15501a599bae7eb4a9ead63e9df3d55b3dc35",
+      "paper_id": "1612.06685",
+      "question": "How do they obtain psychological dimensions of people?",
+      "references": [
+        {
+          "answer": "using the Meaning Extraction Method",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1612.06685#abs",
+          "score": 5.4982,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s1p0",
+          "score": 2.2466,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s3p3",
+          "score": 1.2856,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s3p1",
+          "score": 1.2349,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s3p2",
+          "score": 1.0069,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s3p0",
+          "score": 0.9117,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s4p0",
+          "score": 0.8442,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s5p3",
+          "score": 0.7441,
+          "gold": true
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.004089229999863164
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "1b1b0c71f1a4b37c6562d444f75c92eb2c727d9b",
+      "paper_id": "1702.03342",
+      "question": "What is the degree of dimension reduction of the efficient aggregation method?",
+      "references": [
+        {
+          "answer": "The number of dimensions can be reduced by up to 212 times.",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1702.03342#s0p8",
+          "score": 7.7992,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#abs",
+          "score": 6.8747,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#s0p10",
+          "score": 6.1614,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#s6p0",
+          "score": 5.1085,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#s9p0",
+          "score": 4.6726,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#s1p5",
+          "score": 3.6747,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#s0p4",
+          "score": 2.7648,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#s2p3",
+          "score": 2.6793,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#s1p2",
+          "score": 2.1103,
+          "gold": false
+        },
+        {
+          "chunk_id": "1702.03342#s1p1",
+          "score": 1.6662,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.008216424000011102
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "3c93894c4baf49deacc6ed2a14ef5e0f13b7d96f",
+      "paper_id": "1612.06685",
+      "question": "Which demographic dimensions of people do they obtain?",
+      "references": [
+        {
+          "answer": "occupation, industry, profile information, language use, gender ",
+          "type": "extractive",
+          "n_evidence": 3
+        },
+        {
+          "answer": "density of users, gender distribution",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1612.06685#abs",
+          "score": 5.0355,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s2p0",
+          "score": 2.903,
+          "gold": true
+        },
+        {
+          "chunk_id": "1612.06685#s1p0",
+          "score": 2.2466,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s3p3",
+          "score": 1.2856,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s3p1",
+          "score": 1.2349,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s3p2",
+          "score": 1.0069,
+          "gold": true
+        },
+        {
+          "chunk_id": "1612.06685#s3p0",
+          "score": 0.9117,
+          "gold": true
+        },
+        {
+          "chunk_id": "1612.06685#s4p0",
+          "score": 0.8442,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.06685#s5p3",
+          "score": 0.7441,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 5.623099991680647e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.3333333333333333,
+      "hit@3": 1.0,
+      "recall@5": 0.3333333333333333,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "41ac23e32bf208b69414f4b687c4f324c6132464",
+      "paper_id": "1611.04798",
+      "question": "Which languages do they test on for the under-resourced scenario?",
+      "references": [
+        {
+          "answer": "English, German",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "small portion of the large parallel corpus for English-German is used as a simulation",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1611.04798#cap2",
+          "score": 7.4739,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#abs",
+          "score": 5.827,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s7p0",
+          "score": 5.3541,
+          "gold": true
+        },
+        {
+          "chunk_id": "1611.04798#s7p1",
+          "score": 4.5277,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s9p2",
+          "score": 4.1513,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s7p2",
+          "score": 3.8484,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s0p3",
+          "score": 3.6409,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s10p0",
+          "score": 3.3491,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s9p1",
+          "score": 3.1006,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s3p0",
+          "score": 2.751,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.008059048999939478
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "8d074aabf4f51c8455618c5bf7689d3f62c4da1d",
+      "paper_id": "1906.07662",
+      "question": "What are the limitations of existing Vietnamese word segmentation systems?",
+      "references": [
+        {
+          "answer": " ambiguous words, unknown words",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "lacks of complete review approaches, datasets and toolkits ",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1906.07662#abs",
+          "score": 9.33,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07662#s16p0",
+          "score": 6.0094,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07662#s0p4",
+          "score": 4.1808,
+          "gold": true
+        },
+        {
+          "chunk_id": "1906.07662#s16p1",
+          "score": 3.9777,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07662#s0p2",
+          "score": 3.6286,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07662#s15p1",
+          "score": 3.3069,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07662#s5p0",
+          "score": 3.2709,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07662#s15p0",
+          "score": 3.2462,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07662#s0p3",
+          "score": 2.8594,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07662#s3p3",
+          "score": 2.653,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006678323999949498
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "ab0fd94dfc291cf3e54e9b7a7f78b852ddc1a797",
+      "paper_id": "1903.09722",
+      "question": "What is the previous state-of-the-art in summarization?",
+      "references": [
+        {
+          "answer": "BIBREF26 ",
+          "type": "extractive",
+          "n_evidence": 2
+        },
+        {
+          "answer": "BIBREF26",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1903.09722#cap1",
+          "score": 9.1837,
+          "gold": true
+        },
+        {
+          "chunk_id": "1903.09722#abs",
+          "score": 5.5652,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.09722#s7p3",
+          "score": 3.9804,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.09722#s0p1",
+          "score": 2.5159,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.09722#s4p5",
+          "score": 2.026,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.09722#s9p0",
+          "score": 1.5351,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.09722#s8p0",
+          "score": 1.3997,
+          "gold": true
+        },
+        {
+          "chunk_id": "1903.09722#s6p0",
+          "score": 1.1897,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00464456099985
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.5,
+      "hit@1": 1.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "0737954caf66f2b4c898b356d2a3c43748b9706b",
+      "paper_id": "2004.04721",
+      "question": "Do they recommend translating the premise and hypothesis together?",
+      "references": [
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 0
+        },
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2004.04721#s15p1",
+          "score": 5.1384,
+          "gold": true
+        },
+        {
+          "chunk_id": "2004.04721#s24p0",
+          "score": 4.5751,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s0p3",
+          "score": 4.5015,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s16p0",
+          "score": 4.4929,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#abs",
+          "score": 4.4587,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s18p1",
+          "score": 4.2442,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s9p0",
+          "score": 3.3655,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s14p0",
+          "score": 2.5448,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s0p1",
+          "score": 2.2957,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s22p0",
+          "score": 1.9781,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.0066552130001582555
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "9eabb54c2408dac24f00f92cf1061258c7ea2e1a",
+      "paper_id": "1909.09067",
+      "question": "Which information about text structure is included in the corpus?",
+      "references": [
+        {
+          "answer": "paragraphs, lines, Information on physical page segmentation (for PDFs only), paragraph segmentation, and line segmentation",
+          "type": "extractive",
+          "n_evidence": 2
+        },
+        {
+          "answer": "paragraph, lines, textspan element (paragraph segmentation, line segmentation, Information on physical page segmentation(for PDF only))",
+          "type": "abstractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.09067#s4p10",
+          "score": 6.4403,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.09067#s2p3",
+          "score": 4.3548,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.09067#s8p1",
+          "score": 3.6489,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.09067#abs",
+          "score": 3.6253,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.09067#s3p2",
+          "score": 3.5522,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.09067#s3p1",
+          "score": 3.243,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.09067#s5p1",
+          "score": 3.2352,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.09067#s0p4",
+          "score": 2.7561,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.09067#s8p0",
+          "score": 2.7177,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.09067#s5p5",
+          "score": 1.7162,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006546653999976115
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "35b3ce3a7499070e9b280f52e2cb0c29b0745380",
+      "paper_id": "2003.08385",
+      "question": "Does the paper report the performance of the model for each individual language?",
+      "references": [
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        },
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2003.08385#cap5",
+          "score": 6.7872,
+          "gold": true
+        },
+        {
+          "chunk_id": "2003.08385#s23p8",
+          "score": 4.9408,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.08385#s7p0",
+          "score": 4.7868,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.08385#s0p1",
+          "score": 4.7215,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.08385#s2p0",
+          "score": 4.6586,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.08385#s22p0",
+          "score": 4.6453,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.08385#s22p2",
+          "score": 4.5083,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.08385#s0p2",
+          "score": 4.0694,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.08385#s24p1",
+          "score": 3.9692,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.08385#s4p2",
+          "score": 3.6095,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009958890000007159
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "c8541ff10c4e0c8e9eb37d9d7ea408d1914019a9",
+      "paper_id": "1911.07555",
+      "question": "Which datasets are employed for South African languages LID?",
+      "references": [
+        {
+          "answer": "DSL 2015, DSL 2017, JW300 parallel corpus , NCHLT text corpora",
+          "type": "extractive",
+          "n_evidence": 4
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1911.07555#abs",
+          "score": 6.6666,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.07555#s1p3",
+          "score": 5.884,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.07555#s1p0",
+          "score": 5.82,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.07555#s0p4",
+          "score": 4.6812,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.07555#s0p2",
+          "score": 4.5336,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.07555#s1p4",
+          "score": 3.945,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.07555#s1p1",
+          "score": 3.8267,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.07555#s1p7",
+          "score": 3.5828,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.07555#s4p2",
+          "score": 3.2666,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.07555#s2p2",
+          "score": 3.1209,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.0052477919998636935
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.75,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "b8d0e4e0e820753ffc107c1847fe1dfd48883989",
+      "paper_id": "1811.08603",
+      "question": "Do they only use adjacent entity mentions or use more than that in some cases (next to adjacent)?",
+      "references": [
+        {
+          "answer": "NCEL considers only adjacent mentions.",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "More than that in some cases (next to adjacent) ",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1811.08603#s15p1",
+          "score": 8.2576,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s15p3",
+          "score": 7.7565,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s3p0",
+          "score": 6.2488,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s14p1",
+          "score": 5.2766,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s0p1",
+          "score": 4.8628,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s4p1",
+          "score": 4.8575,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s4p0",
+          "score": 4.8504,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s2p0",
+          "score": 4.6892,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s13p1",
+          "score": 4.606,
+          "gold": true
+        },
+        {
+          "chunk_id": "1811.08603#s13p0",
+          "score": 4.5958,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.008463441999992938
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "c497e8701060583d91bb64b9f9202d40047effc4",
+      "paper_id": "1907.06292",
+      "question": "How do they determine if tweets have been used by journalists?",
+      "references": [
+        {
+          "answer": " we look into the archived snapshots of two major news websites (CNN, NBC), and then extract the tweet blocks that are embedded in the news articles",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1907.06292#s0p2",
+          "score": 5.6852,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.06292#s2p11",
+          "score": 3.3735,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.06292#abs",
+          "score": 2.915,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.06292#s2p1",
+          "score": 2.881,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.06292#s2p0",
+          "score": 2.7344,
+          "gold": true
+        },
+        {
+          "chunk_id": "1907.06292#s2p10",
+          "score": 2.7314,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.06292#s4p5",
+          "score": 2.7196,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.06292#s4p6",
+          "score": 2.3964,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.06292#s5p0",
+          "score": 2.3964,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.06292#s2p2",
+          "score": 2.2835,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007631445000015447
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "fd0a3e9c210163a55d3ed791e95ae3875184b8f8",
+      "paper_id": "1709.07814",
+      "question": "Which dataset do they use?",
+      "references": [
+        {
+          "answer": "WSJ",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "WSJ-SI84, WSJ-SI284",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1709.07814#s6p0",
+          "score": 3.7465,
+          "gold": false
+        },
+        {
+          "chunk_id": "1709.07814#s1p4",
+          "score": 3.1985,
+          "gold": false
+        },
+        {
+          "chunk_id": "1709.07814#cap4",
+          "score": 2.9854,
+          "gold": false
+        },
+        {
+          "chunk_id": "1709.07814#s4p3",
+          "score": 2.5257,
+          "gold": false
+        },
+        {
+          "chunk_id": "1709.07814#s0p1",
+          "score": 1.2455,
+          "gold": false
+        },
+        {
+          "chunk_id": "1709.07814#s0p2",
+          "score": 1.2263,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005187068999930489
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "73a7acf33b26f5e9475ee975ba00d14fd06f170f",
+      "paper_id": "1903.03530",
+      "question": "What labels do they create on their dataset?",
+      "references": [
+        {
+          "answer": "(1) the time the patient has been experiencing the symptom, (2) activities that trigger the symptom (to occur or worsen), (3) the extent of seriousness, (4) the frequency occurrence of the symptom, and (5) the location of symptom, No Answer",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "the time the patient has been experiencing the symptom, activities that trigger the symptom, the extent of seriousness, the frequency occurrence of the symptom, the location of symptom, 9 symptoms",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1903.03530#s7p0",
+          "score": 2.8308,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#s8p0",
+          "score": 2.1143,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#abs",
+          "score": 1.9436,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#s6p1",
+          "score": 1.7676,
+          "gold": true
+        },
+        {
+          "chunk_id": "1903.03530#s1p1",
+          "score": 1.6278,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#s17p0",
+          "score": 1.5934,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#s10p4",
+          "score": 1.3005,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007325176999984251
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "3cf1edfa6d53a236cf4258afd87c87c0a477e243",
+      "paper_id": "1909.00105",
+      "question": "What natural language(s) are the recipes written in?",
+      "references": [
+        {
+          "answer": "English",
+          "type": "abstractive",
+          "n_evidence": 2
+        },
+        {
+          "answer": "English",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.00105#abs",
+          "score": 6.0071,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s0p1",
+          "score": 5.7334,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s1p1",
+          "score": 4.2147,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s4p2",
+          "score": 3.9734,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s1p2",
+          "score": 3.1628,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s1p0",
+          "score": 3.0052,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s2p5",
+          "score": 2.8097,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s2p9",
+          "score": 2.8024,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s5p1",
+          "score": 2.4453,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s4p1",
+          "score": 2.0438,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007179750999966927
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "79a44a68bb57b375d8a57a0a7f522d33476d9f33",
+      "paper_id": "1912.10011",
+      "question": "Which qualitative metric are used for evaluation?",
+      "references": [
+        {
+          "answer": " Relation Generation (RG) , Content Selection (CS),  Content Ordering (CO)",
+          "type": "extractive",
+          "n_evidence": 4
+        },
+        {
+          "answer": "Relation Generation (RG), Content Selection (CS), Content Ordering (CO)",
+          "type": "extractive",
+          "n_evidence": 5
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1912.10011#s9p0",
+          "score": 9.098,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s8p0",
+          "score": 5.4954,
+          "gold": true
+        },
+        {
+          "chunk_id": "1912.10011#s10p4",
+          "score": 4.8239,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s16p5",
+          "score": 3.4184,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s17p0",
+          "score": 3.2495,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s0p10",
+          "score": 2.7787,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s0p5",
+          "score": 2.6839,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#cap2",
+          "score": 2.5041,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s7p0",
+          "score": 2.4933,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s0p11",
+          "score": 2.3038,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009285952000027464
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.2,
+      "hit@3": 1.0,
+      "recall@5": 0.2,
+      "hit@5": 1.0,
+      "recall@10": 0.2,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "a6d3e57de796172c236e33a6ceb4cca793dc2315",
+      "paper_id": "1802.08636",
+      "question": "What are the baselines?",
+      "references": [
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        },
+        {
+          "answer": "Answer with content missing: (Experimental Setup missing subsections)\nTo be selected: We compared REFRESH against a baseline which simply selects the first m leading sentences from each document (LEAD) and two neural models similar to ours (see left block in Figure 1), both trained with cross-entropy loss.\nAnswer: LEAD",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [],
+      "latency_s": {
+        "retrieval": 0.005424261000143815
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "4f253dfced6a749bf57a1b4984dc962ce9550184",
+      "paper_id": "1904.09535",
+      "question": "How do the authors evidence the claim that many engineers find it a big overhead to choose from multiple frameworks, models and optimization techniques?",
+      "references": [
+        {
+          "answer": "By conducting a survey among engineers",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1904.09535#abs",
+          "score": 18.7409,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.09535#s1p0",
+          "score": 11.2715,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.09535#s0p2",
+          "score": 4.2242,
+          "gold": true
+        },
+        {
+          "chunk_id": "1904.09535#s0p1",
+          "score": 3.0713,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.09535#s3p1",
+          "score": 2.3321,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.09535#s3p4",
+          "score": 2.1093,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.09535#s8p0",
+          "score": 2.0162,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.09535#s2p1",
+          "score": 1.718,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.09535#s9p0",
+          "score": 1.6073,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.09535#s5p0",
+          "score": 1.5517,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005299229000002015
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "dfca00be3284cc555a6a4eac4831471fb1f5875b",
+      "paper_id": "1910.14076",
+      "question": "How big is dataset for testing?",
+      "references": [
+        {
+          "answer": "30 terms, each term-sanse pair has around 15 samples for testing",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1910.14076#s1p2",
+          "score": 4.3525,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s7p0",
+          "score": 4.0259,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s7p1",
+          "score": 3.9362,
+          "gold": true
+        },
+        {
+          "chunk_id": "1910.14076#cap4",
+          "score": 2.0293,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s1p1",
+          "score": 1.8719,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#abs",
+          "score": 1.4782,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s6p1",
+          "score": 1.4462,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s0p1",
+          "score": 1.42,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s6p0",
+          "score": 1.4037,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.14076#s5p0",
+          "score": 1.2265,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 5.3939000054015196e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "f2155dc4aeab86bf31a838c8ff388c85440fce6e",
+      "paper_id": "1908.11047",
+      "question": "Does this method help in sentiment classification task improvement?",
+      "references": [
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 2
+        },
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1908.11047#s12p0",
+          "score": 7.6095,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.11047#cap3",
+          "score": 5.7316,
+          "gold": true
+        },
+        {
+          "chunk_id": "1908.11047#s12p1",
+          "score": 5.6039,
+          "gold": true
+        },
+        {
+          "chunk_id": "1908.11047#s8p0",
+          "score": 5.3528,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.11047#abs",
+          "score": 2.4832,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.11047#s0p1",
+          "score": 2.0629,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.11047#s6p0",
+          "score": 1.7305,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.11047#s2p1",
+          "score": 1.5329,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.11047#s13p0",
+          "score": 1.4039,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.11047#cap6",
+          "score": 1.3976,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006138320999980351
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "01a41c0a4a7365cd37d28690735114f2ff5229f2",
+      "paper_id": "1612.08205",
+      "question": "What social media platform did they look at?",
+      "references": [
+        {
+          "answer": " http://www.blogger.com",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "http://www.blogger.com",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1612.08205#s0p0",
+          "score": 8.3018,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s0p1",
+          "score": 5.8639,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#abs",
+          "score": 5.8256,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s1p0",
+          "score": 5.6983,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s10p0",
+          "score": 4.9004,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s1p2",
+          "score": 2.4031,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s1p1",
+          "score": 2.1666,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s2p3",
+          "score": 2.068,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s1p4",
+          "score": 2.0567,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.008099301999891395
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "d4e5e3f37679ff68914b55334e822ea18e60a6cf",
+      "paper_id": "1905.12801",
+      "question": "what kinds of male and female words are looked at?",
+      "references": [
+        {
+          "answer": "gendered word pairs like he and she",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1905.12801#s5p5",
+          "score": 5.6711,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s5p2",
+          "score": 4.5104,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s5p1",
+          "score": 4.3136,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s5p12",
+          "score": 3.6481,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s5p13",
+          "score": 3.4554,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s0p2",
+          "score": 2.9504,
+          "gold": true
+        },
+        {
+          "chunk_id": "1905.12801#abs",
+          "score": 2.9329,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s0p3",
+          "score": 2.8202,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s8p0",
+          "score": 2.4429,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s5p9",
+          "score": 1.4191,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005843173999892315
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "df5a4505edccc0ee11349ed6e7958cf6b84c9ed4",
+      "paper_id": "1910.09982",
+      "question": "What dataset was used?",
+      "references": [
+        {
+          "answer": " news articles in free-text format",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "collected from 36 propagandist and 12 non-propagandist news outlets and then annotated by professional annotators",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1910.09982#s31p1",
+          "score": 4.6711,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#s34p1",
+          "score": 4.1155,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#cap3",
+          "score": 2.0667,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#s31p8",
+          "score": 1.7442,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#s1p3",
+          "score": 1.6857,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#s22p0",
+          "score": 1.6311,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#s30p0",
+          "score": 1.5892,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#s31p4",
+          "score": 1.5554,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#s32p0",
+          "score": 1.5233,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.09982#s32p2",
+          "score": 1.4895,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00751171499996417
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "2b3cac7af10d358d4081083962d03ea2798cf622",
+      "paper_id": "1611.04798",
+      "question": "Does their framework always generate purely attention-based models?",
+      "references": [
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1611.04798#s1p6",
+          "score": 5.6183,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#abs",
+          "score": 3.7698,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s0p3",
+          "score": 3.4733,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s1p0",
+          "score": 3.4641,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#cap0",
+          "score": 3.4418,
+          "gold": true
+        },
+        {
+          "chunk_id": "1611.04798#s9p6",
+          "score": 3.3712,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s4p0",
+          "score": 3.3615,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s10p1",
+          "score": 3.1602,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s10p0",
+          "score": 3.1498,
+          "gold": false
+        },
+        {
+          "chunk_id": "1611.04798#s0p2",
+          "score": 3.0566,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 8.717700006855011e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "c32adef59efcb9d1a5b10e1d7c999a825c9e6d9a",
+      "paper_id": "1809.01541",
+      "question": "What languages are evaluated?",
+      "references": [
+        {
+          "answer": "German, English, Spanish, Finnish, French, Russian,  Swedish.",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1809.01541#s2p12",
+          "score": 4.8068,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s3p6",
+          "score": 2.4582,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s3p5",
+          "score": 2.0537,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s8p0",
+          "score": 1.939,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s0p4",
+          "score": 1.8436,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s5p5",
+          "score": 1.7725,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s5p7",
+          "score": 1.7456,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s4p0",
+          "score": 1.533,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s5p3",
+          "score": 1.4739,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.01541#s9p0",
+          "score": 1.3872,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005821343999969031
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "fc1679c714eab822431bbe96f0e9cf4079cd8b8d",
+      "paper_id": "1901.01010",
+      "question": "What is their system's absolute accuracy?",
+      "references": [
+        {
+          "answer": "59.4% on wikipedia dataset, 93.4% on peer-reviewed archive AI papers, 77.1%  on peer-reviewed archive Computation and Language papers, and 79.9% on peer-reviewed archive Machine Learning papers",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1901.01010#s0p1",
+          "score": 3.385,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s10p2",
+          "score": 2.7731,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s10p1",
+          "score": 2.5348,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s10p0",
+          "score": 2.5144,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s7p0",
+          "score": 2.2047,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s1p2",
+          "score": 2.124,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s8p3",
+          "score": 2.0318,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s0p2",
+          "score": 1.6242,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s14p0",
+          "score": 1.4451,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s13p1",
+          "score": 1.2834,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007559417000038593
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "5cc2daca2a84ddccba9cdd9449e51bb3f64b3dde",
+      "paper_id": "1912.01772",
+      "question": "What are the models used for the baseline of the three NLP tasks?",
+      "references": [
+        {
+          "answer": "state-of-the-art Transformer architecture, Kaldi, speech clustergen statistical speech synthesizer",
+          "type": "extractive",
+          "n_evidence": 5
+        },
+        {
+          "answer": "For speech synthesis, they build a speech clustergen statistical speech synthesizer BIBREF9. For speech recognition, they use Kaldi BIBREF11. For Machine Translation, they use a Transformer architecture from BIBREF15.",
+          "type": "abstractive",
+          "n_evidence": 3
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1912.01772#abs",
+          "score": 6.8302,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.01772#s3p0",
+          "score": 4.9841,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.01772#s10p1",
+          "score": 4.933,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.01772#s2p1",
+          "score": 4.0637,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.01772#s0p2",
+          "score": 4.0037,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.01772#s10p0",
+          "score": 3.931,
+          "gold": true
+        },
+        {
+          "chunk_id": "1912.01772#s7p1",
+          "score": 3.541,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.01772#s9p0",
+          "score": 3.2933,
+          "gold": true
+        },
+        {
+          "chunk_id": "1912.01772#s13p0",
+          "score": 3.1052,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.01772#s0p0",
+          "score": 2.9378,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007357092000120247
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.4,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "f85f2a532e7e700d9f8f9c09cd08d4e47b87bdd3",
+      "paper_id": "1908.08717",
+      "question": "What is the goal of investigating NLP gender bias specifically in the news broadcast domain and Anchor role?",
+      "references": [
+        {
+          "answer": "create fair systems",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": " broadcast recordings are also a valuable source of data for the speech processing community, recent works uncovering gender bias in several natural language processing (NLP) tools",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1908.08717#s16p2",
+          "score": 6.9904,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#abs",
+          "score": 6.8886,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#s15p1",
+          "score": 6.234,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#s2p2",
+          "score": 5.2948,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#s10p0",
+          "score": 4.9076,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#s2p0",
+          "score": 4.698,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#s7p0",
+          "score": 4.4193,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#s2p3",
+          "score": 4.3324,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#s1p1",
+          "score": 4.1856,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.08717#s0p1",
+          "score": 4.1768,
+          "gold": true
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009223364000035872
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "2a3e36c220e7b47c1b652511a4fdd7238a74a68f",
+      "paper_id": "1610.07809",
+      "question": "how many articles are in the dataset?",
+      "references": [
+        {
+          "answer": "244",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "244 ",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1610.07809#s1p0",
+          "score": 4.9269,
+          "gold": true
+        },
+        {
+          "chunk_id": "1610.07809#s1p1",
+          "score": 4.42,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.07809#abs",
+          "score": 3.5637,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.07809#s0p1",
+          "score": 2.978,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.07809#s1p2",
+          "score": 2.1318,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.07809#s6p0",
+          "score": 1.4347,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.07809#s1p3",
+          "score": 1.3989,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006104883000034533
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "3b77b4defc8a139992bd0b07b5cf718382cb1a5f",
+      "paper_id": "1612.08205",
+      "question": "What model did they use for their system?",
+      "references": [
+        {
+          "answer": "AllWords model by counting the frequencies of all the remaining words and training a multinomial Naive Bayes classifier",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1612.08205#s3p1",
+          "score": 3.1068,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s9p0",
+          "score": 2.8542,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s1p2",
+          "score": 2.5992,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s8p1",
+          "score": 2.473,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s4p2",
+          "score": 2.4269,
+          "gold": true
+        },
+        {
+          "chunk_id": "1612.08205#s9p2",
+          "score": 2.3818,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#abs",
+          "score": 2.3478,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s4p4",
+          "score": 2.3397,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s1p1",
+          "score": 2.3189,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s5p2",
+          "score": 1.7943,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00013181600002099003
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "d571e0b0f402a3d36fb30d70cdcd2911df883bc7",
+      "paper_id": "2002.07306",
+      "question": "Is the system tested on low-resource languages?",
+      "references": [
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2002.07306#s8p0",
+          "score": 7.0769,
+          "gold": true
+        },
+        {
+          "chunk_id": "2002.07306#abs",
+          "score": 5.9123,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.07306#s4p0",
+          "score": 5.6672,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.07306#s0p0",
+          "score": 5.6337,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.07306#s13p0",
+          "score": 4.0179,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.07306#s0p1",
+          "score": 1.8495,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.07306#s1p2",
+          "score": 1.6822,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.07306#s14p1",
+          "score": 1.6113,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.07306#s8p2",
+          "score": 1.5193,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.07306#s18p0",
+          "score": 1.3502,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00752016100000219
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "5c5aeee83ea3b34f5936404f5855ccb9869356c1",
+      "paper_id": "1909.00015",
+      "question": "What tasks are used for evaluation?",
+      "references": [
+        {
+          "answer": "four machine translation tasks: German -> English, Japanese -> English, Romanian -> English, English -> German",
+          "type": "abstractive",
+          "n_evidence": 5
+        },
+        {
+          "answer": " four machine translation tasks, IWSLT 2017 German $\\rightarrow $ English BIBREF27, KFTT Japanese $\\rightarrow $ English BIBREF28, WMT 2016 Romanian $\\rightarrow $ English BIBREF29, WMT 2014 English $\\rightarrow $ German BIBREF30",
+          "type": "extractive",
+          "n_evidence": 8
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.00015#s1p3",
+          "score": 5.7259,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00015#s1p4",
+          "score": 4.2926,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00015#s2p3",
+          "score": 4.1906,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00015#s7p0",
+          "score": 4.0386,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.00015#s1p1",
+          "score": 3.927,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00015#s9p0",
+          "score": 2.5779,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.012455021000050692
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.2,
+      "hit@5": 1.0,
+      "recall@10": 0.2,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "fde700d5134a9ae8f7579bea1f1b75f34d7c1c4c",
+      "paper_id": "1912.03627",
+      "question": "how was the speech collected?",
+      "references": [
+        {
+          "answer": "The speech was collected from respondents using an android application.",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Android application",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1912.03627#s12p0",
+          "score": 4.1041,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.03627#s0p1",
+          "score": 3.0645,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.03627#s1p0",
+          "score": 2.8141,
+          "gold": true
+        },
+        {
+          "chunk_id": "1912.03627#s8p0",
+          "score": 1.9967,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.03627#cap10",
+          "score": 1.9395,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.03627#s12p1",
+          "score": 1.8545,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.03627#s8p1",
+          "score": 1.7424,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.03627#s9p0",
+          "score": 1.6438,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.03627#s8p2",
+          "score": 1.5851,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.03627#abs",
+          "score": 1.4535,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007649399000001722
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "1b1a30e9e68a9ae76af467e60cefb180d135e285",
+      "paper_id": "1903.03530",
+      "question": "How big is their created dataset?",
+      "references": [
+        {
+          "answer": "353 conversations from 40 speakers (11 nurses, 16 patients, and 13 caregivers), we build templates and expression pools using linguistic analysis",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1903.03530#s7p0",
+          "score": 2.8308,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#s8p0",
+          "score": 2.1143,
+          "gold": true
+        },
+        {
+          "chunk_id": "1903.03530#abs",
+          "score": 1.9436,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#s6p1",
+          "score": 1.7676,
+          "gold": true
+        },
+        {
+          "chunk_id": "1903.03530#s1p1",
+          "score": 1.6278,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#s17p0",
+          "score": 1.5934,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.03530#s10p4",
+          "score": 1.3005,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 4.506499999479274e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "6a219d7c58451842aa5d6819a7cdf51c55e9fc0f",
+      "paper_id": "2002.01320",
+      "question": "What domains are covered in the corpus?",
+      "references": [
+        {
+          "answer": "No specific domain is covered in the corpus.",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2002.01320#s1p0",
+          "score": 3.7734,
+          "gold": true
+        },
+        {
+          "chunk_id": "2002.01320#s0p0",
+          "score": 3.422,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s12p0",
+          "score": 3.4007,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#abs",
+          "score": 2.9919,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s3p0",
+          "score": 2.0107,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s4p0",
+          "score": 1.6827,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s13p0",
+          "score": 1.3074,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s2p0",
+          "score": 1.3074,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s0p1",
+          "score": 1.2419,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s12p3",
+          "score": 0.9016,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 8.067200019468146e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "1bdc990c7e948724ab04e70867675a334fdd3051",
+      "paper_id": "1909.00105",
+      "question": "Where do they get the recipes from?",
+      "references": [
+        {
+          "answer": "from Food.com",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.00105#s4p7",
+          "score": 1.2213,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s5p0",
+          "score": 1.1917,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s4p2",
+          "score": 1.1633,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s4p3",
+          "score": 1.1572,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s0p0",
+          "score": 1.1409,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#abs",
+          "score": 1.1365,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#cap4",
+          "score": 1.1266,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s0p5",
+          "score": 1.1096,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s0p4",
+          "score": 1.0318,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.00105#s3p1",
+          "score": 1.0231,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 4.6364999889192404e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "62ea141d0fb342dfb97c69b49d1c978665b93b3c",
+      "paper_id": "1903.11283",
+      "question": "What error types is their model more reliable for?",
+      "references": [
+        {
+          "answer": "grammatical, spelling and word order errors",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "spelling, word order and grammatical errors",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1903.11283#s8p17",
+          "score": 7.56,
+          "gold": true
+        },
+        {
+          "chunk_id": "1903.11283#abs",
+          "score": 7.1079,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.11283#s8p1",
+          "score": 6.775,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.11283#s8p10",
+          "score": 6.6237,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.11283#s5p0",
+          "score": 5.8876,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.11283#s11p0",
+          "score": 5.7149,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.11283#s8p15",
+          "score": 5.2112,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.11283#cap4",
+          "score": 4.6785,
+          "gold": false
+        },
+        {
+          "chunk_id": "1903.11283#s12p1",
+          "score": 3.4908,
+          "gold": true
+        },
+        {
+          "chunk_id": "1903.11283#cap7",
+          "score": 3.475,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009838025999897582
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "ecd5770cf8cb12cb34285e26ab834301c17c53e1",
+      "paper_id": "1608.08188",
+      "question": "What is the model architecture used?",
+      "references": [
+        {
+          "answer": "LSTM to encode the question, VGG16 to extract visual features. The outputs of LSTM and VGG16 are multiplied element-wise and sent to a softmax layer.",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "random forest, The question is encoded with a 1024-dimensional LSTM model that takes in a one-hot descriptor of each word in the question. The image is described with the 4096-dimensional output from the last fully connected layer of the Convolutional Neural Network (CNN), VGG16 BIBREF25 . The system performs an element-wise multiplication of the image and question features, after linearly transforming the image descriptor to 1024 dimensions. The final layer of the architecture is a softmax layer.",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1608.08188#s8p6",
+          "score": 6.4636,
+          "gold": false
+        },
+        {
+          "chunk_id": "1608.08188#s4p6",
+          "score": 5.9353,
+          "gold": true
+        },
+        {
+          "chunk_id": "1608.08188#s4p5",
+          "score": 2.9788,
+          "gold": true
+        },
+        {
+          "chunk_id": "1608.08188#s5p2",
+          "score": 2.5373,
+          "gold": false
+        },
+        {
+          "chunk_id": "1608.08188#s5p5",
+          "score": 2.4212,
+          "gold": false
+        },
+        {
+          "chunk_id": "1608.08188#s5p4",
+          "score": 2.0513,
+          "gold": false
+        },
+        {
+          "chunk_id": "1608.08188#abs",
+          "score": 1.8112,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.008242444999950749
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "5eabfc6cc8aa8a99e6e42514ef9584569cb75dec",
+      "paper_id": "1808.09111",
+      "question": "Do they evaluate only on English datasets?",
+      "references": [
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1808.09111#s8p0",
+          "score": 4.5962,
+          "gold": false
+        },
+        {
+          "chunk_id": "1808.09111#s6p2",
+          "score": 3.8633,
+          "gold": false
+        },
+        {
+          "chunk_id": "1808.09111#s7p1",
+          "score": 2.8929,
+          "gold": false
+        },
+        {
+          "chunk_id": "1808.09111#s0p5",
+          "score": 2.5701,
+          "gold": false
+        },
+        {
+          "chunk_id": "1808.09111#s14p2",
+          "score": 1.9043,
+          "gold": false
+        },
+        {
+          "chunk_id": "1808.09111#s12p2",
+          "score": 1.7238,
+          "gold": false
+        },
+        {
+          "chunk_id": "1808.09111#s11p1",
+          "score": 1.5817,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009534087000020008
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "ab9b0bde6113ffef8eb1c39919d21e5913a05081",
+      "paper_id": "1707.05236",
+      "question": "What are their results on both datasets?",
+      "references": [
+        {
+          "answer": "Combining  pattern based and Machine translation approaches gave the best overall F0.5 scores. It was 49.11 for FCE dataset  , 21.87 for the first annotation of  CoNLL-14, and 30.13 for the second annotation of CoNLL-14. ",
+          "type": "abstractive",
+          "n_evidence": 3
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1707.05236#s5p3",
+          "score": 4.0677,
+          "gold": true
+        },
+        {
+          "chunk_id": "1707.05236#abs",
+          "score": 3.1698,
+          "gold": false
+        },
+        {
+          "chunk_id": "1707.05236#s0p3",
+          "score": 2.6866,
+          "gold": false
+        },
+        {
+          "chunk_id": "1707.05236#s7p1",
+          "score": 2.6798,
+          "gold": false
+        },
+        {
+          "chunk_id": "1707.05236#s5p5",
+          "score": 2.6357,
+          "gold": false
+        },
+        {
+          "chunk_id": "1707.05236#s3p1",
+          "score": 1.8431,
+          "gold": false
+        },
+        {
+          "chunk_id": "1707.05236#s5p4",
+          "score": 1.6545,
+          "gold": false
+        },
+        {
+          "chunk_id": "1707.05236#s5p2",
+          "score": 1.4477,
+          "gold": true
+        },
+        {
+          "chunk_id": "1707.05236#s5p0",
+          "score": 1.2545,
+          "gold": false
+        },
+        {
+          "chunk_id": "1707.05236#s4p0",
+          "score": 1.0315,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005242640000005849
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.3333333333333333,
+      "hit@1": 1.0,
+      "recall@3": 0.3333333333333333,
+      "hit@3": 1.0,
+      "recall@5": 0.3333333333333333,
+      "hit@5": 1.0,
+      "recall@10": 0.6666666666666666,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "4aa9b60c0ccd379c6fb089c84a6c7b872ee9ec4f",
+      "paper_id": "1906.00790",
+      "question": "What set of approaches to hashtag segmentation are proposed?",
+      "references": [
+        {
+          "answer": "Adaptive Multi-task Learning\n, Margin Ranking (MR) Loss\n, Pairwise Neural Ranking Model\n",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1906.00790#s10p0",
+          "score": 8.9917,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#s4p2",
+          "score": 5.4967,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#abs",
+          "score": 5.467,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#s1p0",
+          "score": 5.3929,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#s19p0",
+          "score": 4.6725,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#s11p0",
+          "score": 3.7331,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#s21p0",
+          "score": 3.5529,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#cap6",
+          "score": 3.3304,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#s13p0",
+          "score": 3.1199,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.00790#s1p2",
+          "score": 2.7148,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009041684000067107
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "df6d327e176740da9edcc111a06374c54c8e809c",
+      "paper_id": "1908.05441",
+      "question": "What previous methods is their model compared to?",
+      "references": [
+        {
+          "answer": "bag-of-words model, CNN",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1908.05441#abs",
+          "score": 6.865,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s4p3",
+          "score": 4.7751,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s4p0",
+          "score": 3.6998,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s1p1",
+          "score": 3.4326,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s8p0",
+          "score": 3.3842,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s3p0",
+          "score": 3.3659,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s6p4",
+          "score": 3.196,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#cap7",
+          "score": 3.1877,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s11p5",
+          "score": 3.1746,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s6p2",
+          "score": 3.0684,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.012480867000022045
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "0d34c0812f1e69ea33f76ca8c24c23b0415ebc8d",
+      "paper_id": "2001.01269",
+      "question": "Which hand-crafted features are combined with word2vec?",
+      "references": [
+        {
+          "answer": "three hand-crafted polarity scores, which are minimum, mean, and maximum polarity scores",
+          "type": "extractive",
+          "n_evidence": 2
+        },
+        {
+          "answer": "polarity scores, which are minimum, mean, and maximum polarity scores, from each review",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2001.01269#s1p3",
+          "score": 9.8287,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.01269#s2p0",
+          "score": 7.6287,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.01269#s11p1",
+          "score": 6.7259,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.01269#abs",
+          "score": 5.7163,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.01269#s0p4",
+          "score": 5.181,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.01269#s6p1",
+          "score": 3.6397,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.01269#s0p2",
+          "score": 3.5588,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.01269#s11p3",
+          "score": 3.4799,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.01269#s7p0",
+          "score": 3.4014,
+          "gold": true
+        },
+        {
+          "chunk_id": "2001.01269#s6p0",
+          "score": 2.9048,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009185469999920315
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "cc850bc8245a7ae790e1f59014371d4f35cd46d7",
+      "paper_id": "1703.10344",
+      "question": "How do they determine the exact section to use the input article?",
+      "references": [
+        {
+          "answer": "They use a multi-class classifier to determine the section it should be cited",
+          "type": "abstractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1703.10344#abs",
+          "score": 6.7473,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.10344#s0p3",
+          "score": 4.9775,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.10344#s4p0",
+          "score": 4.7161,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.10344#s4p1",
+          "score": 4.6829,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.10344#s8p4",
+          "score": 4.0877,
+          "gold": true
+        },
+        {
+          "chunk_id": "1703.10344#s6p1",
+          "score": 4.0865,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.10344#s6p7",
+          "score": 4.0312,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.10344#s11p4",
+          "score": 3.6243,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.10344#s12p0",
+          "score": 3.6186,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.10344#s6p9",
+          "score": 3.4029,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.0181623609998951
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "7e4ef0a4debc048b244b61b4f7dc2518b5b466c0",
+      "paper_id": "1909.01383",
+      "question": "what phenomena do they mention is hard to capture?",
+      "references": [
+        {
+          "answer": "Four discourse phenomena - deixis, lexical cohesion, VP ellipsis, and ellipsis which affects NP inflection.",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.01383#s0p8",
+          "score": 10.4467,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.01383#s0p4",
+          "score": 6.9821,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.01383#s20p0",
+          "score": 5.3083,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.01383#abs",
+          "score": 3.9907,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.01383#s2p0",
+          "score": 2.8303,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.01383#s4p3",
+          "score": 2.5702,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.01383#s10p0",
+          "score": 2.2734,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.01383#cap4",
+          "score": 2.1106,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.01383#s0p7",
+          "score": 2.1106,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.01383#s4p2",
+          "score": 2.091,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009945434999963254
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "96b07373756d7854bccc3c12e8d41454ab8741f5",
+      "paper_id": "2001.02885",
+      "question": "Does RoBERTa outperform BERT?",
+      "references": [
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        },
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2001.02885#s1p30",
+          "score": 5.8007,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#s1p29",
+          "score": 3.6584,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#s1p9",
+          "score": 3.6166,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#s3p0",
+          "score": 2.9611,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#abs",
+          "score": 2.8802,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#s2p1",
+          "score": 2.7734,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#s0p6",
+          "score": 2.6574,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#s1p31",
+          "score": 2.0982,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#s0p8",
+          "score": 2.0246,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.02885#s0p7",
+          "score": 1.7363,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006405292999943413
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "223dc2b9ea34addc0f502003c2e1c1141f6b36a7",
+      "paper_id": "1910.12795",
+      "question": "What off-the-shelf reward learning algorithm from RL for joint data manipulation learning and model training is adapted?",
+      "references": [
+        {
+          "answer": "BIBREF7",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": " reward learning algorithm BIBREF7",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1910.12795#abs",
+          "score": 15.4042,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.12795#s18p1",
+          "score": 11.5932,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.12795#s6p0",
+          "score": 10.5721,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.12795#s0p2",
+          "score": 10.4813,
+          "gold": true
+        },
+        {
+          "chunk_id": "1910.12795#s3p0",
+          "score": 6.9278,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.12795#s8p2",
+          "score": 6.4314,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.12795#s18p0",
+          "score": 5.6342,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.12795#s3p5",
+          "score": 5.5084,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.12795#s6p1",
+          "score": 5.2784,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.12795#s3p2",
+          "score": 5.2313,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.008411579000039637
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "692c9c5d9ff9cd3e0ce8b5e4fa68dda9bd23dec1",
+      "paper_id": "1612.08205",
+      "question": "How many users do they look at?",
+      "references": [
+        {
+          "answer": "22,880 users",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "20,000",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1612.08205#s7p1",
+          "score": 4.5555,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s2p2",
+          "score": 3.3346,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s1p0",
+          "score": 1.4744,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s2p4",
+          "score": 1.3795,
+          "gold": true
+        },
+        {
+          "chunk_id": "1612.08205#cap0",
+          "score": 1.3342,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#cap3",
+          "score": 1.3342,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s0p0",
+          "score": 1.2808,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s1p2",
+          "score": 1.2666,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s0p2",
+          "score": 1.2525,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.08205#s4p0",
+          "score": 1.2235,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 5.688999999620137e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "154a721ccc1d425688942e22e75af711b423e086",
+      "paper_id": "1803.05223",
+      "question": "what crowdsourcing platform was used?",
+      "references": [
+        {
+          "answer": "Amazon Mechanical Turk",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Amazon Mechanical Turk",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1803.05223#abs",
+          "score": 4.0848,
+          "gold": false
+        },
+        {
+          "chunk_id": "1803.05223#s9p0",
+          "score": 3.9206,
+          "gold": false
+        },
+        {
+          "chunk_id": "1803.05223#s8p4",
+          "score": 2.7649,
+          "gold": false
+        },
+        {
+          "chunk_id": "1803.05223#s1p0",
+          "score": 2.2682,
+          "gold": true
+        },
+        {
+          "chunk_id": "1803.05223#s3p4",
+          "score": 2.2389,
+          "gold": false
+        },
+        {
+          "chunk_id": "1803.05223#s9p1",
+          "score": 2.1675,
+          "gold": false
+        },
+        {
+          "chunk_id": "1803.05223#s11p1",
+          "score": 1.8649,
+          "gold": false
+        },
+        {
+          "chunk_id": "1803.05223#s0p4",
+          "score": 1.8415,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.008726969000008467
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "9bb7ae50bff91571a945c1af025ed2e67714a788",
+      "paper_id": "1905.10851",
+      "question": "What was the previous state of the art for this task?",
+      "references": [
+        {
+          "answer": "hLSTM",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "hLSTM",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1905.10851#s3p2",
+          "score": 7.1393,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.10851#abs",
+          "score": 3.9972,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.10851#s0p2",
+          "score": 3.6861,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.10851#cap4",
+          "score": 3.6546,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.10851#s6p9",
+          "score": 3.2268,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.10851#s8p1",
+          "score": 3.0512,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.10851#s6p3",
+          "score": 2.1039,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.10851#s7p2",
+          "score": 1.7451,
+          "gold": true
+        },
+        {
+          "chunk_id": "1905.10851#s2p0",
+          "score": 1.6648,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007416486000010991
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "52f9cd05d8312ae3c7a43689804bac63f7cac34b",
+      "paper_id": "1809.03449",
+      "question": "Do the authors hypothesize that humans' robustness to noise is due to their general knowledge?",
+      "references": [
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 2
+        },
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1809.03449#abs",
+          "score": 6.5937,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.03449#s15p0",
+          "score": 6.4599,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.03449#s12p2",
+          "score": 6.1762,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.03449#s0p1",
+          "score": 5.9025,
+          "gold": true
+        },
+        {
+          "chunk_id": "1809.03449#s12p1",
+          "score": 5.4837,
+          "gold": true
+        },
+        {
+          "chunk_id": "1809.03449#s4p0",
+          "score": 4.9288,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.03449#s0p3",
+          "score": 4.8708,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.03449#s14p0",
+          "score": 4.3858,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.03449#s12p0",
+          "score": 4.3305,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.03449#s0p2",
+          "score": 4.0723,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007073599000023023
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "e5bc73974c79d96eee2b688e578a9de1d0eb38fd",
+      "paper_id": "1610.00956",
+      "question": "How do they show there is space for further improvement?",
+      "references": [
+        {
+          "answer": " by testing humans on a random subset of 50 named entity and 50 common noun validation questions that the psr ensemble could not answer correctly",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "majority of questions that our system could not answer so far are in fact answerable",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1610.00956#abs",
+          "score": 9.4881,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.00956#s11p1",
+          "score": 8.9202,
+          "gold": true
+        },
+        {
+          "chunk_id": "1610.00956#s0p6",
+          "score": 6.8915,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.00956#s11p0",
+          "score": 5.4626,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.00956#s10p7",
+          "score": 5.3749,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.00956#s13p6",
+          "score": 4.2602,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.00956#s5p0",
+          "score": 4.1845,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.00956#s9p0",
+          "score": 2.8318,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.00956#s3p3",
+          "score": 2.662,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.00956#s11p2",
+          "score": 2.4558,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009464429999979984
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "b3307d5b68c57a074c483636affee41054be06d1",
+      "paper_id": "2004.04721",
+      "question": "What are examples of these artifacts?",
+      "references": [
+        {
+          "answer": "hypothesis-only baseline performs better than chance due to cues on their lexical choice and sentence length, NLI models tend to predict entailment for sentence pairs with a high lexical overlap",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2004.04721#s22p0",
+          "score": 5.1403,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s3p0",
+          "score": 2.7873,
+          "gold": true
+        },
+        {
+          "chunk_id": "2004.04721#s24p0",
+          "score": 2.6393,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s14p0",
+          "score": 2.0341,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s23p0",
+          "score": 1.8363,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#abs",
+          "score": 1.5529,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s18p1",
+          "score": 1.5444,
+          "gold": false
+        },
+        {
+          "chunk_id": "2004.04721#s0p3",
+          "score": 1.3139,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 7.455399986611155e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "b08f88d1facefceb87e134ba2c1fa90035018e83",
+      "paper_id": "1806.00738",
+      "question": "Do the decoder LSTMs all have the same weights?",
+      "references": [
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        },
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1806.00738#s4p1",
+          "score": 4.3975,
+          "gold": true
+        },
+        {
+          "chunk_id": "1806.00738#s7p1",
+          "score": 3.8606,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.00738#abs",
+          "score": 3.1803,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.00738#s4p0",
+          "score": 2.2864,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.00738#s2p0",
+          "score": 1.9973,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.00738#s4p2",
+          "score": 1.906,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.00738#s1p1",
+          "score": 1.1863,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.00738#s7p0",
+          "score": 1.0106,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.0038490379999984725
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "63bb2040fa107c5296351c2b5f0312336dad2863",
+      "paper_id": "1705.01265",
+      "question": "How were the cluster extracted? ",
+      "references": [
+        {
+          "answer": "Word clusters are extracted using k-means on word embeddings",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1705.01265#s1p2",
+          "score": 2.2955,
+          "gold": true
+        },
+        {
+          "chunk_id": "1705.01265#s6p0",
+          "score": 2.2955,
+          "gold": false
+        },
+        {
+          "chunk_id": "1705.01265#s4p4",
+          "score": 1.9264,
+          "gold": false
+        },
+        {
+          "chunk_id": "1705.01265#abs",
+          "score": 1.4155,
+          "gold": false
+        },
+        {
+          "chunk_id": "1705.01265#s4p6",
+          "score": 1.4155,
+          "gold": false
+        },
+        {
+          "chunk_id": "1705.01265#s4p3",
+          "score": 1.4048,
+          "gold": false
+        },
+        {
+          "chunk_id": "1705.01265#s3p8",
+          "score": 1.0723,
+          "gold": false
+        },
+        {
+          "chunk_id": "1705.01265#s0p4",
+          "score": 1.0028,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006647130999908768
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "a3bb9a936f61bafb509fa12ac0a61f91abcc5106",
+      "paper_id": "1908.05441",
+      "question": "Which datasets are used for evaluation?",
+      "references": [
+        {
+          "answer": "ARC , TREC, GARD , MLBioMedLAT ",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "ARC, TREC, GARD, MLBioMedLAT",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1908.05441#s11p5",
+          "score": 3.8476,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#cap3",
+          "score": 3.0634,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s1p0",
+          "score": 2.9161,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s11p6",
+          "score": 2.8077,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#cap1",
+          "score": 2.589,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s4p0",
+          "score": 2.5621,
+          "gold": true
+        },
+        {
+          "chunk_id": "1908.05441#s1p2",
+          "score": 2.373,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s4p2",
+          "score": 2.2647,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s8p0",
+          "score": 2.2268,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.05441#s3p0",
+          "score": 2.2226,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00011827999992419791
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "33554065284110859a8ea3ca7346474ab2cab100",
+      "paper_id": "1911.01371",
+      "question": "How large is the Twitter dataset?",
+      "references": [
+        {
+          "answer": "1,873 Twitter conversation threads, roughly 14k tweets",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "1,873 Twitter conversation threads, roughly 14k tweets",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1911.01371#s3p0",
+          "score": 6.5554,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.01371#s4p0",
+          "score": 4.8862,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.01371#s5p1",
+          "score": 4.3505,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.01371#cap0",
+          "score": 2.2008,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.01371#cap3",
+          "score": 2.0613,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.01371#s9p1",
+          "score": 2.0318,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.01371#cap2",
+          "score": 1.6871,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.01371#s11p0",
+          "score": 1.6355,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.01371#s10p0",
+          "score": 1.6152,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.01371#s0p8",
+          "score": 1.5226,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009730265000143845
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "c59078efa7249acfb9043717237c96ae762c0a8c",
+      "paper_id": "1905.12801",
+      "question": "which existing strategies are compared?",
+      "references": [
+        {
+          "answer": "CDA, REG",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1905.12801#s8p1",
+          "score": 5.1486,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#abs",
+          "score": 4.8881,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s0p3",
+          "score": 2.5614,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s6p0",
+          "score": 2.0816,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s6p1",
+          "score": 1.9487,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s8p0",
+          "score": 1.5537,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s8p2",
+          "score": 1.4874,
+          "gold": false
+        },
+        {
+          "chunk_id": "1905.12801#s7p0",
+          "score": 1.2632,
+          "gold": true
+        }
+      ],
+      "latency_s": {
+        "retrieval": 9.751199991114845e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "12f7fac818f0006cf33269c9eafd41bbb8979a48",
+      "paper_id": "1901.01010",
+      "question": "What kind of model do they use?",
+      "references": [
+        {
+          "answer": "visual model is based on fine-tuning an Inception V3 model BIBREF1 over visual renderings of documents, while our textual model is based on a hierarchical biLSTM. We further combine the two into a joint model. , neural network models",
+          "type": "extractive",
+          "n_evidence": 2
+        },
+        {
+          "answer": "Inception V3, biLSTM",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1901.01010#s8p2",
+          "score": 3.5123,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s8p3",
+          "score": 3.1502,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s14p0",
+          "score": 2.7516,
+          "gold": true
+        },
+        {
+          "chunk_id": "1901.01010#s9p6",
+          "score": 2.659,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s9p2",
+          "score": 2.3828,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s1p0",
+          "score": 2.3341,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s1p2",
+          "score": 2.1151,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s3p0",
+          "score": 2.0646,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s8p0",
+          "score": 1.9573,
+          "gold": false
+        },
+        {
+          "chunk_id": "1901.01010#s5p0",
+          "score": 1.8343,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 7.498299987673818e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "0ec56e15005a627d0b478a67fd627a9d85c3920e",
+      "paper_id": "1806.03125",
+      "question": "What can word subspace represent?",
+      "references": [
+        {
+          "answer": "Word vectors, usually in the context of others within the same class",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1806.03125#s6p0",
+          "score": 5.0929,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.03125#s8p1",
+          "score": 5.0471,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.03125#s4p0",
+          "score": 4.4712,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.03125#s4p6",
+          "score": 4.4391,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.03125#s0p5",
+          "score": 4.2911,
+          "gold": true
+        },
+        {
+          "chunk_id": "1806.03125#s10p0",
+          "score": 4.2884,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.03125#s6p2",
+          "score": 4.2884,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.03125#s10p1",
+          "score": 3.8846,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.03125#abs",
+          "score": 3.3361,
+          "gold": false
+        },
+        {
+          "chunk_id": "1806.03125#s6p1",
+          "score": 3.0278,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.013050960999862582
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "bb3267c3f0a12d8014d51105de5d81686afe5f1b",
+      "paper_id": "1811.08603",
+      "question": "Which datasets do they use?",
+      "references": [
+        {
+          "answer": "CoNLL-YAGO, TAC2010, ACE2004, AQUAINT, WW",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "CoNLL-YAGO, TAC2010, ACE2004, AQUAINT, WW",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1811.08603#s12p4",
+          "score": 4.6467,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s9p5",
+          "score": 2.876,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s14p1",
+          "score": 2.7379,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s12p2",
+          "score": 2.7303,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s5p4",
+          "score": 2.5926,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s13p0",
+          "score": 2.5878,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s12p0",
+          "score": 2.5034,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s12p3",
+          "score": 2.282,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s12p1",
+          "score": 2.1987,
+          "gold": false
+        },
+        {
+          "chunk_id": "1811.08603#s14p0",
+          "score": 2.1465,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 8.264500002042041e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "3e88fb3d28593309a307eb97e875575644a01463",
+      "paper_id": "1910.06592",
+      "question": "What baselines were used in this work?",
+      "references": [
+        {
+          "answer": "LR + Bag-of-words, Tweet2vec, LR + All Features (tweet-level), LR + All Features (chunk-level), FacTweet (tweet-level), Top-$k$ replies, likes, or re-tweets",
+          "type": "extractive",
+          "n_evidence": 7
+        },
+        {
+          "answer": "LR + Bag-of-words, Tweet2vec, LR + All Features (tweet-level), LR + All Features (chunk-level), FacTweet (tweet-level), Top-$k$ replies, likes, or re-tweets",
+          "type": "extractive",
+          "n_evidence": 8
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1910.06592#s0p2",
+          "score": 3.9665,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.06592#s3p0",
+          "score": 3.7839,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.06592#s2p2",
+          "score": 3.507,
+          "gold": true
+        },
+        {
+          "chunk_id": "1910.06592#s2p13",
+          "score": 1.7522,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.06592#abs",
+          "score": 1.7033,
+          "gold": false
+        },
+        {
+          "chunk_id": "1910.06592#s2p11",
+          "score": 1.2042,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006040721000090343
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.14285714285714285,
+      "hit@3": 1.0,
+      "recall@5": 0.14285714285714285,
+      "hit@5": 1.0,
+      "recall@10": 0.14285714285714285,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "d6ea7a30b0b61ae126b00b59d2a14fff2ef887bf",
+      "paper_id": "1907.01468",
+      "question": "What approaches do they use towards text analysis?",
+      "references": [
+        {
+          "answer": "Domain experts and fellow researchers can provide feedback on questions and help with dynamically revising them., connect to multiple disciplines, dual use",
+          "type": "extractive",
+          "n_evidence": 4
+        },
+        {
+          "answer": "Modeling considerations:  the variables (both predictors and outcomes)  are rarely simply binary or categorical;  using a particular classification scheme means deciding which variations are visible,; Supervised and unsupervised learning are the most common approaches to learning from data;  the unit of text that we are labeling (or annotating, or coding), either automatic or manual, can sometimes be different than one's final unit of analysis.",
+          "type": "abstractive",
+          "n_evidence": 7
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1907.01468#s15p2",
+          "score": 6.7599,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.01468#s16p0",
+          "score": 5.6552,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.01468#s9p0",
+          "score": 5.3499,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.01468#s12p1",
+          "score": 5.3271,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.01468#s1p1",
+          "score": 5.2623,
+          "gold": true
+        },
+        {
+          "chunk_id": "1907.01468#s8p5",
+          "score": 5.2126,
+          "gold": true
+        },
+        {
+          "chunk_id": "1907.01468#s0p2",
+          "score": 4.7307,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.01468#s0p1",
+          "score": 4.3565,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.01468#s11p2",
+          "score": 4.3166,
+          "gold": false
+        },
+        {
+          "chunk_id": "1907.01468#s1p4",
+          "score": 3.8954,
+          "gold": true
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.016698132999863446
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.25,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "51fe4d44887c5cc5fc98b65ca4cb5876f0a56dad",
+      "paper_id": "1911.00841",
+      "question": "What type of neural model was used?",
+      "references": [
+        {
+          "answer": "Bert + Unanswerable",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "CNN, BERT",
+          "type": "extractive",
+          "n_evidence": 3
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1911.00841#s15p4",
+          "score": 5.5383,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.00841#abs",
+          "score": 3.932,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.00841#s9p2",
+          "score": 3.6966,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.00841#s9p3",
+          "score": 2.8577,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.00841#s9p0",
+          "score": 2.6629,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.00841#s14p0",
+          "score": 2.5873,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.00841#s14p1",
+          "score": 2.5729,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.00841#s16p0",
+          "score": 2.3887,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.00841#s0p1",
+          "score": 2.165,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.00841#s12p3",
+          "score": 2.1414,
+          "gold": true
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.010135445000059917
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.3333333333333333,
+      "hit@3": 1.0,
+      "recall@5": 0.6666666666666666,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "1591068b747c94f45b948e12edafe74b5e721047",
+      "paper_id": "1802.07862",
+      "question": "How large is their MNER SnapCaptions dataset?",
+      "references": [
+        {
+          "answer": "10K user-generated image (snap) and textual caption pairs",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "10000",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1802.07862#s0p4",
+          "score": 5.8081,
+          "gold": false
+        },
+        {
+          "chunk_id": "1802.07862#abs",
+          "score": 4.8861,
+          "gold": false
+        },
+        {
+          "chunk_id": "1802.07862#s8p0",
+          "score": 4.4691,
+          "gold": false
+        },
+        {
+          "chunk_id": "1802.07862#s8p8",
+          "score": 4.229,
+          "gold": false
+        },
+        {
+          "chunk_id": "1802.07862#s6p0",
+          "score": 4.1036,
+          "gold": true
+        },
+        {
+          "chunk_id": "1802.07862#s8p7",
+          "score": 3.9283,
+          "gold": false
+        },
+        {
+          "chunk_id": "1802.07862#s8p4",
+          "score": 3.8549,
+          "gold": false
+        },
+        {
+          "chunk_id": "1802.07862#s3p1",
+          "score": 3.6623,
+          "gold": false
+        },
+        {
+          "chunk_id": "1802.07862#cap2",
+          "score": 3.42,
+          "gold": false
+        },
+        {
+          "chunk_id": "1802.07862#s4p0",
+          "score": 3.1942,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009931181999945693
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "fabf6fdcfb4c4c7affaa1e4336658c1e6635b1bf",
+      "paper_id": "1610.08815",
+      "question": "Which benchmark datasets are used?",
+      "references": [
+        {
+          "answer": "Semeval 2014 BIBREF34 Twitter Sentiment Analysis Dataset ,  dataset was created by BIBREF8,  English dataset from BIBREF8,  dataset from The Sarcasm Detector",
+          "type": "extractive",
+          "n_evidence": 4
+        },
+        {
+          "answer": "This dataset was created by BIBREF8, another English dataset from BIBREF8 ,  dataset from The Sarcasm Detector",
+          "type": "extractive",
+          "n_evidence": 3
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1610.08815#s5p0",
+          "score": 5.01,
+          "gold": true
+        },
+        {
+          "chunk_id": "1610.08815#s3p0",
+          "score": 4.3118,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.08815#s10p1",
+          "score": 3.8437,
+          "gold": true
+        },
+        {
+          "chunk_id": "1610.08815#s10p3",
+          "score": 3.6878,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.08815#abs",
+          "score": 3.5023,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.08815#s10p0",
+          "score": 3.4546,
+          "gold": true
+        },
+        {
+          "chunk_id": "1610.08815#s10p2",
+          "score": 3.132,
+          "gold": true
+        },
+        {
+          "chunk_id": "1610.08815#s1p2",
+          "score": 2.7166,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.08815#s8p0",
+          "score": 2.3679,
+          "gold": false
+        },
+        {
+          "chunk_id": "1610.08815#s1p1",
+          "score": 1.6783,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.01039413099988451
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.25,
+      "hit@1": 1.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "1cb100182508cf55b3509283c0e2bbcd527d625e",
+      "paper_id": "1601.02403",
+      "question": "How is the data in the new corpus come sourced?",
+      "references": [
+        {
+          "answer": "user comments to newswire articles or to blog posts, forum posts, blog posts, newswire articles",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "refer to each article, blog post, comment, or forum posts as a document",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1601.02403#s10p0",
+          "score": 8.767,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#s10p1",
+          "score": 6.9661,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#s1p0",
+          "score": 6.8582,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#abs",
+          "score": 5.7942,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#s1p1",
+          "score": 5.4685,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#s0p1",
+          "score": 5.239,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#s14p2",
+          "score": 5.1864,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#s7p8",
+          "score": 5.1428,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#s12p0",
+          "score": 4.8885,
+          "gold": false
+        },
+        {
+          "chunk_id": "1601.02403#s17p17",
+          "score": 4.4547,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.026485374000003503
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "f2e8497aa16327aa297a7f9f7d156e485fe33945",
+      "paper_id": "2003.13032",
+      "question": "How was annotation performed?",
+      "references": [
+        {
+          "answer": "Experienced medical doctors used a linguistic annotation tool to annotate entities.",
+          "type": "abstractive",
+          "n_evidence": 2
+        },
+        {
+          "answer": "WebAnno",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2003.13032#s4p0",
+          "score": 3.233,
+          "gold": true
+        },
+        {
+          "chunk_id": "2003.13032#s7p0",
+          "score": 2.7998,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.13032#s2p0",
+          "score": 1.3179,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.13032#s2p10",
+          "score": 1.3081,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.13032#s2p9",
+          "score": 1.2985,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.13032#s2p8",
+          "score": 1.289,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.13032#s2p2",
+          "score": 1.2797,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.13032#s2p7",
+          "score": 1.2705,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.13032#s2p5",
+          "score": 1.235,
+          "gold": false
+        },
+        {
+          "chunk_id": "2003.13032#s1p0",
+          "score": 1.1979,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007662937999839414
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "f641f561ad2ea2794a52e4e4bdd62e1f353ab797",
+      "paper_id": "2001.09215",
+      "question": "What language is explored in this paper?",
+      "references": [
+        {
+          "answer": "Unanswerable",
+          "type": "none",
+          "n_evidence": 0
+        },
+        {
+          "answer": "English language",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2001.09215#abs",
+          "score": 1.937,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.09215#s3p0",
+          "score": 1.841,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.004187016000059884
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "7b4fb6da74e6bd1baea556788a02969134cf0800",
+      "paper_id": "1909.03405",
+      "question": "Do they train their model starting from a checkpoint?",
+      "references": [
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 2
+        },
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.03405#s12p6",
+          "score": 5.4973,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.03405#s8p1",
+          "score": 4.6204,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.03405#s9p1",
+          "score": 1.7483,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.03405#s8p2",
+          "score": 1.5774,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.03405#s6p0",
+          "score": 1.5657,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.03405#s13p0",
+          "score": 1.5384,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.03405#s5p0",
+          "score": 1.4171,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.03405#s0p3",
+          "score": 1.3947,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.03405#s4p0",
+          "score": 1.2756,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.03405#s2p0",
+          "score": 1.2196,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.009258881000050678
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "b5608076d91450b0d295ad14c3e3a90d7e168d0e",
+      "paper_id": "2002.03407",
+      "question": "Is the student reflection data very different from the newspaper data?  ",
+      "references": [
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Yes",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2002.03407#s5p2",
+          "score": 8.9619,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.03407#abs",
+          "score": 8.2209,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.03407#s1p1",
+          "score": 5.9031,
+          "gold": true
+        },
+        {
+          "chunk_id": "2002.03407#s5p12",
+          "score": 5.711,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.03407#s3p0",
+          "score": 4.3983,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.03407#s1p3",
+          "score": 4.3778,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.03407#s2p0",
+          "score": 4.3519,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.03407#s0p1",
+          "score": 4.2162,
+          "gold": true
+        },
+        {
+          "chunk_id": "2002.03407#s7p0",
+          "score": 3.9006,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.03407#s6p3",
+          "score": 3.6798,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.007110210000064399
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "e82fa03f1638a8c59ceb62bb9a6b41b498950e1f",
+      "paper_id": "1908.07245",
+      "question": "What is the state of the art system mentioned?",
+      "references": [
+        {
+          "answer": "Two knowledge-based systems,\ntwo traditional word expert supervised systems, six recent neural-based systems, and one BERT feature-based system.",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1908.07245#s18p0",
+          "score": 6.3583,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.07245#s0p7",
+          "score": 4.6279,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.07245#s0p5",
+          "score": 4.5824,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.07245#abs",
+          "score": 3.9297,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.07245#s9p0",
+          "score": 1.7489,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.07245#s10p0",
+          "score": 1.7098,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.07245#s8p0",
+          "score": 1.6724,
+          "gold": false
+        },
+        {
+          "chunk_id": "1908.07245#s4p0",
+          "score": 1.4234,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005649761000086073
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "642e8cf1d39faa1cd985d16750cdc6696c52db2f",
+      "paper_id": "1606.02891",
+      "question": "what are the baseline systems?",
+      "references": [
+        {
+          "answer": "attentional encoder-decoder networks BIBREF0",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": " the dl4mt-tutorial",
+          "type": "extractive",
+          "n_evidence": 3
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1606.02891#s1p0",
+          "score": 3.8603,
+          "gold": true
+        },
+        {
+          "chunk_id": "1606.02891#abs",
+          "score": 3.3356,
+          "gold": false
+        },
+        {
+          "chunk_id": "1606.02891#cap6",
+          "score": 2.9661,
+          "gold": false
+        },
+        {
+          "chunk_id": "1606.02891#s0p0",
+          "score": 1.98,
+          "gold": false
+        },
+        {
+          "chunk_id": "1606.02891#s7p2",
+          "score": 1.9195,
+          "gold": false
+        },
+        {
+          "chunk_id": "1606.02891#s1p2",
+          "score": 1.8605,
+          "gold": true
+        },
+        {
+          "chunk_id": "1606.02891#cap4",
+          "score": 1.7261,
+          "gold": false
+        },
+        {
+          "chunk_id": "1606.02891#s5p3",
+          "score": 1.6041,
+          "gold": false
+        },
+        {
+          "chunk_id": "1606.02891#s10p0",
+          "score": 1.4528,
+          "gold": false
+        },
+        {
+          "chunk_id": "1606.02891#s11p0",
+          "score": 1.2623,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00719418499988933
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "2c7494d47b2a69f182e83455fe4c75ae3b2893e9",
+      "paper_id": "1706.09673",
+      "question": "Do they evaluate their learned representations on downstream tasks?",
+      "references": [
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 0
+        },
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 0
+        }
+      ],
+      "has_gold_evidence": false,
+      "retrieved": [
+        {
+          "chunk_id": "1706.09673#s6p1",
+          "score": 3.9227,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.09673#s0p0",
+          "score": 3.5915,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.09673#s4p0",
+          "score": 3.0447,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.09673#s4p1",
+          "score": 2.83,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.09673#s2p1",
+          "score": 2.1818,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.09673#s1p0",
+          "score": 2.0696,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.09673#s5p1",
+          "score": 1.9668,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.09673#s8p0",
+          "score": 1.1142,
+          "gold": false
+        },
+        {
+          "chunk_id": "1706.09673#s3p1",
+          "score": 0.9889,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005293940999990809
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": null,
+      "hit@1": null,
+      "recall@3": null,
+      "hit@3": null,
+      "recall@5": null,
+      "hit@5": null,
+      "recall@10": null,
+      "hit@10": null
+    },
+    {
+      "question_id": "664db503509b8236bc4d3dc39cebb74498365750",
+      "paper_id": "1912.10011",
+      "question": "What is quantitative improvement of proposed method (the best variant) w.r.t. baseline (the best variant)?",
+      "references": [
+        {
+          "answer": "Hierarchical-k",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1912.10011#abs",
+          "score": 7.9396,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s16p0",
+          "score": 7.9122,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s6p4",
+          "score": 7.3914,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s16p1",
+          "score": 7.1696,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s16p4",
+          "score": 7.1405,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s5p1",
+          "score": 5.3833,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s16p6",
+          "score": 4.9064,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s16p5",
+          "score": 4.7768,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s16p3",
+          "score": 4.6745,
+          "gold": false
+        },
+        {
+          "chunk_id": "1912.10011#s6p5",
+          "score": 4.2773,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.00011455900016699161
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "61652a3da85196564401d616d251084a25ab4596",
+      "paper_id": "1712.00991",
+      "question": "What is the size of the real-life dataset?",
+      "references": [
+        {
+          "answer": "26972",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "26972 sentences",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1712.00991#abs",
+          "score": 4.7376,
+          "gold": false
+        },
+        {
+          "chunk_id": "1712.00991#s3p5",
+          "score": 2.7155,
+          "gold": false
+        },
+        {
+          "chunk_id": "1712.00991#s6p2",
+          "score": 2.7136,
+          "gold": false
+        },
+        {
+          "chunk_id": "1712.00991#cap1",
+          "score": 2.4636,
+          "gold": false
+        },
+        {
+          "chunk_id": "1712.00991#cap0",
+          "score": 2.3719,
+          "gold": false
+        },
+        {
+          "chunk_id": "1712.00991#cap4",
+          "score": 2.2868,
+          "gold": false
+        },
+        {
+          "chunk_id": "1712.00991#s6p0",
+          "score": 2.0349,
+          "gold": false
+        },
+        {
+          "chunk_id": "1712.00991#s2p0",
+          "score": 1.6829,
+          "gold": true
+        },
+        {
+          "chunk_id": "1712.00991#s0p4",
+          "score": 1.3502,
+          "gold": false
+        },
+        {
+          "chunk_id": "1712.00991#s8p0",
+          "score": 0.9299,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.006822948000035467
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "38f58f13c7f23442d5952c8caf126073a477bac0",
+      "paper_id": "1904.07904",
+      "question": "What was the score of the proposed model?",
+      "references": [
+        {
+          "answer": "Best results authors obtain is EM 51.10 and F1 63.11",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "EM Score of 51.10",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1904.07904#s7p0",
+          "score": 4.9407,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.07904#s6p3",
+          "score": 4.1888,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.07904#abs",
+          "score": 3.6123,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.07904#s6p1",
+          "score": 2.6388,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.07904#cap1",
+          "score": 2.5754,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.07904#s6p2",
+          "score": 2.48,
+          "gold": true
+        },
+        {
+          "chunk_id": "1904.07904#s3p6",
+          "score": 2.2025,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.07904#s3p3",
+          "score": 2.1716,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.07904#s5p0",
+          "score": 2.1193,
+          "gold": false
+        },
+        {
+          "chunk_id": "1904.07904#s4p1",
+          "score": 1.9776,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.0059442850001687475
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "bcc0cd4e262f2db4270429ab520971bcf39414cf",
+      "paper_id": "2001.09215",
+      "question": "How many tweets were collected?",
+      "references": [
+        {
+          "answer": "$19,300$, added 2500 randomly sampled tweets",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "$19,300$ tweets",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2001.09215#s1p3",
+          "score": 2.9339,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.09215#s0p0",
+          "score": 2.202,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.09215#s1p7",
+          "score": 1.709,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.09215#s1p2",
+          "score": 1.4413,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.09215#s1p0",
+          "score": 1.1686,
+          "gold": true
+        },
+        {
+          "chunk_id": "2001.09215#s1p1",
+          "score": 0.7721,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.09215#s0p1",
+          "score": 0.7353,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 6.263400018724496e-05
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "4c07c33dfaf4f3e6db55e377da6fa69825d0ba15",
+      "paper_id": "1610.09225",
+      "question": "What is the dimension of the embeddings?",
+      "references": [
+        {
+          "answer": "300",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "300",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [],
+      "latency_s": {
+        "retrieval": 0.00566228399998181
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0
+    },
+    {
+      "question_id": "f94b53db307685d572aefad52cd55f53d23769c2",
+      "paper_id": "1612.03226",
+      "question": "How do they calculate variance from the model outputs?",
+      "references": [
+        {
+          "answer": "reducing the variance of an estimator,  EGL method in BIBREF3 is almost the same as Eq. ( EQREF8 ), except the gradient's norm is not squared in BIBREF3",
+          "type": "extractive",
+          "n_evidence": 4
+        },
+        {
+          "answer": " Fisher Information Ratio",
+          "type": "extractive",
+          "n_evidence": 4
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1612.03226#s5p2",
+          "score": 3.0403,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.03226#s4p8",
+          "score": 2.1606,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.03226#s4p6",
+          "score": 1.947,
+          "gold": true
+        },
+        {
+          "chunk_id": "1612.03226#s3p0",
+          "score": 1.9036,
+          "gold": true
+        },
+        {
+          "chunk_id": "1612.03226#s1p0",
+          "score": 1.489,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.03226#s5p1",
+          "score": 1.2967,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.03226#s4p5",
+          "score": 1.1777,
+          "gold": true
+        },
+        {
+          "chunk_id": "1612.03226#s0p1",
+          "score": 1.1008,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.03226#s4p0",
+          "score": 1.0885,
+          "gold": false
+        },
+        {
+          "chunk_id": "1612.03226#s2p0",
+          "score": 1.0639,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.004983739999943282
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.25,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "c01784b995f6594fdb23d7b62f20a35ae73eaa77",
+      "paper_id": "2001.08868",
+      "question": "How do the authors show that their learned policy generalize better than existing solutions to unseen games?",
+      "references": [
+        {
+          "answer": "promising results by solving almost half of the unseen games, most of the lost games are in the hardest set, where a very long sequence of actions is required for winning the game",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2001.08868#abs",
+          "score": 17.1598,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.08868#s0p2",
+          "score": 11.9096,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.08868#s15p0",
+          "score": 7.8202,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.08868#s14p0",
+          "score": 7.6364,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.08868#s5p0",
+          "score": 7.4589,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.08868#s0p1",
+          "score": 6.0299,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.08868#s13p0",
+          "score": 5.5426,
+          "gold": true
+        },
+        {
+          "chunk_id": "2001.08868#s6p4",
+          "score": 5.185,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.08868#s17p0",
+          "score": 4.5701,
+          "gold": false
+        },
+        {
+          "chunk_id": "2001.08868#s2p0",
+          "score": 4.4152,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.008963601999994353
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0
+    },
+    {
+      "question_id": "b7381927764536bd97b099b6a172708125364954",
+      "paper_id": "1805.03710",
+      "question": "How do they evaluate their resulting word embeddings?",
+      "references": [
+        {
+          "answer": "We also evaluate all five models on downstream tasks from the VecEval suite BIBREF13 , using only the tasks for which training and evaluation data is freely available: chunking, sentiment and question classification, and natural language identification (NLI). The default settings from the suite are used, but we run only the fixed settings, where the embeddings themselves are not tunable parameters of the models, forcing the system to use only the information already in the embeddings.",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1805.03710#s1p0",
+          "score": 5.5336,
+          "gold": false
+        },
+        {
+          "chunk_id": "1805.03710#s3p6",
+          "score": 4.9507,
+          "gold": true
+        },
+        {
+          "chunk_id": "1805.03710#abs",
+          "score": 4.7767,
+          "gold": false
+        },
+        {
+          "chunk_id": "1805.03710#s0p0",
+          "score": 3.7723,
+          "gold": false
+        },
+        {
+          "chunk_id": "1805.03710#s5p0",
+          "score": 2.6291,
+          "gold": false
+        },
+        {
+          "chunk_id": "1805.03710#s0p8",
+          "score": 2.5748,
+          "gold": false
+        },
+        {
+          "chunk_id": "1805.03710#s1p2",
+          "score": 2.4086,
+          "gold": false
+        },
+        {
+          "chunk_id": "1805.03710#s0p1",
+          "score": 0.8573,
+          "gold": false
+        },
+        {
+          "chunk_id": "1805.03710#s2p2",
+          "score": 0.8558,
+          "gold": false
+        },
+        {
+          "chunk_id": "1805.03710#s2p6",
+          "score": 0.7825,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.005868614999826605
+      },
+      "tokens": {},
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0
+    }
+  ]
+}
