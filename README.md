@@ -26,33 +26,35 @@ QASPER（约 11MB），把 dev 集的 281 篇论文切块、向量化，存进 `
 uv run python eval/run_eval.py --name dense_retrieval --retrieval-only
 ```
 
-完整评测（检索 + Writer + LLM-as-judge）需要 Anthropic API key，在 [Claude Console](https://platform.claude.com/)
-里创建。代码先读 `PAPERQA_ANTHROPIC_API_KEY`，没有再读 `ANTHROPIC_API_KEY`：
+完整评测（检索 + Writer + LLM-as-judge）默认走 Claude Code 的无头模式（`claude -p`）：用的是 Claude Code 的
+登录，计入 Claude 订阅额度，不需要 API key。需要本机装了 Claude Code 并已登录。
+
+先用便宜的 Haiku 5.5 跑 10 题，确认流程能通（试跑结果放在 `eval/results/smoke/`，不进消融表）：
+
+```bash
+uv run python eval/run_eval.py --name smoke_haiku_cc --model claude-haiku-5-5 --judge-model claude-haiku-5-5 --n 10 --out-dir eval/results/smoke
+```
+
+再跑 100 题（默认 Writer 和 judge 都是 `claude-sonnet-5-5`，用 `--model` 和 `--judge-model` 换）：
+
+```bash
+uv run python eval/run_eval.py --name baseline_dense_cc_sonnet
+```
+
+想改用 Anthropic API key 计费，加 `--backend api`。key 在 [Claude Console](https://platform.claude.com/) 里创建，
+代码先读 `PAPERQA_ANTHROPIC_API_KEY`，没有再读 `ANTHROPIC_API_KEY`：
 
 ```bash
 export PAPERQA_ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-先用便宜的 Haiku 5.5 跑 10 题，确认流程能通：
-
 ```bash
-uv run python eval/run_eval.py --name smoke_haiku --model claude-haiku-5-5 --judge-model claude-haiku-5-5 --n 10
-```
-
-没有 API 额度、但有 Claude 订阅时，加 `--backend claude-code`：LLM 调用改走 Claude Code 的无头模式
-（`claude -p`），用的是 Claude Code 的登录，计入订阅额度而不是 API 额度。需要本机装了 Claude Code 并已登录：
-
-```bash
-uv run python eval/run_eval.py --name smoke_haiku_cc --backend claude-code --model claude-haiku-5-5 --judge-model claude-haiku-5-5 --n 10
+uv run python eval/run_eval.py --name baseline_dense_api --backend api
 ```
 
 两个后端的结果不能混在一起比，原因见下面[评测](#评测)一节。
 
-再跑 100 题（默认模型是 `claude-opus-5-5`，用 `--model` 和 `--judge-model` 换）：
-
-```bash
-uv run python eval/run_eval.py --name baseline_dense
-```
+工作区有未提交的代码改动时，`run_eval.py` 会拒绝运行（结果文件要记录确切的 commit）；调试时加 `--allow-dirty`。
 
 把所有结果打印成一张表：
 
@@ -82,9 +84,10 @@ Grader 是可选的（`--grader`），不加就是 baseline：检索完直接交
   - `dense`（默认）：向量检索。
   - `bm25`：关键词检索。每篇论文单独建一个 BM25 索引，自己实现，没有额外依赖。
   - `hybrid`：两路各取前 20 名，用 RRF 融合（分数 = Σ 1/(60 + 名次)）。
-- **Writer**：`claude-opus-5-5`，effort 设为 `medium`，用 structured outputs 返回
+- **Writer**：默认 `claude-sonnet-5-5`，effort 设为 `medium`，用 structured outputs 返回
   `{"answer": ..., "citations": [...]}`。按 QASPER 的风格要求答案尽量短；资料里找不到答案就回答
-  `Unanswerable`。开启了 server-side fallback：模型因安全策略拒答时，API 会自动换一个模型重试。
+  `Unanswerable`。`api` 后端开启了 server-side fallback（模型因安全策略拒答时，API 会自动换一个模型重试）；
+  `claude-code` 后端没有。
 - **Grader 和重查循环**（`--grader`）：Writer 之前先让 Grader 判断检索到的段落里有没有回答所需的具体信息。
   不够的话，Grader 写一个新的检索查询（用论文里可能出现的说法，而不是照抄问题），取这个查询的 top-5 里
   还没出现过的段落追加进去。最多重查 `--max-requeries` 轮（默认 1），所以 Writer 最多看到
@@ -115,10 +118,10 @@ Grader 是可选的（`--grader`），不加就是 baseline：检索完直接交
 
 | 后端 | 怎么调 | 计费 | 注意 |
 |---|---|---|---|
-| `api`（默认） | Anthropic SDK | API key | – |
-| `claude-code` | 每次调用起一个 `claude -p` 进程 | Claude Code 登录（订阅额度） | Claude Code 每次请求会自带约 1.5–2k token 的上下文；带 schema 的调用要两轮模型请求；没有 server-side fallback |
+| `api` | Anthropic SDK | API key | – |
+| `claude-code`（默认） | 每次调用起一个 `claude -p` 进程 | Claude Code 登录（订阅额度） | Claude Code 每次请求会自带约 1.5–2k token 的上下文；带 schema 的调用要两轮模型请求；没有 server-side fallback |
 
-同样的 10 题、同样的模型（Haiku 5.5）和 prompt，两个后端的结果（`smoke_haiku` 和 `smoke_haiku_cc`）：
+同样的 10 题、同样的模型（Haiku 5.5）和 prompt，两个后端的结果（`eval/results/smoke/` 下的 `smoke_haiku` 和 `smoke_haiku_cc`）：
 
 | 后端 | Answer F1 | Judge acc | 答案平均词数 | Writer token 输入 / 输出 | Writer + judge 总 token 输入 / 输出 |
 |---|---|---|---|---|---|
@@ -129,9 +132,9 @@ Grader 是可选的（`--grader`），不加就是 baseline：检索完直接交
 0.44; ...)"），judge 仍判对，但按词重合算的 Answer F1 掉了。只有 10 题，具体数字不可靠，但足以说明：
 **一张消融表里的所有行必须用同一个后端**，不同后端之间不能比 Answer F1、延迟和 token。
 
-完整跑一次 100 题是 200 次 LLM 调用（Writer 和 judge 各 100 次）。Writer 的 prompt 平均约 850 token。
-按 Opus 5.5 每百万 token 输入 $4、输出 $20 估算，一次大约 1–2 美元；thinking 用多少 token 不固定，
-所以实际花费会有浮动。
+完整跑一次 100 题是 200 次 LLM 调用（Writer 和 judge 各 100 次），加 Grader 再多 100 次。实测 baseline 一次
+合计约 52 万输入 / 2.8 万输出 token（Sonnet 5.5，`claude-code` 后端），按 Sonnet 5.5 的 API 标价（每百万 token
+输入 $2、输出 $10）折算约 1.3 美元，实际记在订阅额度上；Grader 版约 88 万 / 6 万 token。
 
 ### 评测本身的检查
 
@@ -190,7 +193,7 @@ Grader 每题的平均值，不含 judge。
 这张表统一用 Sonnet 5.5 做 Writer 和 judge，走 `claude-code` 后端（订阅额度）：
 
 ```bash
-uv run python eval/run_eval.py --name <配置名> --backend claude-code --model claude-sonnet-5-5 --judge-model claude-sonnet-5-5
+uv run python eval/run_eval.py --name <配置名>
 ```
 
 `baseline_dense_cc_sonnet` 是正式 baseline，0 报错，Writer 和 judge 合计 524,107 输入 / 27,783 输出 token。

@@ -3,8 +3,12 @@
     uv run python eval/run_eval.py --name baseline_dense                    # retrieval + Writer + judge
     uv run python eval/run_eval.py --name baseline_dense --no-judge         # official F1 only, no judge calls
     uv run python eval/run_eval.py --name dense_retrieval --retrieval-only  # Recall@k only, no LLM, free
-    uv run python eval/run_eval.py --name baseline_cc --backend claude-code # LLM calls via `claude -p` (subscription)
     uv run python eval/run_eval.py --name grader --grader                   # Grader + re-query loop before the Writer
+    uv run python eval/run_eval.py --name baseline_api --backend api        # LLM calls billed to the API key
+
+LLM calls go through `claude -p` (Claude subscription) unless --backend api is given.
+The run refuses to start with uncommitted code changes, so every result records the
+exact commit it came from; --allow-dirty skips that check for debugging.
 
 The question sample depends only on --split/--n/--seed, so runs with the same values
 are evaluated on exactly the same questions and can be compared row by row.
@@ -28,7 +32,7 @@ import anthropic
 from tqdm import tqdm
 
 from paperqa.agents import Grader, Writer, gather_passages
-from paperqa.config import CHUNKING_VERSION, JUDGE_MODEL, LLM_MODEL, RESULTS_DIR
+from paperqa.config import CHUNKING_VERSION, JUDGE_MODEL, LLM_BACKEND, LLM_MODEL, RESULTS_DIR
 from paperqa.llm import BACKENDS, ClaudeCodeError, make_llm
 from paperqa.metrics import (
     LLMJudge,
@@ -240,13 +244,16 @@ def summarize(records: list[dict], retrieval_only: bool, judged: bool) -> dict:
     return summary
 
 
-def git_commit() -> str | None:
+def git_state() -> tuple[str | None, list[str]]:
+    """(short commit, changed files). Result files do not count as changes: runs create them."""
     try:
-        sha = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True).strip()
-        dirty = subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()
-        return sha + ("-dirty" if dirty else "")
-    except Exception:
-        return None
+        sha = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True, stderr=subprocess.DEVNULL)
+        status = subprocess.check_output(
+            ["git", "status", "--porcelain", "--", ".", ":(exclude,top)eval/results"], text=True
+        )
+        return sha.strip(), [line[3:] for line in status.splitlines()]
+    except Exception:  # not a git checkout, or git is not installed
+        return None, []
 
 
 def fmt(x: float | None, digits: int = 3) -> str:
@@ -294,7 +301,7 @@ def main() -> None:
     ap.add_argument("--retriever", default="dense", choices=sorted(RETRIEVERS))
     ap.add_argument(
         "--backend",
-        default="api",
+        default=LLM_BACKEND,
         choices=sorted(BACKENDS),
         help="api = Anthropic API key; claude-code = `claude -p`, billed to the Claude Code login",
     )
@@ -310,7 +317,17 @@ def main() -> None:
     ap.add_argument("--retrieval-only", action="store_true", help="only compute Recall@k; no LLM calls")
     ap.add_argument("--workers", type=int, default=4, help="parallel LLM requests")
     ap.add_argument("--out-dir", type=Path, default=RESULTS_DIR)
+    ap.add_argument("--allow-dirty", action="store_true", help="run even with uncommitted code changes")
     args = ap.parse_args()
+
+    # Read the commit before the run: files edited while it runs must not change what is recorded.
+    sha, changed = git_state()
+    if changed and not args.allow_dirty:
+        sys.exit(
+            "Uncommitted changes in: " + ", ".join(changed[:5]) + (" ..." if len(changed) > 5 else "") + "\n"
+            "Commit them first so the result records the code it was produced with, or pass --allow-dirty."
+        )
+    commit = sha + "-dirty" if sha and changed else sha
     effort = None if args.effort == "none" else args.effort
     judge_effort = None if args.judge_effort == "none" else args.judge_effort
     judged = not (args.no_judge or args.retrieval_only)
@@ -370,7 +387,7 @@ def main() -> None:
     result = {
         "name": args.name,
         "created_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "git_commit": git_commit(),
+        "git_commit": commit,
         "config": {
             "split": args.split,
             "n": args.n,

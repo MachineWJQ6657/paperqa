@@ -20,8 +20,12 @@ QUERY_PREFIXES = {
     "BAAI/bge-large-en-v1.5": "Represent this sentence for searching relevant passages: ",
 }
 
+# How LLM calls are made: "claude-code" runs `claude -p` and counts against the Claude
+# subscription; "api" uses an Anthropic API key and is billed to that key.
+LLM_BACKEND = os.getenv("PAPERQA_LLM_BACKEND", "claude-code")
+
 # LLM used by the Writer, and by the LLM-as-judge during evaluation.
-LLM_MODEL = os.getenv("PAPERQA_LLM_MODEL", "claude-opus-5-5")
+LLM_MODEL = os.getenv("PAPERQA_LLM_MODEL", "claude-sonnet-5-5")
 JUDGE_MODEL = os.getenv("PAPERQA_JUDGE_MODEL", LLM_MODEL)
 
 # Bump this when the chunking logic changes, so stale indexes are rebuilt.

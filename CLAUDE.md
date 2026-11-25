@@ -21,7 +21,7 @@ eval/
   run_eval.py    一条命令跑评测，结果存到 eval/results/<配置名>.json
   compare.py     把所有结果打印成消融表
   paired_diff.py 两个结果文件的配对 bootstrap，判断差距是否显著
-  results/       每次评测的结果（要提交到 git）
+  results/       每次评测的结果（要提交到 git）；results/smoke/ 放小样本试跑，不进消融表
 tests/           单元测试（不联网、不调 LLM）
 data/            QASPER 原始数据和 Chroma 索引（不提交）
 ```
@@ -32,8 +32,8 @@ data/            QASPER 原始数据和 Chroma 索引（不提交）
 uv sync                                                      # 安装依赖
 uv run python -m paperqa.ingest                              # 下载 QASPER dev 并建索引
 uv run python eval/run_eval.py --name <配置名> --retriever hybrid --retrieval-only --n 0  # 只评检索，全量，免费
-uv run python eval/run_eval.py --name <配置名>                  # 完整评测（调用 LLM，花钱）
-uv run python eval/run_eval.py --name <配置名> --backend claude-code  # 同上，但走 `claude -p`，用订阅额度
+uv run python eval/run_eval.py --name <配置名>                  # 完整评测（Sonnet 5.5，走 `claude -p`，用订阅额度）
+uv run python eval/run_eval.py --name <配置名> --backend api    # 同上，但用 API key，花 API 额度
 uv run python eval/compare.py                                # 打印消融表
 uv run pytest                                                # 单元测试
 ```
@@ -45,9 +45,9 @@ uv run pytest                                                # 单元测试
    - 检索指标不花钱，一律用全量 dev（`--retrieval-only --n 0`）比较。100 题样本噪声太大：hybrid 在
      seed=42 的 100 题上比 dense 高 11 个点，全量上只高 1.6 个点而且不显著。
    - 要调 LLM 的指标用 `--split dev --n 100 --seed 42`。
-   - **现阶段端到端评测一律走订阅额度**，命令里固定加
-     `--backend claude-code --model claude-sonnet-5-5 --judge-model claude-sonnet-5-5`。
-     正式 baseline 是 `baseline_dense_cc_sonnet`。不加这些参数会用 API key 调 Opus 5.5，花 API 额度。
+   - **现阶段端到端评测一律走订阅额度**：默认值就是 `--backend claude-code`，Writer 和 judge 都是
+     `claude-sonnet-5-5`（`config.py`）。正式 baseline 是 `baseline_dense_cc_sonnet`。只有显式加
+     `--backend api` 才会花 API 额度，加之前先跟用户确认。
    - 说"B 比 A 好"之前，先跑 `eval/paired_diff.py A.json B.json`，置信区间不含 0 才算数。
    - 互相比较的结果必须用同一个 `--backend` 和同一个模型。`claude-code` 后端的答案更啰嗦，Answer F1、
      延迟、token 都和 `api` 后端不可比。
@@ -59,6 +59,10 @@ uv run pytest                                                # 单元测试
 5. 改了切块逻辑，要更新 `config.CHUNKING_VERSION`，然后用 `--rebuild` 重建索引。
 6. 带 LLM 的评测会花钱。调试时先用 `--retrieval-only` 或小的 `--n`，跑完整评测前先跟用户确认。
 7. 改完代码跑 `uv run pytest`。
+8. **先提交，再跑评测。** 工作区有未提交的代码改动时 `run_eval.py` 会拒绝运行，这样每个结果文件里的
+   `git_commit` 都对应确切的代码。调试时可以加 `--allow-dirty`，这样的结果不要写进消融表。
+9. 10 题左右的试跑结果存到 `eval/results/smoke/`（`--out-dir eval/results/smoke`），不要放进
+   `eval/results/`，否则会混进 `compare.py` 的消融表。
 
 ## 评测约定
 
