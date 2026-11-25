@@ -81,7 +81,23 @@ uv run python eval/compare.py
 常用参数：`--n 20`（先拿少量题试跑）、`--no-judge`（只算官方 F1，省掉 judge 的调用）、`--effort low`、
 `--model`、`--judge-model`、`--workers`（并发请求数，默认 4）。
 
-完整跑一次 100 题大约是 200 次 LLM 调用（Writer 和 judge 各 100 次）。
+完整跑一次 100 题是 200 次 LLM 调用（Writer 和 judge 各 100 次）。Writer 的 prompt 平均约 850 token。
+按 Opus 5.5 每百万 token 输入 $4、输出 $20 估算，一次大约 1–2 美元；thinking 用多少 token 不固定，
+所以实际花费会有浮动。
+
+### 评测本身的检查
+
+指标算错了，后面的数字就都没有意义，所以下面几项都核对过：
+
+- dev 集里所有文本证据都能和某个 chunk 精确匹配，只有 129 条只写了章节标题（如 "Datasets"）的证据
+  匹配不到；253 条表格/图片证据全部能匹配到图表标题。
+- 用另一份独立代码，直接从原始 JSON 重算 Recall@5，100 题逐题结果完全一致。
+- Chroma 按 `paper_id` 过滤后的 top-10 和暴力精确搜索的结果一致（抽查 200 题，只有分数完全相同的
+  chunk 互换了位置）。
+- 官方 F1、Recall@k、证据匹配都有单元测试（`tests/`）。
+
+**样本噪声**：同样是 dense 检索，100 题样本的 Recall@5 是 0.521，dev 全部 945 道可回答题是 0.553。
+所以用 100 题对比配置时，差距在 5 个点以内很可能只是噪声。方法稳定后用 `--n 0` 跑全量。
 
 ## 消融表
 
@@ -89,7 +105,10 @@ uv run python eval/compare.py
 
 | 配置 | Recall@5 | Hit@5 | Answer F1 | Evidence F1 | Judge acc | 延迟 (s) | Writer token 输入 / 输出 |
 |---|---|---|---|---|---|---|---|
-| baseline_dense | 待跑 | | | | | | |
+| dense_retrieval（只评检索） | 0.521 | 0.592 | – | – | – | 0.025 | – |
+| baseline_dense（dense top-5 + Writer） | 待跑 | | | | | | |
+
+同一次检索的 Recall@k 曲线：R@1 = 0.209，R@3 = 0.407，R@5 = 0.521，R@10 = 0.780。
 
 ## 目录结构
 
