@@ -1,0 +1,13 @@
+# QASPER data and the Chroma index (rebuilt with `uv run python -m paperqa.ingest`)
+data/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets
+.env
