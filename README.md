@@ -186,6 +186,7 @@ uv run python eval/paired_diff.py eval/results/A.json eval/results/B.json
 |---|---|---|---|---|---|---|---|
 | baseline_dense_cc_sonnet（dense top-5 + Writer） | 0.521 | 0.521 | 0.387 | 0.418 | 0.610 | 1.71 | 3048 / 143 |
 | grader_dense_cc_sonnet（+ Grader，最多重查 1 轮） | 0.521 | 0.712 | 0.416 | 0.523 | 0.690 | 3.25 | 6590 / 468 |
+| baseline_dense_k10_cc_sonnet（dense top-10 + Writer，对照） | 0.521 | 0.780 | 0.404 | 0.570 | 0.690 | 1.61 | 3980 / 153 |
 
 Recall@5 是第一次检索的值，两行相同；Context recall 是实际送进 Writer 的段落的证据召回。LLM token 是 Writer 加
 Grader 每题的平均值，不含 judge。
@@ -218,11 +219,23 @@ claude-haiku-5-5`），0 报错。Writer、Grader、judge 合计 879,295 输入 
   证据其实已经在 top-5 的有 16/43。
 - **代价**：每题多一次 Grader 调用，LLM token 约为 baseline 的 2.2 倍，延迟从 1.71s 升到 3.25s。
 
-**还没回答的问题：重查是不是比"直接多给 Writer 几段"更好。** 在检索层面可以免费比：Grader 版平均给 Writer
-7.2 段，证据召回 0.712；而原查询直接取 top-10 的召回是 0.780，反而高 6.7 个点（区间 −13.9 到 +0.2，
-不显著）。也就是说，这次的提升很可能主要来自"段落变多了"，而不是 Grader 改写的查询更准。要下结论，
-还需要跑一个对照：不带 Grader、`--k 10` 的 baseline。另外 Judge acc 的区间下界只有 +0.010，而且是 100 题
-样本；检索对比那次，100 题上"显著"的差距在全量上就消失了，所以这个结论也要留有余地。
+**对照：不带 Grader，直接把 top-10 交给 Writer（`baseline_dense_k10_cc_sonnet`，`--k 10`）。** Grader 版的提升
+到底来自"改写的查询更准"还是"段落变多了"，要和它比才知道：
+
+| 比较（同样的 100 题） | Judge acc 差值 | 95% 置信区间 | Context recall |
+|---|---|---|---|
+| top-10 − baseline（top-5） | +0.080 | +0.000 到 +0.160 | 0.780 对 0.521 |
+| Grader − baseline（top-5） | +0.080 | +0.010 到 +0.160 | 0.712 对 0.521 |
+| Grader − top-10 | +0.000 | −0.060 到 +0.060 | 0.712 对 0.780 |
+
+- **Grader 没有比"直接取 top-10"更好。** 两者 Judge acc 都是 0.690；按 Grader 是否重查分组看也一样
+  （重查的 44 题都是 0.568，没重查的 56 题都是 0.786）。Answer F1、Evidence F1 的差距也都不显著。
+- **top-10 更便宜也更快**：每题 3980 / 153 token、1.61s，Grader 版是 6590 / 468 token、3.25s，而且 top-10
+  给 Writer 的证据更全（Context hit 0.878 对 0.776，这个差距是显著的）。
+- **结论：Grader 重查循环保留为可选项（`--grader`），不进默认流程。** 它的收益来自给了 Writer 更多段落，
+  这件事把 `--k` 调大就能做到。瓶颈在排序（Recall@10 0.78，Recall@5 0.52），下一步更值得试的是重排序。
+- 留有余地的地方：100 题样本下，"top-10 比 top-5 好"的区间下界正好是 0，严格按规则还不算显著；
+  要确认需要更大的样本。
 
 这张表里的 Recall@5 只是这 100 题上的值，比较检索方法请看上面的全量表。
 
@@ -241,7 +254,8 @@ data/          QASPER 原始数据和 Chroma 索引（不提交到 git）
 
 1. [x] Baseline：向量检索 + Writer
 2. [x] 混合检索（BM25 + 向量，RRF 融合）：已实现，全量 dev 上相比 dense 没有显著提升
-3. [x] Grader 和重查循环：Judge acc 0.610 → 0.690，但还没和"直接取 top-10"的对照比过
+3. [x] Grader 和重查循环：已实现并评测。Judge acc 0.610 → 0.690，但直接取 top-10 同样是 0.690 且更便宜，
+   所以 Grader 只作为可选项，不进默认流程
 4. [ ] Router 和子问题拆解（加上自己造的跨论文问题）
 5. [ ] FastAPI + SSE 和 Streamlit 界面
 6. [ ] PDF 上传解析（PyMuPDF），Docker 打包

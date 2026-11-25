@@ -83,8 +83,8 @@ uv run pytest                                                # 单元测试
 
 1. [x] Baseline：向量检索 top-5，Writer 回答并标注引用
 2. [x] 混合检索（BM25 + 向量，RRF 融合）：全量 dev 上相比 dense 没有显著提升，默认检索器仍是 dense
-3. [x] Grader 和重查循环（`--grader`）：100 题上 Judge acc 0.610 → 0.690（区间 +0.010 到 +0.160），
-   但证据召回不如原查询直接取 top-10，还缺一个 `--k 10` 不带 Grader 的对照
+3. [x] Grader 和重查循环（`--grader`）：100 题上 Judge acc 0.610 → 0.690，但不带 Grader 的 `--k 10` 对照
+   （`baseline_dense_k10_cc_sonnet`）同样是 0.690，而且 token 和延迟都更低。Grader 保留为可选项，不进默认流程
 4. [ ] Router 和子问题拆解（加上自己造的跨论文问题）
 5. [ ] FastAPI + SSE 和 Streamlit 界面
 6. [ ] PDF 上传解析（PyMuPDF），Docker 打包
