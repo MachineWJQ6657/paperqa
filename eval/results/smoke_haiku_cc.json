@@ -1,0 +1,1057 @@
+{
+  "name": "smoke_haiku_cc",
+  "created_at": "2026-11-25T03:12:59+00:00",
+  "git_commit": "cea8390-dirty",
+  "config": {
+    "split": "dev",
+    "n": 10,
+    "seed": 42,
+    "k": 5,
+    "retriever": "dense",
+    "embed_model": "BAAI/bge-small-en-v1.5",
+    "chunking": "v1-paragraph+caption+abstract",
+    "retrieval_only": false,
+    "backend": "claude-code",
+    "writer_model": "claude-haiku-5-5",
+    "writer_effort": "medium",
+    "judge_model": "claude-haiku-5-5",
+    "judge_effort": "low",
+    "workers": 4,
+    "split_questions": 1005,
+    "split_unanswerable_skipped": 60,
+    "split_answerable": 945
+  },
+  "summary": {
+    "n_questions": 10,
+    "retrieval": {
+      "n_with_gold_evidence": 10,
+      "recall@1": 0.35,
+      "recall@3": 0.55,
+      "recall@5": 0.6,
+      "recall@10": 0.85,
+      "hit@1": 0.4,
+      "hit@3": 0.6,
+      "hit@5": 0.7,
+      "hit@10": 0.9
+    },
+    "answer": {
+      "answer_f1": 0.3182289432690191,
+      "answer_f1_by_type": {
+        "abstractive": {
+          "f1": 0.23038157211503188,
+          "n": 6
+        },
+        "boolean": {
+          "f1": 0.0,
+          "n": 1
+        },
+        "extractive": {
+          "f1": 0.6,
+          "n": 3
+        }
+      },
+      "evidence_f1": 0.3,
+      "judge_accuracy": 0.6,
+      "n_judged": 10,
+      "n_unanswerable_predictions": 1,
+      "n_errors": 0
+    },
+    "efficiency": {
+      "retrieval_latency_s_mean": 0.032108560899973784,
+      "latency_s_mean": 1.5263085608999738,
+      "latency_s_p50": 1.374243353999983,
+      "latency_s_p95": 2.5660035589999377,
+      "writer_input_tokens_mean": 2905.7,
+      "writer_output_tokens_mean": 266.4,
+      "judge_input_tokens_mean": 2216.9,
+      "judge_output_tokens_mean": 289.7
+    }
+  },
+  "per_question": [
+    {
+      "question_id": "b634ff1607ce5756655e61b9a6f18bc736f84c83",
+      "paper_id": "1812.10479",
+      "question": "Which stock market sector achieved the best performance?",
+      "references": [
+        {
+          "answer": "Energy with accuracy of 0.538",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Energy",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1812.10479#s3p0",
+          "score": 0.701,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#cap14",
+          "score": 0.6899,
+          "gold": true
+        },
+        {
+          "chunk_id": "1812.10479#s18p9",
+          "score": 0.68,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#s19p0",
+          "score": 0.6664,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#s19p2",
+          "score": 0.663,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#cap7",
+          "score": 0.6623,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#s19p3",
+          "score": 0.6602,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#s18p11",
+          "score": 0.6535,
+          "gold": false
+        },
+        {
+          "chunk_id": "1812.10479#cap13",
+          "score": 0.6438,
+          "gold": true
+        },
+        {
+          "chunk_id": "1812.10479#s5p1",
+          "score": 0.643,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.06000355899993792,
+        "writer": 2.506
+      },
+      "tokens": {
+        "writer_in": 3006,
+        "writer_out": 468,
+        "judge_in": 2192,
+        "judge_out": 441
+      },
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "Energy (highest GARCH(1,1) R² of 0.44; the passages don't give the best sector for the proposed model)",
+      "cited": [
+        "1812.10479#s19p2"
+      ],
+      "answer_f1": 0.21052631578947364,
+      "answer_type": "abstractive",
+      "evidence_f1": 0.0,
+      "judge_correct": true,
+      "judge_reason": "The prediction names Energy as the best-performing sector, which matches the reference answers. The reference adds an accuracy of 0.538, which the prediction does not give, but that omission is not a contradiction. The prediction's extra GARCH(1,1) R² detail and its note that the passages don't give the best sector for the proposed model are hedges that don't contradict the core answer."
+    },
+    {
+      "question_id": "1ed49a8c07ef0ac15cfa6b7decbde6604decbd5b",
+      "paper_id": "1906.07701",
+      "question": "What dataset does this approach achieve state of the art results on?",
+      "references": [
+        {
+          "answer": "the English-German dataset",
+          "type": "extractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1906.07701#s5p1",
+          "score": 0.735,
+          "gold": true
+        },
+        {
+          "chunk_id": "1906.07701#cap2",
+          "score": 0.7341,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s5p2",
+          "score": 0.7001,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s4p0",
+          "score": 0.6984,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s0p0",
+          "score": 0.6941,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s2p0",
+          "score": 0.6895,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s6p0",
+          "score": 0.6841,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s6p4",
+          "score": 0.6776,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s1p0",
+          "score": 0.6754,
+          "gold": false
+        },
+        {
+          "chunk_id": "1906.07701#s1p2",
+          "score": 0.6694,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.03243628000006993,
+        "writer": 1.864
+      },
+      "tokens": {
+        "writer_in": 2699,
+        "writer_out": 354,
+        "judge_in": 2153,
+        "judge_out": 136
+      },
+      "error": null,
+      "recall@1": 0.5,
+      "hit@1": 1.0,
+      "recall@3": 0.5,
+      "hit@3": 1.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 0.5,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "English-German (Multi30K)",
+      "cited": [
+        "1906.07701#s5p1",
+        "1906.07701#s0p0"
+      ],
+      "answer_f1": 0.5,
+      "answer_type": "extractive",
+      "evidence_f1": 0.5,
+      "judge_correct": true,
+      "judge_reason": "The reference answer is the English-German dataset. The prediction names English-German (Multi30K), which identifies the same dataset, with the added Multi30K name as extra detail that does not contradict the reference."
+    },
+    {
+      "question_id": "06cc8fcafc0880cf69a2514bb7341642b9833041",
+      "paper_id": "1809.06537",
+      "question": "what is the size of the real-world civil case dataset?",
+      "references": [
+        {
+          "answer": "100 000 documents",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": " INLINEFORM1 cases",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1809.06537#s0p6",
+          "score": 0.719,
+          "gold": true
+        },
+        {
+          "chunk_id": "1809.06537#s11p0",
+          "score": 0.7072,
+          "gold": true
+        },
+        {
+          "chunk_id": "1809.06537#s17p1",
+          "score": 0.6763,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#abs",
+          "score": 0.6393,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s15p5",
+          "score": 0.6367,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s11p3",
+          "score": 0.636,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s11p1",
+          "score": 0.6315,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s0p10",
+          "score": 0.6286,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s10p0",
+          "score": 0.6266,
+          "gold": false
+        },
+        {
+          "chunk_id": "1809.06537#s11p4",
+          "score": 0.6266,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.027054206999991948,
+        "writer": 2.061
+      },
+      "tokens": {
+        "writer_in": 3520,
+        "writer_out": 375,
+        "judge_in": 2158,
+        "judge_out": 244
+      },
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "Unanswerable",
+      "cited": [],
+      "answer_f1": 0.0,
+      "answer_type": "abstractive",
+      "evidence_f1": 0.0,
+      "judge_correct": false,
+      "judge_reason": "The prediction says \"Unanswerable,\" but the reference answers give a concrete size: 100,000 documents (the second reference, \"INLINEFORM1 cases,\" is a placeholder for a number of cases). Since the question is answerable and the prediction gives no size, it does not match either reference."
+    },
+    {
+      "question_id": "d004ca2e999940ac5c1576046e30efa3059832fa",
+      "paper_id": "1909.13104",
+      "question": "What are the different variations of the attention-based approach which are examined?",
+      "references": [
+        {
+          "answer": "classic RNN model, avgRNN model, attentionRNN model and multiattention RNN model with and without a projected layer",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": " four attention mechanisms instead of one, a projection layer for the word embeddings",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1909.13104#cap2",
+          "score": 0.6724,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s9p0",
+          "score": 0.6534,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s8p2",
+          "score": 0.6435,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s5p6",
+          "score": 0.6299,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s5p4",
+          "score": 0.6194,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s8p1",
+          "score": 0.6131,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.13104#s5p2",
+          "score": 0.6116,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s5p3",
+          "score": 0.6101,
+          "gold": false
+        },
+        {
+          "chunk_id": "1909.13104#s5p7",
+          "score": 0.6034,
+          "gold": true
+        },
+        {
+          "chunk_id": "1909.13104#abs",
+          "score": 0.6005,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.03076920900002733,
+        "writer": 0.872
+      },
+      "tokens": {
+        "writer_in": 2699,
+        "writer_out": 116,
+        "judge_in": 2236,
+        "judge_out": 546
+      },
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "Attention over the MLP (multi-attention), and multi-attention with a Projected Layer; compared against baseline methods",
+      "cited": [
+        "1909.13104#s9p0",
+        "1909.13104#s8p2"
+      ],
+      "answer_f1": 0.3448275862068966,
+      "answer_type": "abstractive",
+      "evidence_f1": 0.0,
+      "judge_correct": true,
+      "judge_reason": "The second reference answer says the attention variations are four attention mechanisms instead of one, plus a projection layer for the word embeddings. The prediction captures this: a multi-attention variant and a multi-attention variant with a projected layer. It omits the single-attention and average-pooling variants named in the first reference, and \"attention over the MLP\" is vague. Still, its core content matches the second reference, so it is counted as correct."
+    },
+    {
+      "question_id": "4e1a67f8dc68b55a5ce18e6cd385ae9ab90d891f",
+      "paper_id": "1703.04001",
+      "question": "Does the experiments focus on a specific domain?",
+      "references": [
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        },
+        {
+          "answer": "No",
+          "type": "boolean",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1703.04001#s3p2",
+          "score": 0.6413,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s2p4",
+          "score": 0.618,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s0p1",
+          "score": 0.6072,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s0p2",
+          "score": 0.5997,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s2p1",
+          "score": 0.5925,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s2p3",
+          "score": 0.5905,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s2p2",
+          "score": 0.5844,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s2p6",
+          "score": 0.5843,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#abs",
+          "score": 0.5775,
+          "gold": false
+        },
+        {
+          "chunk_id": "1703.04001#s2p0",
+          "score": 0.5752,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.028829894999944372,
+        "writer": 1.656
+      },
+      "tokens": {
+        "writer_in": 3165,
+        "writer_out": 292,
+        "judge_in": 2161,
+        "judge_out": 131
+      },
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 0.0,
+      "hit@10": 0.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "Yes, the experiments focus on Q&A sites, specifically Quora.",
+      "cited": [
+        "1703.04001#s2p4",
+        "1703.04001#s0p2",
+        "1703.04001#s2p1"
+      ],
+      "answer_f1": 0.0,
+      "answer_type": "boolean",
+      "evidence_f1": 0.0,
+      "judge_correct": false,
+      "judge_reason": "The reference answers both say \"No\" (the experiments do not focus on a specific domain). The prediction says \"Yes, ... Quora,\" which contradicts the references, so it is incorrect."
+    },
+    {
+      "question_id": "455d4ef8611f62b1361be4f6387b222858bb5e56",
+      "paper_id": "1603.09631",
+      "question": "How was this data collected?",
+      "references": [
+        {
+          "answer": "CrowdFlower",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "The crowdsourcing platform CrowdFlower was used to obtain natural dialog data that prompted the user to paraphrase, explain, and/or answer a question from a Simple questions BIBREF7 dataset. The CrowdFlower users were restricted to English-speaking countries to avoid dialogs  with poor English.",
+          "type": "abstractive",
+          "n_evidence": 2
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1603.09631#s1p3",
+          "score": 0.6887,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s4p3",
+          "score": 0.687,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s4p0",
+          "score": 0.6807,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s3p2",
+          "score": 0.6657,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s10p0",
+          "score": 0.6655,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s4p1",
+          "score": 0.656,
+          "gold": true
+        },
+        {
+          "chunk_id": "1603.09631#s10p3",
+          "score": 0.6523,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s4p2",
+          "score": 0.6489,
+          "gold": true
+        },
+        {
+          "chunk_id": "1603.09631#s9p6",
+          "score": 0.6436,
+          "gold": false
+        },
+        {
+          "chunk_id": "1603.09631#s14p0",
+          "score": 0.6257,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.02786688799994863,
+        "writer": 1.055
+      },
+      "tokens": {
+        "writer_in": 2585,
+        "writer_out": 156,
+        "judge_in": 2318,
+        "judge_out": 427
+      },
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.0,
+      "hit@5": 0.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "Dialogs were collected via a procedure in which questions were randomly chosen from the training examples of the Simple Questions dataset, with correct answers taken as Freebase entities; the collection yielded 1900 dialogs and 8533 turns.",
+      "cited": [
+        "1603.09631#s4p3",
+        "1603.09631#s10p0"
+      ],
+      "answer_f1": 0.20289855072463767,
+      "answer_type": "abstractive",
+      "evidence_f1": 0.0,
+      "judge_correct": false,
+      "judge_reason": "The reference answer says the data was collected via the CrowdFlower crowdsourcing platform, with users prompted to paraphrase, explain, and/or answer a Simple Questions question, and users restricted to English-speaking countries. The prediction only says questions were randomly chosen from Simple Questions training examples with Freebase answers, and gives dialog/turn counts. It never mentions crowdsourcing or CrowdFlower, which is the main point of the reference, so it does not match."
+    },
+    {
+      "question_id": "3d7d865e905295d11f1e85af5fa89b210e3e9fdf",
+      "paper_id": "1911.06964",
+      "question": "How many participants were trying this communication game?",
+      "references": [
+        {
+          "answer": "100 ",
+          "type": "extractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "100 crowdworkers ",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1911.06964#cap0",
+          "score": 0.6891,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s1p0",
+          "score": 0.6447,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s9p0",
+          "score": 0.6213,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.06964#abs",
+          "score": 0.6026,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s2p0",
+          "score": 0.6014,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s5p0",
+          "score": 0.5971,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s1p1",
+          "score": 0.5883,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s8p0",
+          "score": 0.5791,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#cap5",
+          "score": 0.5774,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06964#s9p2",
+          "score": 0.5737,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.027416429999902903,
+        "writer": 0.928
+      },
+      "tokens": {
+        "writer_in": 3101,
+        "writer_out": 133,
+        "judge_in": 2148,
+        "judge_out": 110
+      },
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "100",
+      "cited": [
+        "1911.06964#s9p0"
+      ],
+      "answer_f1": 1.0,
+      "answer_type": "extractive",
+      "evidence_f1": 1.0,
+      "judge_correct": true,
+      "judge_reason": "The predicted answer \"100\" matches the reference answers \"100\" and \"100 crowdworkers\" exactly in substance."
+    },
+    {
+      "question_id": "26126068d72408555bcb52977cd669faf660bdf7",
+      "paper_id": "1911.06118",
+      "question": "What are the qualitative experiments performed on benchmark datasets?",
+      "references": [
+        {
+          "answer": "Spearman correlation values of GM_KL model evaluated on the benchmark word similarity datasets.\nEvaluation results of GM_KL model on the entailment datasets such as entailment pairs dataset created from WordNet, crowdsourced dataset of 79 semantic relations labelled as entailed or not and annotated distributionally similar nouns dataset.",
+          "type": "abstractive",
+          "n_evidence": 2
+        },
+        {
+          "answer": "Given a query word and component id, the set of nearest neighbours along with their respective component ids are listed",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1911.06118#s4p2",
+          "score": 0.6658,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#cap1",
+          "score": 0.6624,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#s4p7",
+          "score": 0.658,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#cap3",
+          "score": 0.6558,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#s4p9",
+          "score": 0.6422,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.06118#s4p8",
+          "score": 0.6272,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.06118#s2p0",
+          "score": 0.6203,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#s4p1",
+          "score": 0.6096,
+          "gold": true
+        },
+        {
+          "chunk_id": "1911.06118#s0p4",
+          "score": 0.6087,
+          "gold": false
+        },
+        {
+          "chunk_id": "1911.06118#s0p3",
+          "score": 0.6063,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.02963197899998704,
+        "writer": 1.786
+      },
+      "tokens": {
+        "writer_in": 2644,
+        "writer_out": 373,
+        "judge_in": 2324,
+        "judge_out": 240
+      },
+      "error": null,
+      "recall@1": 0.0,
+      "hit@1": 0.0,
+      "recall@3": 0.0,
+      "hit@3": 0.0,
+      "recall@5": 0.5,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "Qualitative results of GM_KL (Table 1); the passages don't specify which benchmark datasets they used.",
+      "cited": [
+        "1911.06118#cap1"
+      ],
+      "answer_f1": 0.1694915254237288,
+      "answer_type": "abstractive",
+      "evidence_f1": 0.0,
+      "judge_correct": false,
+      "judge_reason": "The prediction only points to \"Table 1\" of qualitative GM_KL results and says the benchmark datasets are unspecified. The references identify the actual qualitative experiments: Spearman correlation of GM_KL on benchmark word similarity datasets, evaluation on entailment datasets (WordNet entailment pairs, a crowdsourced 79-relation dataset, and distributionally similar nouns), and listing nearest neighbours with component ids for a query word. The prediction names none of these, so it misses the main point."
+    },
+    {
+      "question_id": "cee8cfaf26e49d98e7d34fa1b414f8f31d6502ad",
+      "paper_id": "2002.01320",
+      "question": "What is the architecture of their model?",
+      "references": [
+        {
+          "answer": "follow the architecture in berard2018end, but have 3 decoder layers like that in pino2019harnessing",
+          "type": "extractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "2002.01320#s7p0",
+          "score": 0.6232,
+          "gold": true
+        },
+        {
+          "chunk_id": "2002.01320#cap7",
+          "score": 0.5934,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#cap6",
+          "score": 0.5927,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#cap5",
+          "score": 0.5577,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s10p0",
+          "score": 0.5551,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s1p3",
+          "score": 0.548,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s12p3",
+          "score": 0.5433,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s0p1",
+          "score": 0.5259,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s9p0",
+          "score": 0.5239,
+          "gold": false
+        },
+        {
+          "chunk_id": "2002.01320#s8p0",
+          "score": 0.523,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.0282433539999829,
+        "writer": 1.346
+      },
+      "tokens": {
+        "writer_in": 2713,
+        "writer_out": 254,
+        "judge_in": 2230,
+        "judge_out": 412
+      },
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "ASR and ST models follow the berard2018end architecture with 3 decoder layers; MT models use a Transformer base architecture with 3 encoder layers, 3 decoder layers, and 0.3 dropout.",
+      "cited": [
+        "2002.01320#s7p0"
+      ],
+      "answer_f1": 0.3,
+      "answer_type": "extractive",
+      "evidence_f1": 1.0,
+      "judge_correct": true,
+      "judge_reason": "The reference says the model follows the berard2018end architecture with 3 decoder layers (as in pino2019harnessing). The prediction gives the same core answer for the ASR and ST models: berard2018end architecture with 3 decoder layers. Its extra detail about MT models (Transformer base with 3 encoder and 3 decoder layers, 0.3 dropout) is not addressed by the reference and does not contradict it, so it does not make the answer wrong."
+    },
+    {
+      "question_id": "1cfed6b0c9b5a079a51166209649a987e7553e4e",
+      "paper_id": "1801.07887",
+      "question": "What is active learning?",
+      "references": [
+        {
+          "answer": "A process of training a model when selected unlabeled samples are annotated on each iteration.",
+          "type": "abstractive",
+          "n_evidence": 1
+        },
+        {
+          "answer": "Active learning is a process that selectively determines which unlabeled samples for a machine learning model should be annotated.",
+          "type": "abstractive",
+          "n_evidence": 1
+        }
+      ],
+      "has_gold_evidence": true,
+      "retrieved": [
+        {
+          "chunk_id": "1801.07887#s0p1",
+          "score": 0.7676,
+          "gold": true
+        },
+        {
+          "chunk_id": "1801.07887#s0p2",
+          "score": 0.7306,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s0p0",
+          "score": 0.7288,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s5p0",
+          "score": 0.7161,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#abs",
+          "score": 0.6975,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s0p3",
+          "score": 0.6701,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s0p4",
+          "score": 0.6647,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s3p0",
+          "score": 0.6085,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s6p0",
+          "score": 0.588,
+          "gold": false
+        },
+        {
+          "chunk_id": "1801.07887#s0p5",
+          "score": 0.5548,
+          "gold": false
+        }
+      ],
+      "latency_s": {
+        "retrieval": 0.028833807999944838,
+        "writer": 0.868
+      },
+      "tokens": {
+        "writer_in": 2925,
+        "writer_out": 143,
+        "judge_in": 2249,
+        "judge_out": 210
+      },
+      "error": null,
+      "recall@1": 1.0,
+      "hit@1": 1.0,
+      "recall@3": 1.0,
+      "hit@3": 1.0,
+      "recall@5": 1.0,
+      "hit@5": 1.0,
+      "recall@10": 1.0,
+      "hit@10": 1.0,
+      "writer_model": "claude-haiku-5-5",
+      "answer": "A machine learning process that iteratively trains a model by selectively choosing which unlabeled samples to have annotated (labeled), in batches, to sharply improve performance while reducing annotation costs.",
+      "cited": [
+        "1801.07887#s0p1",
+        "1801.07887#s0p0",
+        "1801.07887#abs"
+      ],
+      "answer_f1": 0.45454545454545453,
+      "answer_type": "abstractive",
+      "evidence_f1": 0.5,
+      "judge_correct": true,
+      "judge_reason": "The prediction says active learning is a machine learning process that iteratively trains a model by selectively choosing which unlabeled samples to annotate. This matches both reference answers, which describe it as training where selected unlabeled samples are annotated across iterations, and as a process that selectively determines which unlabeled samples to annotate. The extra details (batches, performance gains, reduced cost) are consistent with the concept and do not contradict the references."
+    }
+  ]
+}

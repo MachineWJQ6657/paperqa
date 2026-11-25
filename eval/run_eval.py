@@ -3,6 +3,7 @@
     uv run python eval/run_eval.py --name baseline_dense                    # retrieval + Writer + judge
     uv run python eval/run_eval.py --name baseline_dense --no-judge         # official F1 only, no judge calls
     uv run python eval/run_eval.py --name dense_retrieval --retrieval-only  # Recall@k only, no LLM, free
+    uv run python eval/run_eval.py --name baseline_cc --backend claude-code # LLM calls via `claude -p` (subscription)
 
 The question sample depends only on --split/--n/--seed, so runs with the same values
 are evaluated on exactly the same questions and can be compared row by row.
@@ -25,7 +26,7 @@ from tqdm import tqdm
 
 from paperqa.agents import Writer
 from paperqa.config import CHUNKING_VERSION, JUDGE_MODEL, LLM_MODEL, RESULTS_DIR
-from paperqa.llm import LLM
+from paperqa.llm import BACKENDS, ClaudeCodeError, make_llm
 from paperqa.metrics import (
     LLMJudge,
     evidence_hit,
@@ -101,7 +102,7 @@ def answer_and_score(
         rec["answer"], rec["cited"], rec["error"] = out.answer, out.cited_chunk_ids, out.error
     except FATAL_ERRORS:
         raise
-    except anthropic.APIError as e:  # rate limit / overload / network, after the SDK's own retries
+    except (anthropic.APIError, ClaudeCodeError) as e:  # rate limit / overload / network, after retries
         rec["answer"], rec["cited"], rec["error"] = "", [], f"writer: {type(e).__name__}: {e}"
 
     # Official QASPER metrics. A failed prediction scores 0, as in the official evaluator.
@@ -119,7 +120,7 @@ def answer_and_score(
         rec["tokens"].update(judge_in=j.llm.input_tokens, judge_out=j.llm.output_tokens)
     except FATAL_ERRORS:
         raise
-    except anthropic.APIError as e:
+    except (anthropic.APIError, ClaudeCodeError) as e:
         rec["judge_correct"], rec["judge_reason"] = None, f"judge: {type(e).__name__}: {e}"
     return rec
 
@@ -216,6 +217,12 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--k", type=int, default=5, help="passages given to the Writer")
     ap.add_argument("--retriever", default="dense", choices=sorted(RETRIEVERS))
+    ap.add_argument(
+        "--backend",
+        default="api",
+        choices=sorted(BACKENDS),
+        help="api = Anthropic API key; claude-code = `claude -p`, billed to the Claude Code login",
+    )
     ap.add_argument("--model", default=LLM_MODEL)
     ap.add_argument("--effort", default="medium", help="Writer effort: low|medium|high|xhigh|max|none")
     ap.add_argument("--judge-model", default=JUDGE_MODEL)
@@ -244,8 +251,14 @@ def main() -> None:
     if args.retrieval_only:
         records = [rec for _, _, rec in retrieved]
     else:
-        writer = Writer(LLM(args.model, effort=effort))
-        judge = LLMJudge(LLM(args.judge_model, effort=judge_effort)) if judged else None
+        writer = Writer(make_llm(args.backend, args.model, effort))
+        judge = LLMJudge(make_llm(args.backend, args.judge_model, judge_effort)) if judged else None
+        if args.backend == "claude-code":
+            # Fail fast if the CLI is missing, not logged in, or the model name is wrong.
+            try:
+                writer.llm.complete("Reply with the single word OK.", "ping")
+            except ClaudeCodeError as e:
+                sys.exit(f"claude -p failed: {e}")
 
         def run(item: tuple[Question, list[Hit], dict]) -> dict:
             q, hits, rec = item
@@ -272,6 +285,7 @@ def main() -> None:
             **retriever.describe(),
             "chunking": CHUNKING_VERSION,
             "retrieval_only": args.retrieval_only,
+            "backend": None if args.retrieval_only else args.backend,
             "writer_model": None if args.retrieval_only else args.model,
             "writer_effort": None if args.retrieval_only else effort,
             "judge_model": args.judge_model if judged else None,

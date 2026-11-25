@@ -39,6 +39,15 @@ export PAPERQA_ANTHROPIC_API_KEY=sk-ant-...
 uv run python eval/run_eval.py --name smoke_haiku --model claude-haiku-5-5 --judge-model claude-haiku-5-5 --n 10
 ```
 
+没有 API 额度、但有 Claude 订阅时，加 `--backend claude-code`：LLM 调用改走 Claude Code 的无头模式
+（`claude -p`），用的是 Claude Code 的登录，计入订阅额度而不是 API 额度。需要本机装了 Claude Code 并已登录：
+
+```bash
+uv run python eval/run_eval.py --name smoke_haiku_cc --backend claude-code --model claude-haiku-5-5 --judge-model claude-haiku-5-5 --n 10
+```
+
+两个后端的结果不能混在一起比，原因见下面[评测](#评测)一节。
+
 再跑 100 题（默认模型是 `claude-opus-5-5`，用 `--model` 和 `--judge-model` 换）：
 
 ```bash
@@ -92,7 +101,25 @@ uv run python eval/compare.py
 得分和 judge 的理由，方便逐题排查。
 
 常用参数：`--retriever dense|bm25|hybrid`、`--n 20`（先拿少量题试跑）、`--n 0`（全量）、`--no-judge`（只算官方 F1，省掉 judge 的调用）、`--effort low`、
-`--model`、`--judge-model`、`--workers`（并发请求数，默认 4）。
+`--model`、`--judge-model`、`--workers`（并发请求数，默认 4）、`--backend api|claude-code`。
+
+**两个 LLM 后端**（都在 `src/paperqa/llm.py`，结果文件的 `config.backend` 会记录用的是哪个）：
+
+| 后端 | 怎么调 | 计费 | 注意 |
+|---|---|---|---|
+| `api`（默认） | Anthropic SDK | API key | – |
+| `claude-code` | 每次调用起一个 `claude -p` 进程 | Claude Code 登录（订阅额度） | Claude Code 每次请求会自带约 1.5–2k token 的上下文；带 schema 的调用要两轮模型请求；没有 server-side fallback |
+
+同样的 10 题、同样的模型（Haiku 5.5）和 prompt，两个后端的结果（`smoke_haiku` 和 `smoke_haiku_cc`）：
+
+| 后端 | Answer F1 | Judge acc | 答案平均词数 | Writer token 输入 / 输出 | Writer + judge 总 token 输入 / 输出 |
+|---|---|---|---|---|---|
+| `api` | 0.478 | 0.500 | 12.3 | 1191 / 132 | 16,746 / 2,335 |
+| `claude-code` | 0.318 | 0.600 | 15.4 | 2906 / 266 | 51,226 / 5,561 |
+
+`claude-code` 后端在几道短答案题上多写了解释（比如 `api` 答 "Energy"，它答 "Energy (highest GARCH(1,1) R² of
+0.44; ...)"），judge 仍判对，但按词重合算的 Answer F1 掉了。只有 10 题，具体数字不可靠，但足以说明：
+**一张消融表里的所有行必须用同一个后端**，不同后端之间不能比 Answer F1、延迟和 token。
 
 完整跑一次 100 题是 200 次 LLM 调用（Writer 和 judge 各 100 次）。Writer 的 prompt 平均约 850 token。
 按 Opus 5.5 每百万 token 输入 $4、输出 $20 估算，一次大约 1–2 美元；thinking 用多少 token 不固定，
