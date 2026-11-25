@@ -12,7 +12,10 @@ import json
 import random
 import sys
 
-METRICS = ["recall@1", "recall@5", "recall@10", "hit@5", "answer_f1", "evidence_f1", "judge_correct"]
+METRICS = [
+    "recall@1", "recall@5", "recall@10", "hit@5", "context_recall", "context_hit",
+    "answer_f1", "evidence_f1", "judge_correct",
+]  # fmt: skip
 
 
 def main() -> None:

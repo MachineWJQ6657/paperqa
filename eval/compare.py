@@ -17,6 +17,12 @@ def fmt(x, digits=3):
     return "-" if x is None else f"{x:.{digits}f}"
 
 
+def tokens(e: dict, side: str) -> str:
+    """Writer + Grader tokens per question (the judge is not part of the pipeline)."""
+    writer = e.get(f"writer_{side}_tokens_mean")
+    return "-" if writer is None else fmt(writer + (e.get(f"grader_{side}_tokens_mean") or 0), 0)
+
+
 def row(res: dict) -> list[str]:
     s, c = res["summary"], res["config"]
     r, e, a = s["retrieval"], s["efficiency"], s.get("answer", {})
@@ -27,18 +33,20 @@ def row(res: dict) -> list[str]:
         str(s["n_questions"]),
         fmt(r["recall@5"]),
         fmt(r["hit@5"]),
+        # Runs saved before context_recall existed had no Grader, so their context was the top-k.
+        fmt(r.get("context_recall", None if c["retrieval_only"] else r.get(f"recall@{c['k']}"))),
         fmt(a.get("answer_f1")),
         fmt(a.get("evidence_f1")),
         fmt(a.get("judge_accuracy")),
         fmt(e.get("latency_s_mean"), 2),
-        fmt(e.get("writer_input_tokens_mean"), 0) + " / " + fmt(e.get("writer_output_tokens_mean"), 0),
+        tokens(e, "input") + " / " + tokens(e, "output"),
     ]
 
 
 def main() -> None:
     paths = [Path(p) for p in sys.argv[1:]] or sorted(RESULTS_DIR.glob("*.json"))
     results = sorted((json.loads(p.read_text()) for p in paths), key=lambda r: r["created_at"])
-    header = ["config", "sample", "n", "Recall@5", "Hit@5", "Answer F1", "Evidence F1", "Judge acc", "Latency (s)", "Tokens in / out"]
+    header = ["config", "sample", "n", "Recall@5", "Hit@5", "Context recall", "Answer F1", "Evidence F1", "Judge acc", "Latency (s)", "Tokens in / out"]
     print("| " + " | ".join(header) + " |")
     print("|" + "|".join("---" for _ in header) + "|")
     for res in results:

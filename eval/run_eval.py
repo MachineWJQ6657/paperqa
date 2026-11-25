@@ -4,6 +4,7 @@
     uv run python eval/run_eval.py --name baseline_dense --no-judge         # official F1 only, no judge calls
     uv run python eval/run_eval.py --name dense_retrieval --retrieval-only  # Recall@k only, no LLM, free
     uv run python eval/run_eval.py --name baseline_cc --backend claude-code # LLM calls via `claude -p` (subscription)
+    uv run python eval/run_eval.py --name grader --grader                   # Grader + re-query loop before the Writer
 
 The question sample depends only on --split/--n/--seed, so runs with the same values
 are evaluated on exactly the same questions and can be compared row by row.
@@ -16,7 +17,9 @@ import json
 import random
 import subprocess
 import sys
+import threading
 import time
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
@@ -24,7 +27,7 @@ from pathlib import Path
 import anthropic
 from tqdm import tqdm
 
-from paperqa.agents import Writer
+from paperqa.agents import Grader, Writer, gather_passages
 from paperqa.config import CHUNKING_VERSION, JUDGE_MODEL, LLM_MODEL, RESULTS_DIR
 from paperqa.llm import BACKENDS, ClaudeCodeError, make_llm
 from paperqa.metrics import (
@@ -91,9 +94,50 @@ def retrieval_record(q: Question, hits: list[Hit], chunk_text: dict[str, str], l
     return rec
 
 
+def grade_and_requery(
+    rec: dict, q: Question, hits: list[Hit], grader: Grader, search: Callable[..., list[Hit]], k: int, max_requeries: int
+) -> list[Hit]:
+    """Run the Grader loop and record what it did. On a Grader failure, keep the first retrieval."""
+    info: dict = {"rounds": [], "requeried": False, "error": None}
+    rec["grader"] = info
+    try:
+        g = gather_passages(q.question, hits, lambda query, n: search(query, q.paper_id, n), grader, k, max_requeries)
+    except FATAL_ERRORS:
+        raise
+    except (anthropic.APIError, ClaudeCodeError) as e:
+        info["error"] = f"grader: {type(e).__name__}: {e}"
+        return hits
+    for i, grade in enumerate(g.grades):
+        info["rounds"].append(
+            {"sufficient": grade.sufficient, "query": grade.query, "added": g.added[i] if i < len(g.added) else []}
+        )
+    info["requeried"] = any(g.added)
+    info["error"] = next((grade.error for grade in g.grades if grade.error), None)
+    rec["latency_s"]["grader"] = sum(grade.llm.latency_s for grade in g.grades)
+    rec["latency_s"]["requery"] = g.search_latency_s
+    rec["tokens"].update(
+        grader_in=sum(grade.llm.input_tokens for grade in g.grades),
+        grader_out=sum(grade.llm.output_tokens for grade in g.grades),
+    )
+    return g.hits
+
+
 def answer_and_score(
-    rec: dict, q: Question, hits: list[Hit], chunk_text: dict[str, str], writer: Writer, judge: LLMJudge | None
+    rec: dict,
+    q: Question,
+    hits: list[Hit],
+    chunk_text: dict[str, str],
+    writer: Writer,
+    judge: LLMJudge | None,
+    requery: Callable[[dict, Question, list[Hit]], list[Hit]] | None = None,
 ) -> dict:
+    if requery is not None:
+        hits = requery(rec, q, hits)
+    # What the Writer actually sees. Without a Grader this is the top-k, so context_recall == recall@k.
+    context = [chunk_text[h.chunk_id] for h in hits]
+    rec["context"] = [h.chunk_id for h in hits]
+    rec["context_recall"] = evidence_recall(context, q.gold_evidence_sets)
+    rec["context_hit"] = evidence_hit(context, q.gold_evidence_sets)
     try:
         out = writer.answer(q.question, hits)
         rec["latency_s"]["writer"] = out.llm.latency_s
@@ -140,6 +184,19 @@ def summarize(records: list[dict], retrieval_only: bool, judged: bool) -> dict:
         | {f"recall@{k}": mean([r[f"recall@{k}"] for r in records]) for k in RECALL_KS}
         | {f"hit@{k}": mean([r[f"hit@{k}"] for r in records]) for k in RECALL_KS},
     }
+    if not retrieval_only:
+        summary["retrieval"] |= {
+            "context_recall": mean([r["context_recall"] for r in records]),
+            "context_hit": mean([r["context_hit"] for r in records]),
+            "context_passages_mean": mean([float(len(r["context"])) for r in records]),
+        }
+    graded = [r for r in records if "grader" in r]
+    if graded:
+        summary["grader"] = {
+            "requery_rate": mean([float(r["grader"]["requeried"]) for r in graded]),
+            "calls_mean": mean([float(len(r["grader"]["rounds"])) for r in graded]),
+            "n_errors": sum(r["grader"]["error"] is not None for r in graded),
+        }
     lat_retrieval = [r["latency_s"]["retrieval"] for r in records]
     efficiency: dict = {"retrieval_latency_s_mean": mean(lat_retrieval)}
 
@@ -158,8 +215,10 @@ def summarize(records: list[dict], retrieval_only: bool, judged: bool) -> dict:
             "n_unanswerable_predictions": sum(r["answer"].strip().lower().rstrip(".") == "unanswerable" for r in records),
             "n_errors": sum(r["error"] is not None for r in records),
         }
-        # End-to-end latency of the pipeline (retrieval + Writer); the judge is eval overhead.
-        total = [r["latency_s"]["retrieval"] + r["latency_s"].get("writer", 0.0) for r in records]
+        # End-to-end latency of the pipeline (retrieval + Grader loop + Writer); the judge is eval overhead.
+        total = [
+            sum(r["latency_s"].get(part, 0.0) for part in ("retrieval", "grader", "requery", "writer")) for r in records
+        ]
         efficiency |= {
             "latency_s_mean": mean(total),
             "latency_s_p50": percentile(total, 50),
@@ -167,6 +226,11 @@ def summarize(records: list[dict], retrieval_only: bool, judged: bool) -> dict:
             "writer_input_tokens_mean": mean([r["tokens"].get("writer_in") for r in records]),
             "writer_output_tokens_mean": mean([r["tokens"].get("writer_out") for r in records]),
         }
+        if graded:
+            efficiency |= {
+                "grader_input_tokens_mean": mean([float(r["tokens"].get("grader_in", 0)) for r in records]),
+                "grader_output_tokens_mean": mean([float(r["tokens"].get("grader_out", 0)) for r in records]),
+            }
         if judged:
             efficiency |= {
                 "judge_input_tokens_mean": mean([r["tokens"].get("judge_in") for r in records]),
@@ -201,6 +265,17 @@ def print_summary(name: str, s: dict) -> None:
         print("  by type: " + ", ".join(f"{t}={fmt(v['f1'])} (n={v['n']})" for t, v in a["answer_f1_by_type"].items()))
         print(f"  'Unanswerable' predictions: {a['n_unanswerable_predictions']}  errors: {a['n_errors']}")
         print(
+            f"Writer context: recall={fmt(r['context_recall'])}  hit={fmt(r['context_hit'])}  "
+            f"passages={fmt(r['context_passages_mean'], 1)}"
+        )
+        if "grader" in s:
+            g = s["grader"]
+            print(
+                f"Grader: re-queried {fmt(g['requery_rate'])} of questions  calls/question={fmt(g['calls_mean'], 2)}  "
+                f"errors: {g['n_errors']} | tokens in={fmt(e['grader_input_tokens_mean'], 0)} "
+                f"out={fmt(e['grader_output_tokens_mean'], 0)}"
+            )
+        print(
             f"Latency mean={fmt(e['latency_s_mean'], 2)}s p50={fmt(e['latency_s_p50'], 2)}s "
             f"p95={fmt(e['latency_s_p95'], 2)}s | Writer tokens in={fmt(e['writer_input_tokens_mean'], 0)} "
             f"out={fmt(e['writer_output_tokens_mean'], 0)}"
@@ -228,6 +303,10 @@ def main() -> None:
     ap.add_argument("--judge-model", default=JUDGE_MODEL)
     ap.add_argument("--judge-effort", default="low")
     ap.add_argument("--no-judge", action="store_true", help="skip the LLM-as-judge")
+    ap.add_argument("--grader", action="store_true", help="grade the passages and re-query before the Writer")
+    ap.add_argument("--grader-model", default=None, help="default: same as --model")
+    ap.add_argument("--grader-effort", default="medium")
+    ap.add_argument("--max-requeries", type=int, default=1, help="re-query rounds the Grader may trigger")
     ap.add_argument("--retrieval-only", action="store_true", help="only compute Recall@k; no LLM calls")
     ap.add_argument("--workers", type=int, default=4, help="parallel LLM requests")
     ap.add_argument("--out-dir", type=Path, default=RESULTS_DIR)
@@ -235,6 +314,9 @@ def main() -> None:
     effort = None if args.effort == "none" else args.effort
     judge_effort = None if args.judge_effort == "none" else args.judge_effort
     judged = not (args.no_judge or args.retrieval_only)
+    use_grader = args.grader and not args.retrieval_only
+    grader_model = args.grader_model or args.model
+    grader_effort = None if args.grader_effort == "none" else args.grader_effort
 
     questions, chunk_text, pool = sample_questions(args.split, args.n, args.seed)
     print(f"{len(questions)} questions sampled ({pool['split_unanswerable_skipped']} unanswerable skipped in split)")
@@ -260,9 +342,21 @@ def main() -> None:
             except ClaudeCodeError as e:
                 sys.exit(f"claude -p failed: {e}")
 
+        requery = None
+        if use_grader:
+            grader = Grader(make_llm(args.backend, grader_model, grader_effort))
+            search_lock = threading.Lock()  # the embedder and Chroma are shared by the worker threads
+
+            def search(query: str, paper_id: str, n: int) -> list[Hit]:
+                with search_lock:
+                    return retriever.search(query, paper_id=paper_id, k=n)
+
+            def requery(rec: dict, q: Question, hits: list[Hit]) -> list[Hit]:
+                return grade_and_requery(rec, q, hits, grader, search, args.k, args.max_requeries)
+
         def run(item: tuple[Question, list[Hit], dict]) -> dict:
             q, hits, rec = item
-            return answer_and_score(rec, q, hits, chunk_text, writer, judge)
+            return answer_and_score(rec, q, hits, chunk_text, writer, judge, requery)
 
         try:
             first = run(retrieved[0])  # fail fast on a bad key or model name
@@ -290,6 +384,10 @@ def main() -> None:
             "writer_effort": None if args.retrieval_only else effort,
             "judge_model": args.judge_model if judged else None,
             "judge_effort": judge_effort if judged else None,
+            "grader": use_grader,
+            "grader_model": grader_model if use_grader else None,
+            "grader_effort": grader_effort if use_grader else None,
+            "max_requeries": args.max_requeries if use_grader else None,
             "workers": args.workers,
         }
         | pool,
