@@ -15,7 +15,7 @@ src/paperqa/
   ingest.py      切块 -> 向量化 -> 存进 Chroma
   retrieve.py    检索：dense（向量）、bm25、hybrid（RRF 融合）
   agents.py      Writer（后面加 Router / Grader）
-  llm.py         所有 LLM 调用都走这里，记录 token 和耗时
+  llm.py         所有 LLM 调用都走这里，记录 token 和耗时。两个后端：api（API key）、claude-code（`claude -p`，订阅额度）
   metrics.py     官方 Answer F1 / Evidence F1、Recall@k、LLM-as-judge
 eval/
   run_eval.py    一条命令跑评测，结果存到 eval/results/<配置名>.json
@@ -33,6 +33,7 @@ uv sync                                                      # 安装依赖
 uv run python -m paperqa.ingest                              # 下载 QASPER dev 并建索引
 uv run python eval/run_eval.py --name <配置名> --retriever hybrid --retrieval-only --n 0  # 只评检索，全量，免费
 uv run python eval/run_eval.py --name <配置名>                  # 完整评测（调用 LLM，花钱）
+uv run python eval/run_eval.py --name <配置名> --backend claude-code  # 同上，但走 `claude -p`，用订阅额度
 uv run python eval/compare.py                                # 打印消融表
 uv run pytest                                                # 单元测试
 ```
@@ -44,7 +45,12 @@ uv run pytest                                                # 单元测试
    - 检索指标不花钱，一律用全量 dev（`--retrieval-only --n 0`）比较。100 题样本噪声太大：hybrid 在
      seed=42 的 100 题上比 dense 高 11 个点，全量上只高 1.6 个点而且不显著。
    - 要调 LLM 的指标用 `--split dev --n 100 --seed 42`。
+   - **现阶段端到端评测一律走订阅额度**，命令里固定加
+     `--backend claude-code --model claude-sonnet-5-5 --judge-model claude-sonnet-5-5`。
+     正式 baseline 是 `baseline_dense_cc_sonnet`。不加这些参数会用 API key 调 Opus 5.5，花 API 额度。
    - 说"B 比 A 好"之前，先跑 `eval/paired_diff.py A.json B.json`，置信区间不含 0 才算数。
+   - 互相比较的结果必须用同一个 `--backend` 和同一个模型。`claude-code` 后端的答案更啰嗦，Answer F1、
+     延迟、token 都和 `api` 后端不可比。
 2. **一次只做一项功能**，按下面 Roadmap 的顺序来，不要一次把整个系统写完。
 3. **不要悄悄改评测。** 问题抽样（`eval/run_eval.py`）、指标（`src/paperqa/metrics.py`）、gold 证据匹配
    （`src/paperqa/qasper.py`）一旦改动，旧结果就不能再比了。真要改，先改或加测试，提交说明里写清楚，

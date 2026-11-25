@@ -45,6 +45,9 @@ def main() -> None:
         print("| " + " | ".join(row(res)) + " |")
     if len({(r["config"]["split"], r["config"]["n"], r["config"]["seed"]) for r in results}) > 1:
         print("\nWarning: these runs use different question samples; numbers are not directly comparable.")
+    backends = {r["config"].get("backend") or "api" for r in results if not r["config"]["retrieval_only"]}
+    if len(backends) > 1:
+        print("\nWarning: runs use different LLM backends; latency and token counts are not comparable across them.")
 
 
 if __name__ == "__main__":
