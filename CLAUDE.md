@@ -21,7 +21,9 @@ eval/
   run_eval.py    一条命令跑评测，结果存到 eval/results/<配置名>.json
   compare.py     把所有结果打印成消融表
   paired_diff.py 两个结果文件的配对 bootstrap，判断差距是否显著
+  seed_cache.py  把已有结果文件灌进 LLM 缓存
   results/       每次评测的结果（要提交到 git）；results/smoke/ 放小样本试跑，不进消融表
+  cache/         llm.jsonl：LLM 回复缓存（要提交到 git），相同请求不再重复调用
 tests/           单元测试（不联网、不调 LLM）
 data/            QASPER 原始数据和 Chroma 索引（不提交）
 ```
@@ -63,6 +65,8 @@ uv run pytest                                                # 单元测试
    `git_commit` 都对应确切的代码。调试时可以加 `--allow-dirty`，这样的结果不要写进消融表。
 9. 10 题左右的试跑结果存到 `eval/results/smoke/`（`--out-dir eval/results/smoke`），不要放进
    `eval/results/`，否则会混进 `compare.py` 的消融表。
+10. **评测跑完后把 `eval/cache/llm.jsonl` 和结果文件一起提交。** 缓存按完整请求（后端、模型、effort、prompt、
+    schema）取回复，所以改了 prompt 的调用会自动重新请求。想让某个配置完全重新采样时加 `--no-cache`。
 
 ## 评测约定
 

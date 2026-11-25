@@ -112,7 +112,8 @@ Grader 是可选的（`--grader`），不加就是 baseline：检索完直接交
 得分和 judge 的理由，方便逐题排查。
 
 常用参数：`--retriever dense|bm25|hybrid`、`--n 20`（先拿少量题试跑）、`--n 0`（全量）、`--no-judge`（只算官方 F1，省掉 judge 的调用）、`--effort low`、
-`--model`、`--judge-model`、`--workers`（并发请求数，默认 4）、`--backend api|claude-code`。
+`--model`、`--judge-model`、`--workers`（并发请求数，默认 4）、`--backend api|claude-code`、`--k 10`（给 Writer
+的段落数）、`--grader`、`--no-cache`、`--allow-dirty`。
 
 **两个 LLM 后端**（都在 `src/paperqa/llm.py`，结果文件的 `config.backend` 会记录用的是哪个）：
 
@@ -135,6 +136,20 @@ Grader 是可选的（`--grader`），不加就是 baseline：检索完直接交
 完整跑一次 100 题是 200 次 LLM 调用（Writer 和 judge 各 100 次），加 Grader 再多 100 次。实测 baseline 一次
 合计约 52 万输入 / 2.8 万输出 token（Sonnet 5.5，`claude-code` 后端），按 Sonnet 5.5 的 API 标价（每百万 token
 输入 $2、输出 $10）折算约 1.3 美元，实际记在订阅额度上；Grader 版约 88 万 / 6 万 token。
+
+### LLM 调用缓存
+
+`run_eval.py` 默认把每次 LLM 回复存进 `eval/cache/llm.jsonl`（要提交到 git）。之后只要请求完全相同（后端、
+模型、effort、system prompt、user prompt、schema 都一样），就直接用存下来的回复，不再调模型。这样新配置只为
+真正变了的 prompt 花额度，没变的题目在两次运行之间也不会有随机波动。`--no-cache` 可以关掉。
+
+- 缓存的回复保留原来那次调用的 token 和延迟，所以效率指标仍然是真实调用的数字。
+- 没有有效输出的回复（比如 JSON 不合法）不存，下次会重新请求。
+- `eval/seed_cache.py` 能把已有的结果文件灌进缓存。现在的缓存就是从三次端到端评测灌出来的（482 条）。
+- 验证：灌完后重跑 top-5 baseline，200 次调用全部命中缓存，逐题结果和原文件完全一致。重跑 top-10 那次，
+  Writer 的答案和引用也完全一致；但有 24 题的答案和 top-5 那次一字不差，judge 的请求因此相同，缓存里用的是
+  top-5 那次的判定，其中 1 题两次判定相反（Judge acc 0.700 对原文件的 0.690）。也就是说 **judge 对完全相同的
+  输入也会有约 1/24 的概率给出不同判定**；有了缓存，同一个输入以后只判一次。结果文件保留的是原始运行的数字。
 
 ### 评测本身的检查
 
