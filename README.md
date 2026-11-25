@@ -173,7 +173,11 @@ uv run python eval/paired_diff.py eval/results/A.json eval/results/B.json
 
 | 配置 | Recall@5 | Hit@5 | Answer F1 | Evidence F1 | Judge acc | 延迟 (s) | Writer token 输入 / 输出 |
 |---|---|---|---|---|---|---|---|
-| baseline_dense（dense top-5 + Writer） | 0.521 | 0.592 | 待跑 | | | | |
+| baseline_dense（dense top-5 + Writer，Opus 5.5，`api` 后端） | 0.521 | 0.592 | 待跑 | | | | |
+| baseline_dense_cc_sonnet（同上，Sonnet 5.5，`claude-code` 后端） | 0.521 | 0.592 | 0.387 | 0.418 | 0.610 | 1.71 | 3048 / 143 |
+
+`baseline_dense_cc_sonnet` 的 Writer 和 judge 都是 Sonnet 5.5，走 `claude-code` 后端（订阅额度），0 报错，Writer 和
+judge 合计 524,107 输入 / 27,783 输出 token。后面的功能如果要和它比，必须用同样的模型和后端。
 
 这张表里的 Recall@5 只是这 100 题上的值，比较检索方法请看上面的全量表。
 
