@@ -1,8 +1,8 @@
 # PaperQA
 
 回答论文问题的 RAG 系统，用 [QASPER](https://allenai.org/data/qasper) 评测。
-现在是 baseline：向量检索 top-5，Writer 回答并标注引用了哪几段。后面会一项一项往上加功能，
-每加一项都跑一次评测，结果见下面的[消融表](#消融表)。
+现在有 baseline（向量检索 top-5，Writer 回答并标注引用了哪几段）和可选的 Grader 重查循环。功能一项一项
+往上加，每加一项都跑一次评测，结果见下面的[消融表](#消融表)。
 
 ## 快速开始
 
@@ -63,10 +63,13 @@ uv run python eval/compare.py
 ## 流程
 
 ```
-问题 ──> 向量检索（只在这篇论文里检索，取 top-5）──> Writer（LLM）──> {answer, citations}
-                                                                     │
-                     评测：Recall@k、Answer F1、Evidence F1、LLM-as-judge、延迟、token
+问题 ──> 向量检索（只在这篇论文里检索，取 top-5）──> [Grader] ──够──> Writer（LLM）──> {answer, citations}
+                                          ▲            │                                │
+                                          └─ 不够：换一个查询再检索，把新段落追加进去      │
+                                    评测：Recall@k、Answer F1、Evidence F1、LLM-as-judge、延迟、token
 ```
+
+Grader 是可选的（`--grader`），不加就是 baseline：检索完直接交给 Writer。
 
 - **数据**：直接用 QASPER 官方 JSON（v0.3）。论文已经按章节和段落解析好，不需要处理 PDF。
   HuggingFace 上的 `allenai/qasper` 依赖数据集脚本，新版 `datasets` 已经不支持，所以没用它。
@@ -82,6 +85,10 @@ uv run python eval/compare.py
 - **Writer**：`claude-opus-5-5`，effort 设为 `medium`，用 structured outputs 返回
   `{"answer": ..., "citations": [...]}`。按 QASPER 的风格要求答案尽量短；资料里找不到答案就回答
   `Unanswerable`。开启了 server-side fallback：模型因安全策略拒答时，API 会自动换一个模型重试。
+- **Grader 和重查循环**（`--grader`）：Writer 之前先让 Grader 判断检索到的段落里有没有回答所需的具体信息。
+  不够的话，Grader 写一个新的检索查询（用论文里可能出现的说法，而不是照抄问题），取这个查询的 top-5 里
+  还没出现过的段落追加进去。最多重查 `--max-requeries` 轮（默认 1），所以 Writer 最多看到
+  5 × (1 + 轮数) 个段落。Grader 调用失败就保持第一次的检索结果。Grader 的模型用 `--grader-model` 指定。
 
 ## 评测
 
@@ -95,7 +102,8 @@ uv run python eval/compare.py
 | Answer F1 | QASPER 官方的 token F1，多个标注取最大值 | 不花（但要先有 Writer 的答案） |
 | Evidence F1 | Writer 引用的段落和标注证据的 F1（官方定义） | 不花（同上） |
 | Judge acc | LLM-as-judge 判断答案和任意一个参考答案意思是否一致 | 花 |
-| 延迟 / token | 检索 + Writer 的平均耗时；Writer 的输入和输出 token（输出包含 thinking） | – |
+| Context recall | 实际送进 Writer 的段落覆盖了多少标注证据。没有 Grader 时等于 Recall@5 | 不花 |
+| 延迟 / token | 检索 + Grader + Writer 的平均耗时；Writer 和 Grader 的输入和输出 token（输出包含 thinking） | – |
 
 每次运行会存到 `eval/results/<name>.json`，里面有配置、汇总指标，以及每个问题检索到的 chunk、答案、
 得分和 judge 的理由，方便逐题排查。
@@ -171,9 +179,13 @@ uv run python eval/paired_diff.py eval/results/A.json eval/results/B.json
 
 ### 端到端（dev，n=100，seed=42）
 
-| 配置 | Recall@5 | Hit@5 | Answer F1 | Evidence F1 | Judge acc | 延迟 (s) | Writer token 输入 / 输出 |
+| 配置 | Recall@5 | Context recall | Answer F1 | Evidence F1 | Judge acc | 延迟 (s) | LLM token 输入 / 输出 |
 |---|---|---|---|---|---|---|---|
-| baseline_dense_cc_sonnet（dense top-5 + Writer） | 0.521 | 0.592 | 0.387 | 0.418 | 0.610 | 1.71 | 3048 / 143 |
+| baseline_dense_cc_sonnet（dense top-5 + Writer） | 0.521 | 0.521 | 0.387 | 0.418 | 0.610 | 1.71 | 3048 / 143 |
+| grader_dense_cc_sonnet（+ Grader，最多重查 1 轮） | 0.521 | 0.712 | 0.416 | 0.523 | 0.690 | 3.25 | 6590 / 468 |
+
+Recall@5 是第一次检索的值，两行相同；Context recall 是实际送进 Writer 的段落的证据召回。LLM token 是 Writer 加
+Grader 每题的平均值，不含 judge。
 
 这张表统一用 Sonnet 5.5 做 Writer 和 judge，走 `claude-code` 后端（订阅额度）：
 
@@ -182,6 +194,32 @@ uv run python eval/run_eval.py --name <配置名> --backend claude-code --model 
 ```
 
 `baseline_dense_cc_sonnet` 是正式 baseline，0 报错，Writer 和 judge 合计 524,107 输入 / 27,783 输出 token。
+
+#### Grader 和重查循环
+
+`grader_dense_cc_sonnet`：Writer 和 judge 是 Sonnet 5.5，Grader 是 Haiku 5.5（`--grader --grader-model
+claude-haiku-5-5`），0 报错。Writer、Grader、judge 合计 879,295 输入 / 60,274 输出 token。
+
+和 baseline 的配对 bootstrap（`eval/paired_diff.py`，同样的 100 题）：
+
+| 指标 | Grader − baseline | 95% 置信区间 | 结论 |
+|---|---|---|---|
+| Judge acc | +0.080 | +0.010 到 +0.160 | 有提升 |
+| Evidence F1 | +0.105 | +0.035 到 +0.178 | 有提升 |
+| Answer F1 | +0.029 | −0.018 到 +0.079 | 不显著 |
+
+- **提升集中在重查的题上。** Grader 对 44 题判定"不够"并重查，这 44 题的 Judge acc 从 0.409 升到 0.568，
+  证据召回从 0.293 升到 0.730。另外 56 题没有重查，Judge acc 是 0.768 对 0.786，基本不变。
+- **"Unanswerable" 从 17 题降到 7 题**（抽样的全是可回答题）。
+- **Grader 的判断大体靠谱但有漏判**：判"够了"的题里，证据确实在 top-5 的有 42/55；判"不够"的题里，
+  证据其实已经在 top-5 的有 16/43。
+- **代价**：每题多一次 Grader 调用，LLM token 约为 baseline 的 2.2 倍，延迟从 1.71s 升到 3.25s。
+
+**还没回答的问题：重查是不是比"直接多给 Writer 几段"更好。** 在检索层面可以免费比：Grader 版平均给 Writer
+7.2 段，证据召回 0.712；而原查询直接取 top-10 的召回是 0.780，反而高 6.7 个点（区间 −13.9 到 +0.2，
+不显著）。也就是说，这次的提升很可能主要来自"段落变多了"，而不是 Grader 改写的查询更准。要下结论，
+还需要跑一个对照：不带 Grader、`--k 10` 的 baseline。另外 Judge acc 的区间下界只有 +0.010，而且是 100 题
+样本；检索对比那次，100 题上"显著"的差距在全量上就消失了，所以这个结论也要留有余地。
 
 这张表里的 Recall@5 只是这 100 题上的值，比较检索方法请看上面的全量表。
 
@@ -200,7 +238,7 @@ data/          QASPER 原始数据和 Chroma 索引（不提交到 git）
 
 1. [x] Baseline：向量检索 + Writer
 2. [x] 混合检索（BM25 + 向量，RRF 融合）：已实现，全量 dev 上相比 dense 没有显著提升
-3. [ ] Grader 和重查循环
+3. [x] Grader 和重查循环：Judge acc 0.610 → 0.690，但还没和"直接取 top-10"的对照比过
 4. [ ] Router 和子问题拆解（加上自己造的跨论文问题）
 5. [ ] FastAPI + SSE 和 Streamlit 界面
 6. [ ] PDF 上传解析（PyMuPDF），Docker 打包

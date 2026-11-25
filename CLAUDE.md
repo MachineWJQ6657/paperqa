@@ -14,7 +14,7 @@ src/paperqa/
   embedding.py   sentence-transformers 封装（建索引和检索共用）
   ingest.py      切块 -> 向量化 -> 存进 Chroma
   retrieve.py    检索：dense（向量）、bm25、hybrid（RRF 融合）
-  agents.py      Writer（后面加 Router / Grader）
+  agents.py      Writer、Grader 和重查循环（后面加 Router）
   llm.py         所有 LLM 调用都走这里，记录 token 和耗时。两个后端：api（API key）、claude-code（`claude -p`，订阅额度）
   metrics.py     官方 Answer F1 / Evidence F1、Recall@k、LLM-as-judge
 eval/
@@ -70,13 +70,17 @@ uv run pytest                                                # 单元测试
   证据的问题。**Hit@k**：任意一条证据出现在 top-k 里就算命中。
 - **Answer F1 / Evidence F1**：和 QASPER 官方 evaluator 一致，取各标注者中的最大值。Writer 失败算 0 分。
 - **Judge acc**：LLM-as-judge，和任意一个参考答案意思一致就算对。Writer 失败算错。
-- **延迟** = 检索 + Writer（不含 judge）。**Token** = Writer 的输入和输出（输出包含 thinking token）。
+- **Context recall / hit**：和 Recall@k 一样的算法，但算的是实际送进 Writer 的段落（Grader 重查后可能多于 k 段）。
+  没有 Grader 时等于 Recall@k。
+- **延迟** = 检索 + Grader 调用 + 重查检索 + Writer（不含 judge）。**Token** = Writer 加 Grader 的输入和输出
+  （输出包含 thinking token）。
 
 ## Roadmap
 
 1. [x] Baseline：向量检索 top-5，Writer 回答并标注引用
 2. [x] 混合检索（BM25 + 向量，RRF 融合）：全量 dev 上相比 dense 没有显著提升，默认检索器仍是 dense
-3. [ ] Grader 和重查循环
+3. [x] Grader 和重查循环（`--grader`）：100 题上 Judge acc 0.610 → 0.690（区间 +0.010 到 +0.160），
+   但证据召回不如原查询直接取 top-10，还缺一个 `--k 10` 不带 Grader 的对照
 4. [ ] Router 和子问题拆解（加上自己造的跨论文问题）
 5. [ ] FastAPI + SSE 和 Streamlit 界面
 6. [ ] PDF 上传解析（PyMuPDF），Docker 打包
